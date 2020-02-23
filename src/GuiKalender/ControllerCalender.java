@@ -12,29 +12,32 @@ import java.util.ResourceBundle;
 public class ControllerCalender implements Initializable {
 
     @FXML
-    private GridPane GridPaneTimetable;
+    private GridPane gridPaneTimetable;
 
-    private double CELL_PERCENTAGE_WIDTH = 25;
-    private double playgroundSize;
+    private double CELL_PERCENTAGE_WIDTH;
+    private double numberOfDays = 6;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
+        generateGridPaneTimetable(gridPaneTimetable);
     }
 
-    private void generateGridPane(GridPane gridPane) {
 
-        CELL_PERCENTAGE_WIDTH = 100 / playgroundSize;
 
-        for (int i = 0; i < playgroundSize; i++) {
+    private void generateGridPaneTimetable(GridPane gridPane) {
+
+        CELL_PERCENTAGE_WIDTH = 100 / numberOfDays;
+
+        for (int i = 0; i < numberOfDays; i++) {
             ColumnConstraints col = new ColumnConstraints();
             col.setPercentWidth(CELL_PERCENTAGE_WIDTH);
             gridPane.getColumnConstraints().add(col);
         }
 
-        for (int i = 0; i < playgroundSize; i++) {
+        for (int i = 0; i < numberOfDays; i++) {
             RowConstraints row = new RowConstraints();
             row.setPercentHeight(CELL_PERCENTAGE_WIDTH);
             gridPane.getRowConstraints().add(row);
