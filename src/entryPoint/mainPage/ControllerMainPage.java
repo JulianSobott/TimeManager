@@ -1,4 +1,4 @@
-package entryPoint.MainPage;
+package entryPoint.mainPage;
 
 public class ControllerMainPage {
 }

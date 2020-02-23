@@ -14,8 +14,10 @@ public class ControllerCalender implements Initializable {
     @FXML
     private GridPane gridPaneTimetable;
 
-    private double CELL_PERCENTAGE_WIDTH;
+    private double cellPercentageWidth;
+
     private double numberOfDays = 6;
+    private double numberOfLessons = 8;
 
 
     @Override
@@ -25,21 +27,23 @@ public class ControllerCalender implements Initializable {
         generateGridPaneTimetable(gridPaneTimetable);
     }
 
-
+    /**
+     * ###################### GUI Initialization #######################################################################
+     */
 
     private void generateGridPaneTimetable(GridPane gridPane) {
 
-        CELL_PERCENTAGE_WIDTH = 100 / numberOfDays;
+        cellPercentageWidth = 100 / numberOfDays;
 
         for (int i = 0; i < numberOfDays; i++) {
             ColumnConstraints col = new ColumnConstraints();
-            col.setPercentWidth(CELL_PERCENTAGE_WIDTH);
+            col.setPercentWidth(cellPercentageWidth);
             gridPane.getColumnConstraints().add(col);
         }
 
-        for (int i = 0; i < numberOfDays; i++) {
+        for (int i = 0; i < numberOfLessons; i++) {
             RowConstraints row = new RowConstraints();
-            row.setPercentHeight(CELL_PERCENTAGE_WIDTH);
+            row.setPercentHeight(cellPercentageWidth);
             gridPane.getRowConstraints().add(row);
         }
 
