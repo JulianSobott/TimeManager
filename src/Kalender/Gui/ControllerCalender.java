@@ -1,5 +1,6 @@
 package Kalender.Gui;
 
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -8,6 +9,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class ControllerCalender implements Initializable {
@@ -20,7 +24,6 @@ public class ControllerCalender implements Initializable {
 
     @FXML
     private GridPane gridPaneTimetable;
-
 
     private double cellPercentageWidth;
 
@@ -41,8 +44,10 @@ public class ControllerCalender implements Initializable {
      */
 
 
-    private void getTimeAndDate() {
+    // neuer Thread / Task der immer die Uhrzeit abfragt und updatet
+    // THread muss in eine Liste eingetragen werden, um sauber mit dem Programm beendet werden zu können.. !!!
 
+    private void getTimeAndDate() {
 
     }
 
