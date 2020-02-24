@@ -52,6 +52,12 @@ public class ControllerCalender implements Initializable {
 
     // neuer Thread / Task der immer die Uhrzeit abfragt und updatet
     // THread muss in eine Liste eingetragen werden, um sauber mit dem Programm beendet werden zu können.. !!!
+
+
+    /**
+     *  ########## generate Headline for Timetable ##########
+     */
+
     private void getTimeAndDate() {
 
     }
@@ -88,7 +94,7 @@ public class ControllerCalender implements Initializable {
 
 
     /**
-     * generate the labels for the Timetable
+     *  ########## generate TIMETABLE days / Times ##########
      */
 
     private void generateLabelsDays() {
@@ -106,7 +112,7 @@ public class ControllerCalender implements Initializable {
 
 
     /**
-     * generate empty Lessons for the timetable
+     *  ########## generate Empty Lessons ##########
      */
 
     private void generateEmptyLessons(){
