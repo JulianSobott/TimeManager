@@ -2,6 +2,7 @@ package Kalender.Gui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -12,7 +13,14 @@ import java.util.ResourceBundle;
 public class ControllerCalender implements Initializable {
 
     @FXML
+    private Label labelCourseOfStudies;
+
+    @FXML
+    private Label labelCurrentTimeAndDate;
+
+    @FXML
     private GridPane gridPaneTimetable;
+
 
     private double cellPercentageWidth;
 
@@ -24,12 +32,20 @@ public class ControllerCalender implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
+        getTimeAndDate();
         generateGridPaneTimetable(gridPaneTimetable);
     }
 
     /**
      * ###################### GUI Initialization #######################################################################
      */
+
+
+    private void getTimeAndDate() {
+
+
+    }
+
 
     private void generateGridPaneTimetable(GridPane gridPane) {
 
