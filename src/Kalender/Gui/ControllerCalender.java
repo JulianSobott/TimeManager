@@ -102,12 +102,13 @@ public class ControllerCalender implements Initializable {
 
     private VBox generateEmptyVBox(int day, int block) {
 
-        VBox VBoxLessonBasicLayout = new VBox();
-        VBoxLessonBasicLayout.setBackground(new Background(new BackgroundFill(Color.rgb(day * 10, block * 15, 130),
+        VBox vBoxLessonBasicLayout = new VBox();
+        vBoxLessonBasicLayout.setOpacity(0.95);
+        vBoxLessonBasicLayout.setBackground(new Background(new BackgroundFill(Color.rgb(day * 10, block * 15, 130),
                 new CornerRadii(13),
                 new Insets(0.0, 0.0, 0.0, 0.0))));
 
-               return VBoxLessonBasicLayout;
+               return vBoxLessonBasicLayout;
     }
 
 }
