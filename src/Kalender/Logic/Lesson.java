@@ -1,8 +1,6 @@
 package Kalender.Logic;
 
-import javafx.scene.layout.VBox;
-
-public class Lesson extends VBox {
+public class Lesson {
 
         private String building;
         private String roomNr;
