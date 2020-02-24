@@ -3,15 +3,11 @@ package Kalender.Gui;
 import Kalender.Logic.Weekdays;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -38,6 +34,7 @@ public class ControllerCalender implements Initializable {
         getTimeAndDate();
         generateGridPaneTimetable(gridPaneTimetable);
         generateLabelsDays();
+        generateEmptyLessons();
     }
 
     /**
@@ -88,5 +85,29 @@ public class ControllerCalender implements Initializable {
     }
 
 
+    /**
+     * generate empty Lessons for the timetable
+     */
+
+    private void generateEmptyLessons(){
+
+        for (int i = 1; i <= numberOfDays; i++) {
+            for (int j = 1; j < numberOfLessons; j++) {
+
+                VBox vBoxEmpty = generateEmptyVBox(i, j);
+                gridPaneTimetable.add(vBoxEmpty, i, j);
+            }
+        }
+    }
+
+    private VBox generateEmptyVBox(int day, int block) {
+
+        VBox VBoxLessonBasicLayout = new VBox();
+        VBoxLessonBasicLayout.setBackground(new Background(new BackgroundFill(Color.rgb(day * 10, block * 15, 130),
+                new CornerRadii(13),
+                new Insets(0.0, 0.0, 0.0, 0.0))));
+
+               return VBoxLessonBasicLayout;
+    }
 
 }
