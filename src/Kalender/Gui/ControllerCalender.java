@@ -4,7 +4,11 @@ import Kalender.Logic.Weekdays;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Side;
+import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -20,6 +24,9 @@ public class ControllerCalender implements Initializable {
     private Label labelCurrentTimeAndDate;
 
     @FXML
+    private Button buttonSettings;
+
+    @FXML
     private GridPane gridPaneTimetable;
 
     private double cellPercentageWidth;
@@ -33,6 +40,7 @@ public class ControllerCalender implements Initializable {
 
         getTimeAndDate();
         generateGridPaneTimetable(gridPaneTimetable);
+        generateContextMenu();
         generateLabelsDays();
         generateEmptyLessons();
     }
@@ -46,6 +54,18 @@ public class ControllerCalender implements Initializable {
     // THread muss in eine Liste eingetragen werden, um sauber mit dem Programm beendet werden zu können.. !!!
     private void getTimeAndDate() {
 
+    }
+
+
+    private void generateContextMenu(){
+
+        ContextMenu contextMenuCalendar = new ContextMenu();
+        MenuItem menuItemSettings = new MenuItem("Einstellungen");
+        MenuItem menuItemBla = new MenuItem("bla bla");
+
+        contextMenuCalendar.getItems().addAll(menuItemSettings,menuItemBla);
+        buttonSettings.setOnMouseClicked(event ->
+                contextMenuCalendar.show(buttonSettings, Side.BOTTOM, -30,5));
     }
 
 
