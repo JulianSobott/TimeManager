@@ -5,13 +5,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
 
-<AnchorPane fx:id="CalenderAnchorPane" prefHeight="800.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Kalender.Gui.ControllerCalender">
+<AnchorPane fx:id="CalenderAnchorPane" prefHeight="800.0" prefWidth="800.0" stylesheets="@../../entryPoint/MainDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Kalender.Gui.ControllerCalender">
     <children>
         <GridPane fx:id="gridPaneTimetable" gridLinesVisible="true" hgap="5.0" layoutX="174.0" layoutY="208.0" vgap="5.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="100.0">
          
         </GridPane>
       <Label fx:id="labelCourseOfStudies" layoutX="100.0" layoutY="43.0" text="IN 4" />
       <Label fx:id="labelCurrentTimeAndDate" layoutX="100.0" layoutY="60.0" text="24.02.2020 10:50" />
-      <Button layoutX="676.0" layoutY="56.0" mnemonicParsing="false" text="..." AnchorPane.rightAnchor="100.0" />
+      <Button layoutX="721.0" layoutY="49.0" mnemonicParsing="false" styleClass="buttonSettings" text="..." AnchorPane.rightAnchor="50.0" />
     </children>
 </AnchorPane>
