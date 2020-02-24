@@ -5,11 +5,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -26,7 +28,7 @@ public class ControllerCalender implements Initializable {
 
     private double cellPercentageWidth;
 
-    private int numberOfDays = 5;
+    private int numberOfDays = 6;
     private int numberOfLessons = 8;
 
 
@@ -78,16 +80,13 @@ public class ControllerCalender implements Initializable {
         for (Weekdays dayName : Weekdays.values()) {
             Label labelDay = new Label(dayName.toString());
 
-            GridPane.setHalignment(labelDay, HPos.CENTER);
-            GridPane.setMargin(labelDay, new Insets(0.));
-            GridPane.setFillWidth(labelDay, true);
-            GridPane.setFillHeight(labelDay, true);
-            labelDay.setMaxWidth(Double.MAX_VALUE);
-            labelDay.setMaxHeight(Double.MAX_VALUE);
             gridPaneTimetable.add(labelDay, dayCounter, 0);
+            GridPane.setHalignment(labelDay, javafx.geometry.HPos.CENTER);
             dayCounter++;
             if (dayCounter > numberOfDays) break;
         }
     }
+
+
 
 }
