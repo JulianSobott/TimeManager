@@ -1,4 +1,4 @@
-package GuiKalender;
+package Kalender.Logic;
 
 import javafx.scene.layout.VBox;
 

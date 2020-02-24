@@ -11,7 +11,7 @@
                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <tabs>
                 <Tab text="Stundenplan">
-                    <fx:include source="../../GuiKalender/Calender.fxml"></fx:include>
+                    <fx:include source="../../Kalender/Gui/Calender.fxml"></fx:include>
                 </Tab>
                 <Tab text="Can Ban Board"/>
                 <Tab text="Hochschulnews"/>

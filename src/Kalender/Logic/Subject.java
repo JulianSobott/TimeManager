@@ -1,4 +1,4 @@
-package GuiKalender;
+package Kalender.Logic;
 
 import java.util.ArrayList;
 

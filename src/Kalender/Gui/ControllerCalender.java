@@ -1,4 +1,4 @@
-package GuiKalender;
+package Kalender.Gui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
