@@ -40,7 +40,7 @@ public class ControllerCalender implements Initializable {
 
         getTimeAndDate();
         generateGridPaneTimetable(gridPaneTimetable);
-        generateContextMenu();
+        generateContextMenuSettings();
         generateLabelsDays();
         generateEmptyLessons();
     }
@@ -63,13 +63,16 @@ public class ControllerCalender implements Initializable {
     }
 
 
-    private void generateContextMenu(){
+    private void generateContextMenuSettings(){
 
         ContextMenu contextMenuCalendar = new ContextMenu();
         MenuItem menuItemSettings = new MenuItem("Einstellungen");
-        MenuItem menuItemBla = new MenuItem("bla bla");
+        MenuItem menuItemSave = new MenuItem("Speichern");
+        MenuItem menuItemDelete = new MenuItem("Löschen");
+        MenuItem menuItemLoad = new MenuItem("laden");
+        MenuItem menuItemCreate = new MenuItem("Erstellen");
 
-        contextMenuCalendar.getItems().addAll(menuItemSettings,menuItemBla);
+        contextMenuCalendar.getItems().addAll(menuItemSettings,menuItemSave, menuItemDelete, menuItemLoad, menuItemCreate);
         buttonSettings.setOnMouseClicked(event ->
                 contextMenuCalendar.show(buttonSettings, Side.BOTTOM, -30,5));
     }
@@ -129,12 +132,24 @@ public class ControllerCalender implements Initializable {
     private VBox generateEmptyVBox(int day, int block) {
 
         VBox vBoxLessonBasicLayout = new VBox();
+        generateContextMenuEmptyLesson(vBoxLessonBasicLayout);
         vBoxLessonBasicLayout.setOpacity(0.95);
         vBoxLessonBasicLayout.setBackground(new Background(new BackgroundFill(Color.rgb(day * 10, block * 15, 130),
                 new CornerRadii(13),
                 new Insets(0.0, 0.0, 0.0, 0.0))));
 
                return vBoxLessonBasicLayout;
+    }
+
+    private void generateContextMenuEmptyLesson(VBox emptyVBox){
+
+        ContextMenu contextMenuEmptyLesson = new ContextMenu();
+        MenuItem menuItemAddLesson = new MenuItem("Fach hinzufügen");
+        contextMenuEmptyLesson.getItems().addAll(menuItemAddLesson);
+        emptyVBox.setOnMouseClicked(mouseEvent -> {
+            contextMenuEmptyLesson.show(emptyVBox, Side.BOTTOM, -emptyVBox.getHeight()/2,-emptyVBox.getHeight()/2);
+        });
+
     }
 
 }
