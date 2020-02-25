@@ -84,6 +84,16 @@
     -fx-background-radius: 15;
 }
 
+.color-picker {
+    -fx-font-weight: bold;
+    -fx-border-color: lightgrey;
+    -fx-background-color: white;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+
+}
+
 .button:hover{
 
     -fx-background-color: orange;

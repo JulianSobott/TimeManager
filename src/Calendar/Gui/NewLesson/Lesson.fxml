@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -7,27 +8,34 @@
    <children>
       <Button fx:id="buttonSave" layoutX="58.0" layoutY="456.0" mnemonicParsing="false" text="Speichern" />
       <Button fx:id="buttonClose" layoutX="151.0" layoutY="456.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Abrechen" />
-      <ListView layoutX="58.0" layoutY="81.0" prefHeight="267.0" prefWidth="342.0" />
+      <ListView fx:id="listViewSubjects" layoutX="58.0" layoutY="81.0" prefHeight="267.0" prefWidth="342.0" />
       <Label layoutX="58.0" layoutY="52.0" text="Fach auswählen:" />
-      <Separator layoutX="445.0" layoutY="35.0" orientation="VERTICAL" prefHeight="322.0" prefWidth="0.0" />
+      <Separator layoutX="445.0" layoutY="35.0" orientation="VERTICAL" prefHeight="368.0" prefWidth="5.0" />
       <Label layoutX="474.0" layoutY="52.0" text="Neues Fach hinzufügen:" />
-      <VBox layoutX="474.0" layoutY="104.0" prefHeight="201.0" prefWidth="246.0" spacing="10.0">
+      <VBox layoutX="474.0" layoutY="104.0" prefHeight="276.0" prefWidth="246.0" spacing="10.0">
          <children>
             <Label text="Dozent / Lehrkraft" />
-            <TextField />
+            <TextField fx:id="textFieldProfessor" />
             <Label text="Unterichtsfach" />
-            <TextField />
+            <TextField fx:id="textFieldCourseLocation" />
             <Label text="Gebäude- / Raumbezeichnung" />
-            <TextField />
+            <TextField fx:id="labelCourseLocation" />
+            <Label text="Hintegrundfarbe" />
+            <ColorPicker fx:id="colorPickerSubjectColor" prefHeight="27.0" prefWidth="125.0">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </ColorPicker>
          </children>
       </VBox>
       <VBox layoutX="58.0" layoutY="362.0" prefHeight="51.0" prefWidth="148.0" spacing="7.0">
          <children>
-            <CheckBox mnemonicParsing="false" text="Tutorium" />
-            <CheckBox mnemonicParsing="false" text="Doppelstunde" />
-            <CheckBox mnemonicParsing="false" text="2 wöchiges Intervall" />
+            <CheckBox fx:id="checkBoxTutorial" mnemonicParsing="false" text="Tutorium" />
+            <CheckBox fx:id="checkBoxDoubleHour" mnemonicParsing="false" text="Doppelstunde" />
+            <CheckBox fx:id="checkBoxInterval" mnemonicParsing="false" text="2 wöchiges Intervall" />
          </children>
       </VBox>
-      <Button layoutX="474.0" layoutY="323.0" mnemonicParsing="false" text="neues Fach hinzufügen" />
+      <Button fx:id="buttonAddSubject" layoutX="580.0" layoutY="390.0" mnemonicParsing="false" text="neues Fach hinzufügen" />
+      <Button fx:id="buttonDeleteSubject" layoutX="474.0" layoutY="390.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="91.0" text="Fach löschen" />
    </children>
 </AnchorPane>
