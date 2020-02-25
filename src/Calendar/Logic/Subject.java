@@ -1,4 +1,4 @@
-package Kalender.Logic;
+package Calendar.Logic;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,8 @@
-package Kalender.Gui;
+package Calendar.Gui;
 
-import Kalender.Logic.Weekdays;
+import Calendar.Gui.NewLesson.ControllerLesson;
+import Calendar.Logic.Weekdays;
+import entryPoint.SceneLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -69,7 +71,7 @@ public class ControllerCalender implements Initializable {
         MenuItem menuItemSettings = new MenuItem("Einstellungen");
         MenuItem menuItemSave = new MenuItem("Speichern");
         MenuItem menuItemDelete = new MenuItem("Löschen");
-        MenuItem menuItemLoad = new MenuItem("laden");
+        MenuItem menuItemLoad = new MenuItem("Laden");
         MenuItem menuItemCreate = new MenuItem("Erstellen");
 
         contextMenuCalendar.getItems().addAll(menuItemSettings,menuItemSave, menuItemDelete, menuItemLoad, menuItemCreate);
@@ -145,9 +147,23 @@ public class ControllerCalender implements Initializable {
 
         ContextMenu contextMenuEmptyLesson = new ContextMenu();
         MenuItem menuItemAddLesson = new MenuItem("Fach hinzufügen");
+        generateEventAddLesson(menuItemAddLesson);
         contextMenuEmptyLesson.getItems().addAll(menuItemAddLesson);
         emptyVBox.setOnMouseClicked(mouseEvent -> {
             contextMenuEmptyLesson.show(emptyVBox, Side.BOTTOM, -emptyVBox.getHeight()/2,-emptyVBox.getHeight()/2);
+        });
+
+    }
+
+
+    private void generateEventAddLesson(MenuItem menuItemAddLesson){
+
+        menuItemAddLesson.setOnAction( actionEvent -> {
+
+            SceneLoader sceneLoader = SceneLoader.getInstance();
+            ControllerLesson controllerLesson = new ControllerLesson();
+            sceneLoader.loadSceneInNewWindowWithoutButtons(SceneLoader.CalendarScene.NEW_LESSON, controllerLesson,  buttonSettings , "Create Lesson");
+
         });
 
     }

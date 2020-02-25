@@ -1,4 +1,4 @@
-package Kalender.Gui;
+package Calendar.Gui;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;

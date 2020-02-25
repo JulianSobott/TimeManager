@@ -1,4 +1,4 @@
-package Kalender.Logic;
+package Calendar.Logic;
 
 public class Timetable {
 
