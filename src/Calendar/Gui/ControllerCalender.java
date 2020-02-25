@@ -162,7 +162,7 @@ public class ControllerCalender implements Initializable {
 
             SceneLoader sceneLoader = SceneLoader.getInstance();
             ControllerLesson controllerLesson = new ControllerLesson();
-            sceneLoader.loadSceneInNewWindowWithoutButtons(SceneLoader.CalendarScene.NEW_LESSON, controllerLesson,  buttonSettings , "Create Lesson");
+            sceneLoader.loadSceneInNewWindowWithoutButtons(SceneLoader.CalendarScene.NEW_LESSON, controllerLesson,  buttonSettings);
 
         });
 

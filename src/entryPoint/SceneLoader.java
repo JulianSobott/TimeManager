@@ -46,11 +46,10 @@ public class SceneLoader {
 
 
     public void loadSceneInNewWindowWithoutButtons(CalendarScene calendarScene, Object controller,
-                                                    Node node, String Header) {
+                                                    Node node) {
 
         Parent window = instance.loadFxmlFile(calendarScene, controller);
         Stage stage = new Stage();
-        stage.setTitle(Header);
         stage.setScene(new Scene(window));
         stage.initStyle(StageStyle.UNDECORATED);
         stage.resizableProperty().setValue(false);
@@ -63,7 +62,7 @@ public class SceneLoader {
         double width = instance.rootScene.getWidth();
         double height = instance.rootScene.getHeight();
 
-        stage.setX(x + (width * 0.25));
+        stage.setX(x + (width * 0.15));
         stage.setY(y + (height * 0.20));
 
         stage.show();
