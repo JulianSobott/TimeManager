@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
-<HBox fx:id="hBoxSubjectInformation" alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="338.0" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="hBoxSubjectInformation" alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="260.0" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane fx:id="paneSubjectColor" prefHeight="14.0" prefWidth="14.0">
          <HBox.margin>

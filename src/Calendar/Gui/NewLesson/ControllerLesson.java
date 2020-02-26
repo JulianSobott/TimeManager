@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.MotionBlur;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.net.URL;
@@ -72,14 +73,29 @@ public class ControllerLesson implements Initializable {
         nodeTabCalendar.setEffect(motionBlur);
     }
 
+
+    /**
+     * ################ methods of the individual buttons ##############################################################
+     */
+
+
     @FXML
     public void addNewSubject() {
 
-        Subject subject = new Subject(colorPickerSubjectColor.getValue(),textFieldProfessor.getText(), textFieldSubject.getText());
+        Subject subject = new Subject(colorPickerSubjectColor.getValue(), textFieldProfessor.getText(), textFieldSubject.getText());
 
         textFieldProfessor.clear();
         textFieldSubject.clear();
         subjects.add(subject);
+
+    }
+
+    @FXML
+    private void closeSubjectWindow(){
+
+        Stage stage = (Stage) buttonClose.getScene().getWindow();
+        nodeTabCalendar.setEffect(null);
+        stage.close();
 
     }
 
