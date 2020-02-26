@@ -17,7 +17,7 @@
             <Label text="Dozent / Lehrkraft" />
             <TextField fx:id="textFieldProfessor" />
             <Label text="Unterrichtsfach" />
-            <TextField fx:id="textFieldSubject" />
+            <TextField fx:id="textFieldSubject"  />
             <Label text="Hintegrundfarbe" />
             <ColorPicker fx:id="colorPickerSubjectColor" prefHeight="27.0" prefWidth="125.0">
                <VBox.margin>
@@ -33,7 +33,7 @@
          </children>
       </VBox>
       <Button fx:id="buttonAddSubject" layoutX="527.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#addNewSubject" text="neues Fach hinzufügen" />
-      <Button fx:id="buttonDeleteSubject" layoutX="605.0" layoutY="419.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="140.0" text="Fach löschen" />
+      <Button fx:id="buttonDeleteSubject" layoutX="605.0" layoutY="419.0" mnemonicParsing="false" onMouseClicked="#deleteSubject" prefHeight="27.0" prefWidth="140.0" text="Fach löschen" />
       <Label layoutX="57.0" layoutY="304.0" text="Gebäude- / Raumbezeichnung" />
       <TextField fx:id="textFieldCourseLocation" layoutX="57.0" layoutY="329.0" prefHeight="25.0" prefWidth="246.0" />
       <VBox layoutX="229.0" layoutY="381.0" prefHeight="51.0" prefWidth="98.0">
@@ -41,6 +41,6 @@
             <CheckBox fx:id="checkBoxTutorial" mnemonicParsing="false" text="Tutorium" />
          </children>
       </VBox>
-      <Button layoutX="448.0" layoutY="419.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="140.0" text="Fach bearbeiten" />
+      <Button layoutX="448.0" layoutY="419.0" mnemonicParsing="false" onMouseClicked="#editSubject" prefHeight="27.0" prefWidth="140.0" text="Fach bearbeiten" />
    </children>
 </AnchorPane>

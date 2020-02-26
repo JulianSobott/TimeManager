@@ -1,6 +1,7 @@
 package Calendar.Gui.NewLesson;
 
 import Calendar.Logic.Subject;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,7 +10,6 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.MotionBlur;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -54,8 +54,9 @@ public class ControllerLesson implements Initializable {
 
 
     private Node nodeTabCalendar;
+    private Subject selectedSubject = new Subject(new SimpleStringProperty(), new SimpleStringProperty());
 
-    private ObservableList<Subject> subjects = FXCollections.observableArrayList();
+    private ObservableList<Subject> subjectObservableList = FXCollections.observableArrayList();
 
 
     public ControllerLesson(Node node) {
@@ -66,11 +67,13 @@ public class ControllerLesson implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        listViewSubjects.setItems(subjects);
+        listViewSubjects.setItems(subjectObservableList);
         listViewSubjects.setCellFactory(studentListView -> new ControllerListCellLesson());
 
         MotionBlur motionBlur = new MotionBlur();
         nodeTabCalendar.setEffect(motionBlur);
+
+        textFieldSubject.textProperty().bindBidirectional(selectedSubject.subjectNameProperty());
     }
 
 
@@ -80,15 +83,31 @@ public class ControllerLesson implements Initializable {
 
 
     @FXML
-    public void addNewSubject() {
+    private void addNewSubject() {
 
-        Subject subject = new Subject(colorPickerSubjectColor.getValue(), textFieldProfessor.getText(), textFieldSubject.getText());
-
+        Subject subject = new Subject(colorPickerSubjectColor.getValue(), new SimpleStringProperty(textFieldProfessor.getText()) , new SimpleStringProperty(textFieldSubject.getText()));
         textFieldProfessor.clear();
         textFieldSubject.clear();
-        subjects.add(subject);
+        subjectObservableList.add(subject);
 
     }
+
+    @FXML
+    private void deleteSubject(){
+
+        Subject subject = (Subject) listViewSubjects.getSelectionModel().getSelectedItem();
+        subjectObservableList.removeAll(subject);
+    }
+
+
+    @FXML
+    private void editSubject(){
+
+        this.selectedSubject = (Subject) listViewSubjects.getSelectionModel().getSelectedItem();
+        int a = 0;
+
+    }
+
 
     @FXML
     private void closeSubjectWindow(){
