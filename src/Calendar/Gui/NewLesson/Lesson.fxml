@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="522.0" prefWidth="769.0" style="-fx-background-color: white;" stylesheets="@../../../entryPoint/MainDesign.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="anchorPaneFrameless" prefHeight="522.0" prefWidth="769.0" stylesheets="@../../../entryPoint/MainDesign.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button fx:id="buttonSave" layoutX="58.0" layoutY="456.0" mnemonicParsing="false" text="Speichern" />
       <Button fx:id="buttonClose" layoutX="151.0" layoutY="456.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Abrechen" />

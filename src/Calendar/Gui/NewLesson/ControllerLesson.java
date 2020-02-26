@@ -1,8 +1,12 @@
 package Calendar.Gui.NewLesson;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.effect.MotionBlur;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -46,12 +50,24 @@ public class ControllerLesson implements Initializable {
     private Button buttonDeleteSubject;
 
 
+    private Node nodeTabCalendar;
 
+    private ObservableList<String> subjects = FXCollections.observableArrayList();
+
+
+    public ControllerLesson(Node node) {
+
+        this.nodeTabCalendar = node;
+
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        listViewSubjects.setItems(subjects);
 
+        MotionBlur motionBlur = new MotionBlur();
+        nodeTabCalendar.setEffect(motionBlur);
 
 
     }

@@ -20,6 +20,9 @@ import java.util.ResourceBundle;
 public class ControllerCalender implements Initializable {
 
     @FXML
+    private AnchorPane anchorPaneCalendar;
+
+    @FXML
     private Label labelCourseOfStudies;
 
     @FXML
@@ -161,7 +164,7 @@ public class ControllerCalender implements Initializable {
         menuItemAddLesson.setOnAction( actionEvent -> {
 
             SceneLoader sceneLoader = SceneLoader.getInstance();
-            ControllerLesson controllerLesson = new ControllerLesson();
+            ControllerLesson controllerLesson = new ControllerLesson(anchorPaneCalendar);
             sceneLoader.loadSceneInNewWindowWithoutButtons(SceneLoader.CalendarScene.NEW_LESSON, controllerLesson,  buttonSettings);
 
         });

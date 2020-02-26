@@ -44,6 +44,14 @@
 }
 
 
+#anchorPaneFrameless {
+
+    -fx-border-color: grey;
+    -fx-border-width: 2px;
+    -fx-background-radius: 8px;
+
+}
+
 
 
 
