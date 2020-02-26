@@ -52,9 +52,12 @@ public class ControllerLesson implements Initializable {
     @FXML
     private Button buttonDeleteSubject;
 
+    @FXML
+    private Button buttonSaveChanges;
+
 
     private Node nodeTabCalendar;
-    private Subject selectedSubject = new Subject(new SimpleStringProperty(), new SimpleStringProperty());
+    private Subject selectedSubject = null;
 
     private ObservableList<Subject> subjectObservableList = FXCollections.observableArrayList();
 
@@ -73,7 +76,7 @@ public class ControllerLesson implements Initializable {
         MotionBlur motionBlur = new MotionBlur();
         nodeTabCalendar.setEffect(motionBlur);
 
-        textFieldSubject.textProperty().bindBidirectional(selectedSubject.subjectNameProperty());
+        // textFieldSubject.textProperty().bindBidirectional(selectedSubject.subjectNameProperty());
     }
 
 
@@ -82,18 +85,26 @@ public class ControllerLesson implements Initializable {
      */
 
 
+    private void clearFields(boolean deleteSelectedSubjectReference) {
+
+        textFieldProfessor.clear();
+        textFieldSubject.clear();
+        if (deleteSelectedSubjectReference)
+            this.selectedSubject = null;
+    }
+
+
     @FXML
     private void addNewSubject() {
 
-        Subject subject = new Subject(colorPickerSubjectColor.getValue(), new SimpleStringProperty(textFieldProfessor.getText()) , new SimpleStringProperty(textFieldSubject.getText()));
-        textFieldProfessor.clear();
-        textFieldSubject.clear();
+        Subject subject = new Subject(colorPickerSubjectColor.getValue(), new SimpleStringProperty(textFieldProfessor.getText()), new SimpleStringProperty(textFieldSubject.getText()));
+        clearFields(false);
         subjectObservableList.add(subject);
 
     }
 
     @FXML
-    private void deleteSubject(){
+    private void deleteSubject() {
 
         Subject subject = (Subject) listViewSubjects.getSelectionModel().getSelectedItem();
         subjectObservableList.removeAll(subject);
@@ -101,16 +112,27 @@ public class ControllerLesson implements Initializable {
 
 
     @FXML
-    private void editSubject(){
+    private void editSubject() {
 
         this.selectedSubject = (Subject) listViewSubjects.getSelectionModel().getSelectedItem();
-        int a = 0;
+        textFieldSubject.setText(selectedSubject.getSubjectName());
+        textFieldProfessor.setText(selectedSubject.getProfessor());
+        colorPickerSubjectColor.setValue(selectedSubject.getColor());
+    }
 
+    @FXML
+    private void saveSubjectChanges() {
+
+        this.selectedSubject.setSubjectName(textFieldSubject.getText());
+        this.selectedSubject.setProfessor(textFieldProfessor.getText());
+        this.selectedSubject.setColor(colorPickerSubjectColor.getValue());
+        listViewSubjects.refresh();
+        clearFields(true);
     }
 
 
     @FXML
-    private void closeSubjectWindow(){
+    private void closeSubjectWindow() {
 
         Stage stage = (Stage) buttonClose.getScene().getWindow();
         nodeTabCalendar.setEffect(null);
