@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-
-<AnchorPane prefHeight="135.0" prefWidth="466.0" style="-fx-background-color: blue;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="hBoxSubjectInformation" alignment="CENTER" prefHeight="31.0" prefWidth="338.0" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="labelSubject" layoutX="374.0" layoutY="46.0" text="Subject" />
-      <Label fx:id="labelProf" layoutX="148.0" layoutY="59.0" style="-fx-background-color: red;" text="Proff" />
+      <Label fx:id="labelProf" layoutX="148.0" layoutY="59.0" text="Proff" />
    </children>
-</AnchorPane>
+</HBox>

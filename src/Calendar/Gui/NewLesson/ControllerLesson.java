@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.MotionBlur;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -59,7 +60,6 @@ public class ControllerLesson implements Initializable {
     public ControllerLesson(Node node) {
 
         this.nodeTabCalendar = node;
-
     }
 
     @Override
@@ -70,12 +70,10 @@ public class ControllerLesson implements Initializable {
 
         MotionBlur motionBlur = new MotionBlur();
         nodeTabCalendar.setEffect(motionBlur);
-
-
     }
 
     @FXML
-    public void addNewSubject(){
+    public void addNewSubject() {
 
         Subject subject = new Subject(textFieldProfessor.getText(), textFieldSubject.getText());
         textFieldProfessor.clear();
