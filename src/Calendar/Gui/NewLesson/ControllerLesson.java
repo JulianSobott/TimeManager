@@ -1,5 +1,6 @@
 package Calendar.Gui.NewLesson;
 
+import Calendar.Logic.Subject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -52,7 +53,7 @@ public class ControllerLesson implements Initializable {
 
     private Node nodeTabCalendar;
 
-    private ObservableList<String> subjects = FXCollections.observableArrayList();
+    private ObservableList<Subject> subjects = FXCollections.observableArrayList();
 
 
     public ControllerLesson(Node node) {
@@ -65,10 +66,22 @@ public class ControllerLesson implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         listViewSubjects.setItems(subjects);
+        listViewSubjects.setCellFactory(studentListView -> new ControllerListCellLesson());
 
         MotionBlur motionBlur = new MotionBlur();
         nodeTabCalendar.setEffect(motionBlur);
 
 
     }
+
+    @FXML
+    public void addNewSubject(){
+
+        Subject subject = new Subject(textFieldProfessor.getText(), textFieldSubject.getText());
+        textFieldProfessor.clear();
+        textFieldSubject.clear();
+        subjects.add(subject);
+
+    }
+
 }

@@ -60,7 +60,7 @@ public class ControllerCalender implements Initializable {
 
 
     /**
-     *  ########## generate Headline for Timetable ##########
+     * ########## generate Headline for Timetable ##########
      */
 
     private void getTimeAndDate() {
@@ -68,7 +68,7 @@ public class ControllerCalender implements Initializable {
     }
 
 
-    private void generateContextMenuSettings(){
+    private void generateContextMenuSettings() {
 
         ContextMenu contextMenuCalendar = new ContextMenu();
         MenuItem menuItemSettings = new MenuItem("Einstellungen");
@@ -77,9 +77,9 @@ public class ControllerCalender implements Initializable {
         MenuItem menuItemLoad = new MenuItem("Laden");
         MenuItem menuItemCreate = new MenuItem("Erstellen");
 
-        contextMenuCalendar.getItems().addAll(menuItemSettings,menuItemSave, menuItemDelete, menuItemLoad, menuItemCreate);
+        contextMenuCalendar.getItems().addAll(menuItemSettings, menuItemSave, menuItemDelete, menuItemLoad, menuItemCreate);
         buttonSettings.setOnMouseClicked(event ->
-                contextMenuCalendar.show(buttonSettings, Side.BOTTOM, -30,5));
+                contextMenuCalendar.show(buttonSettings, Side.BOTTOM, -30, 5));
     }
 
 
@@ -102,7 +102,7 @@ public class ControllerCalender implements Initializable {
 
 
     /**
-     *  ########## generate TIMETABLE days / Times ##########
+     * ########## generate TIMETABLE days / Times ##########
      */
 
     private void generateLabelsDays() {
@@ -120,10 +120,10 @@ public class ControllerCalender implements Initializable {
 
 
     /**
-     *  ########## generate Empty Lessons ##########
+     * ########## generate Empty Lessons ##########
      */
 
-    private void generateEmptyLessons(){
+    private void generateEmptyLessons() {
 
         for (int i = 1; i <= numberOfDays; i++) {
             for (int j = 1; j < numberOfLessons; j++) {
@@ -143,29 +143,29 @@ public class ControllerCalender implements Initializable {
                 new CornerRadii(13),
                 new Insets(0.0, 0.0, 0.0, 0.0))));
 
-               return vBoxLessonBasicLayout;
+        return vBoxLessonBasicLayout;
     }
 
-    private void generateContextMenuEmptyLesson(VBox emptyVBox){
+    private void generateContextMenuEmptyLesson(VBox emptyVBox) {
 
         ContextMenu contextMenuEmptyLesson = new ContextMenu();
         MenuItem menuItemAddLesson = new MenuItem("Fach hinzufügen");
         generateEventAddLesson(menuItemAddLesson);
         contextMenuEmptyLesson.getItems().addAll(menuItemAddLesson);
-        emptyVBox.setOnMouseClicked(mouseEvent -> {
-            contextMenuEmptyLesson.show(emptyVBox, Side.BOTTOM, -emptyVBox.getHeight()/2,-emptyVBox.getHeight()/2);
-        });
+        emptyVBox.setOnMouseClicked
+                (mouseEvent -> contextMenuEmptyLesson.show
+                        (emptyVBox, Side.BOTTOM, -emptyVBox.getHeight() / 2, -emptyVBox.getHeight() / 2));
 
     }
 
 
-    private void generateEventAddLesson(MenuItem menuItemAddLesson){
+    private void generateEventAddLesson(MenuItem menuItemAddLesson) {
 
-        menuItemAddLesson.setOnAction( actionEvent -> {
+        menuItemAddLesson.setOnAction(actionEvent -> {
 
             SceneLoader sceneLoader = SceneLoader.getInstance();
             ControllerLesson controllerLesson = new ControllerLesson(anchorPaneCalendar);
-            sceneLoader.loadSceneInNewWindowWithoutButtons(SceneLoader.CalendarScene.NEW_LESSON, controllerLesson,  buttonSettings);
+            sceneLoader.loadSceneInNewWindowWithoutButtons(SceneLoader.CalendarScene.NEW_LESSON, controllerLesson, buttonSettings);
 
         });
 
