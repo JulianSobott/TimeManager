@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
@@ -15,10 +16,10 @@ public class ControllerListCellLesson extends ListCell<Subject> {
     private HBox hBoxSubjectInformation;
 
     @FXML
-    private Label labelProf;
+    private Label labelSubject;
 
     @FXML
-    private Label labelSubject;
+    private Pane paneSubjectColor;
 
     private FXMLLoader mLLoader;
 
@@ -39,7 +40,10 @@ public class ControllerListCellLesson extends ListCell<Subject> {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                labelProf.setText(String.valueOf(subject.getProfessor()));
+                String color = subject.getColor().toString();
+                String paneStyle = "-fx-background-color:" + color.replace("0x", "#");
+                paneSubjectColor.setStyle("-fx-background-color:" + color.replace("0x", "#"));
+                paneSubjectColor.setId("paneSubjectColor");
                 labelSubject.setText(String.valueOf(subject.getSubjectName()));
 
             }

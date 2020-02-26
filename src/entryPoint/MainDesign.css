@@ -52,7 +52,10 @@
 
 }
 
+#paneSubjectColor {
+    -fx-background-radius: 6px;
 
+}
 
 
 .check-box .box {

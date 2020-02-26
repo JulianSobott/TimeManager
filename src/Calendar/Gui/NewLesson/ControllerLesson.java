@@ -75,7 +75,8 @@ public class ControllerLesson implements Initializable {
     @FXML
     public void addNewSubject() {
 
-        Subject subject = new Subject(textFieldProfessor.getText(), textFieldSubject.getText());
+        Subject subject = new Subject(colorPickerSubjectColor.getValue(),textFieldProfessor.getText(), textFieldSubject.getText());
+
         textFieldProfessor.clear();
         textFieldSubject.clear();
         subjects.add(subject);

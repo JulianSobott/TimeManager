@@ -1,11 +1,13 @@
 package Calendar.Logic;
 
+import javafx.scene.paint.Color;
+
 import java.util.ArrayList;
 
 public class Subject {
 
     private ArrayList<Lesson> lessons = new ArrayList<>();
-    private String color;
+    private Color color;
     private String professor;
     private String subjectName;
 
@@ -16,17 +18,17 @@ public class Subject {
     }
 
 
-    public Subject(String color, String professor, String subjectName) {
+    public Subject(Color color, String professor, String subjectName) {
         this.color = color;
         this.professor = professor;
         this.subjectName = subjectName;
     }
 
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 

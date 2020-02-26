@@ -12,7 +12,7 @@
       <Label layoutX="58.0" layoutY="52.0" text="Fach auswählen:" />
       <Separator layoutX="445.0" layoutY="35.0" orientation="VERTICAL" prefHeight="368.0" prefWidth="5.0" />
       <Label layoutX="474.0" layoutY="52.0" text="Neues Fach hinzufügen:" />
-      <VBox layoutX="474.0" layoutY="104.0" prefHeight="276.0" prefWidth="246.0" spacing="10.0">
+      <VBox layoutX="474.0" layoutY="104.0" prefHeight="242.0" prefWidth="246.0" spacing="10.0">
          <children>
             <Label text="Dozent / Lehrkraft" />
             <TextField fx:id="textFieldProfessor" />
@@ -32,8 +32,8 @@
             <CheckBox fx:id="checkBoxInterval" mnemonicParsing="false" text="2 wöchiges Intervall" />
          </children>
       </VBox>
-      <Button fx:id="buttonAddSubject" layoutX="580.0" layoutY="390.0" mnemonicParsing="false" onMouseClicked="#addNewSubject" text="neues Fach hinzufügen" />
-      <Button fx:id="buttonDeleteSubject" layoutX="474.0" layoutY="390.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="91.0" text="Fach löschen" />
+      <Button fx:id="buttonAddSubject" layoutX="527.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#addNewSubject" text="neues Fach hinzufügen" />
+      <Button fx:id="buttonDeleteSubject" layoutX="605.0" layoutY="419.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="140.0" text="Fach löschen" />
       <Label layoutX="57.0" layoutY="304.0" text="Gebäude- / Raumbezeichnung" />
       <TextField fx:id="textFieldCourseLocation" layoutX="57.0" layoutY="329.0" prefHeight="25.0" prefWidth="246.0" />
       <VBox layoutX="229.0" layoutY="381.0" prefHeight="51.0" prefWidth="98.0">
@@ -41,5 +41,6 @@
             <CheckBox fx:id="checkBoxTutorial" mnemonicParsing="false" text="Tutorium" />
          </children>
       </VBox>
+      <Button layoutX="448.0" layoutY="419.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="140.0" text="Fach bearbeiten" />
    </children>
 </AnchorPane>
