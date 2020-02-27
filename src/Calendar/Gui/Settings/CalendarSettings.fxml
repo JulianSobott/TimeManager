@@ -18,6 +18,18 @@
          </children>
       </VBox>
       <Separator layoutX="23.0" layoutY="259.0" prefHeight="2.0" prefWidth="285.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
-      <Label layoutX="24.0" layoutY="284.0" text="Länge der Unterichtspausen" />
+      <Label layoutX="24.0" layoutY="284.0" text="Länge der Unterichtspausen in Minuten" />
+      <VBox alignment="CENTER_LEFT" layoutX="72.0" layoutY="325.0" spacing="5.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+         <children>
+            <Label text="kleine Pause" />
+            <TextField />
+            <Label text="große Pause" />
+            <TextField />
+            <Label text="Mittagspause" />
+            <TextField />
+            <Label text="Vorlesungslänge" />
+            <TextField />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
