@@ -1,12 +1,16 @@
 package entryPoint;
 
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -28,7 +32,7 @@ public class SceneLoader {
 
 
     public void loadSceneInNewWindow(CalendarScene calendarScene, Object controller, String title) {
-        instance = new SceneLoader();
+
         Parent window = instance.loadFxmlFile(calendarScene, controller);
         Stage stage = new Stage();
         stage.setTitle(title);
@@ -46,14 +50,9 @@ public class SceneLoader {
 
 
     public void loadSceneInNewWindowWithoutButtons(CalendarScene calendarScene, Object controller,
-                                                    Node node) {
+                                                   Node node, double xFactor, double yFactor) {
 
-        Parent window = instance.loadFxmlFile(calendarScene, controller);
-        Stage stage = new Stage();
-        stage.setScene(new Scene(window));
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.resizableProperty().setValue(false);
-        stage.initModality(Modality.APPLICATION_MODAL);
+        Stage stage =  createStage(calendarScene, controller);
         instance.rootScene = node.getParent().getScene();
 
         double x = instance.rootScene.getWindow().getX();
@@ -62,8 +61,40 @@ public class SceneLoader {
         double width = instance.rootScene.getWidth();
         double height = instance.rootScene.getHeight();
 
-        stage.setX(x + (width * 0.15));
-        stage.setY(y + (height * 0.20));
+        stage.setX(x + (width * xFactor));
+        stage.setY(y + (height * yFactor));
+
+        stage.show();
+
+    }
+
+
+    private Stage createStage(CalendarScene calendarScene, Object controller){
+
+        Parent window = instance.loadFxmlFile(calendarScene, controller);
+        Stage stage = new Stage();
+        stage.setScene(new Scene(window));
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.resizableProperty().setValue(false);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        return stage;
+    }
+
+
+    public void loadSettingsSceneInBoarderLessNewWindow(CalendarScene calendarScene, Object controller,
+                                                        Node node) {
+
+        Stage stage = createStage(calendarScene, controller);
+        instance.rootScene = node.getParent().getScene();
+
+        double x = instance.rootScene.getWindow().getX();
+        double y = instance.rootScene.getWindow().getY();
+
+        double width = instance.rootScene.getWidth();
+        double height = instance.rootScene.getHeight();
+
+        stage.setX(x + width - 350);
+        stage.setY(y + 90);
 
         stage.show();
 
@@ -85,6 +116,7 @@ public class SceneLoader {
     }
 
 
+
     /**
      * ################################### Header and filepath to the different Scenes #################################
      */
@@ -92,6 +124,7 @@ public class SceneLoader {
 
     public enum CalendarScene {
         NEW_LESSON("NewLesson/Lesson"),
+        SETTINGS_CALENDAR("Settings/CalendarSettings")
         ;
 
         private String fxmlPath;

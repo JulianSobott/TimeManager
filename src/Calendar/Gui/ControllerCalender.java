@@ -1,6 +1,7 @@
 package Calendar.Gui;
 
 import Calendar.Gui.NewLesson.ControllerLesson;
+import Calendar.Gui.Settings.ControllerCalendarSettings;
 import Calendar.Logic.Weekdays;
 import entryPoint.SceneLoader;
 import javafx.beans.property.StringProperty;
@@ -46,7 +47,7 @@ public class ControllerCalender implements Initializable {
     private double cellPercentageWidth;
 
     private int numberOfDays = 6;
-    private int numberOfLessons = 8;
+    private int numberOfLessons = 7;
 
     private LocalTime startOfLessons = LocalTime.of(8, 0);
     private long shortBreakMin = 15;
@@ -87,10 +88,15 @@ public class ControllerCalender implements Initializable {
     }
 
 
+    /**
+     * ########## GENERATE CONTEXT MENU WITH FUNCTIONALITY #######
+     */
+
     private void generateContextMenuSettings() {
 
         ContextMenu contextMenuCalendar = new ContextMenu();
         MenuItem menuItemSettings = new MenuItem("Einstellungen");
+        generateEventSettings(menuItemSettings);
         MenuItem menuItemSave = new MenuItem("Speichern");
         MenuItem menuItemDelete = new MenuItem("Löschen");
         MenuItem menuItemLoad = new MenuItem("Laden");
@@ -99,6 +105,19 @@ public class ControllerCalender implements Initializable {
         contextMenuCalendar.getItems().addAll(menuItemSettings, menuItemSave, menuItemDelete, menuItemLoad, menuItemCreate);
         buttonSettings.setOnMouseClicked(event ->
                 contextMenuCalendar.show(buttonSettings, Side.BOTTOM, -30, 5));
+    }
+
+
+    private void generateEventSettings(MenuItem menuItemSettings) {
+
+        menuItemSettings.setOnAction(actionEvent -> {
+
+            SceneLoader sceneLoader = SceneLoader.getInstance();
+            ControllerCalendarSettings controllerCalendarSettings = new ControllerCalendarSettings();
+            sceneLoader.loadSettingsSceneInBoarderLessNewWindow(SceneLoader.CalendarScene.SETTINGS_CALENDAR, controllerCalendarSettings, buttonSettings);
+
+        });
+
     }
 
 
@@ -147,7 +166,7 @@ public class ControllerCalender implements Initializable {
                 time = startOfLessons.plusMinutes(durationOfLectures * (i - 1)) + " - " + startOfLessons.plusMinutes(durationOfLectures + durationOfLectures * lessonCounter);
             else if (i > 1 && i <= lunchBreakAfterNumberOfLessons)
                 time = startOfLessons.plusMinutes(durationOfLectures * (i - 1) + (shortBreakMin * lessonCounter)) + " - " + startOfLessons.plusMinutes((shortBreakMin * lessonCounter) + durationOfLectures + durationOfLectures * lessonCounter);
-            else if(i == lunchBreakAfterNumberOfLessons + 1)
+            else if (i == lunchBreakAfterNumberOfLessons + 1)
                 time = startOfLessons.plusMinutes(durationOfLectures * (i - 1) + (shortBreakMin * (lessonCounter - 1) + lunchBreakMin)) + " - " + startOfLessons.plusMinutes((shortBreakMin * (lessonCounter - 1) + lunchBreakMin) + durationOfLectures + durationOfLectures * lessonCounter);
             else
                 time = startOfLessons.plusMinutes(durationOfLectures * (i - 1) + (shortBreakMin * lessonCounter) + lunchBreakMin) + " - " + startOfLessons.plusMinutes((shortBreakMin * lessonCounter + lunchBreakMin) + durationOfLectures + durationOfLectures * lessonCounter);
@@ -208,7 +227,7 @@ public class ControllerCalender implements Initializable {
 
             SceneLoader sceneLoader = SceneLoader.getInstance();
             ControllerLesson controllerLesson = new ControllerLesson(anchorPaneCalendar);
-            sceneLoader.loadSceneInNewWindowWithoutButtons(SceneLoader.CalendarScene.NEW_LESSON, controllerLesson, buttonSettings);
+            sceneLoader.loadSceneInNewWindowWithoutButtons(SceneLoader.CalendarScene.NEW_LESSON, controllerLesson, buttonSettings, 0.2, 0.2);
 
         });
 

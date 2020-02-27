@@ -118,3 +118,12 @@
     -fx-font-weight: bold;
     -fx-font-size: 1.1em;
 }
+
+
+#SettingsPane{
+
+    -fx-background-color: white;
+    -fx-background-color: lightgrey;
+    -fx-border-width: 2px;
+
+}
