@@ -81,6 +81,7 @@ public class ControllerLesson implements Initializable {
 
         MotionBlur motionBlur = new MotionBlur();
         nodeTabCalendar.setEffect(motionBlur);
+        makeFadeInTransition(0,1);
 
     }
 
@@ -145,23 +146,18 @@ public class ControllerLesson implements Initializable {
     @FXML
     private void closeSubjectWindow() {
 
-        makeFadeInTransition(1,0, true);
+        nodeTabCalendar.setEffect(null);
+        makeFadeInTransition(1,0);
 
     }
 
-    private void makeFadeInTransition(int startValue, int targetValue, boolean exit) {
+    private void makeFadeInTransition(int startValue, int targetValue) {
 
         FadeTransition fadeTransition = new FadeTransition();
-        fadeTransition.setDuration(Duration.millis(800));
+        fadeTransition.setDuration(Duration.millis(700));
         fadeTransition.setNode(anchorPaneLesson);
         fadeTransition.setFromValue(startValue);
         fadeTransition.setToValue(targetValue);
-        if(exit)
-        {
-            fadeTransition.setOnFinished(actionEvent -> {
-                nodeTabCalendar.setEffect(null);
-            });
-        }
         fadeTransition.play();
     }
 
