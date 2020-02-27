@@ -7,5 +7,17 @@
    <children>
       <Button layoutX="14.0" layoutY="659.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="99.0" text="Speichern" />
       <Button layoutX="124.0" layoutY="660.0" mnemonicParsing="false" onMouseClicked="#closeWindow" prefHeight="27.0" prefWidth="99.0" text="Abrechen" />
+      <Label layoutX="24.0" layoutY="80.0" text="Stundenplan" />
+      <Label layoutX="124.0" layoutY="33.0" text="Einstellungen" />
+      <VBox alignment="CENTER" layoutX="44.0" layoutY="120.0" prefHeight="109.0" prefWidth="247.0" spacing="10.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="42.0">
+         <children>
+            <Label text="Anzahl Wochentage" />
+            <ComboBox prefWidth="150.0" />
+            <Label text="Anzahl Unterichtsstunden" />
+            <ComboBox prefWidth="150.0" />
+         </children>
+      </VBox>
+      <Separator layoutX="23.0" layoutY="259.0" prefHeight="2.0" prefWidth="285.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+      <Label layoutX="24.0" layoutY="284.0" text="Länge der Unterichtspausen" />
    </children>
 </AnchorPane>
