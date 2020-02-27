@@ -46,8 +46,8 @@ public class ControllerCalender implements Initializable {
 
     private double cellPercentageWidth;
 
-    private int numberOfDays = 6;
-    private int numberOfLessons = 7;
+    private int numberOfDays = 5;
+    private int numberOfLessons = 6;
 
     private LocalTime startOfLessons = LocalTime.of(8, 0);
     private long shortBreakMin = 15;
@@ -131,7 +131,7 @@ public class ControllerCalender implements Initializable {
             gridPane.getColumnConstraints().add(col);
         }
 
-        for (int i = 0; i < numberOfLessons; i++) {
+        for (int i = 0; i <= numberOfLessons; i++) {
             RowConstraints row = new RowConstraints();
             row.setPercentHeight(cellPercentageWidth);
             gridPane.getRowConstraints().add(row);
@@ -159,7 +159,7 @@ public class ControllerCalender implements Initializable {
     private void generateLabelTimes() {
 
         int lessonCounter = 0;
-        for (int i = 1; i < numberOfLessons; i++) {
+        for (int i = 1; i <= numberOfLessons; i++) {
 
             String time = "";
             if (i == 1)
@@ -188,7 +188,7 @@ public class ControllerCalender implements Initializable {
     private void generateEmptyLessons() {
 
         for (int i = 1; i <= numberOfDays; i++) {
-            for (int j = 1; j < numberOfLessons; j++) {
+            for (int j = 1; j <= numberOfLessons; j++) {
 
                 VBox vBoxEmpty = generateEmptyVBox(i, j);
                 gridPaneTimetable.add(vBoxEmpty, i, j);
