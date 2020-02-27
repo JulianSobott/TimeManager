@@ -1,11 +1,9 @@
 package Calendar.Gui.Settings;
 
 import javafx.animation.FadeTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -34,11 +32,7 @@ public class ControllerCalendarSettings implements Initializable {
         fadeTransition.setFromValue(startValue);
         fadeTransition.setToValue(targetValue);
         fadeTransition.play();
-        if (exit) {
-            fadeTransition.setOnFinished(this::closeStage);
-        }
     }
-
 
 
 
@@ -49,11 +43,7 @@ public class ControllerCalendarSettings implements Initializable {
 
     }
 
-    private void closeStage(ActionEvent actionEvent) {
 
-        Stage stage = (Stage) anchorPaneSettings.getScene().getWindow();
-        stage.close();
-    }
 }
 
 

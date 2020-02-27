@@ -1,6 +1,7 @@
 package Calendar.Gui.NewLesson;
 
 import Calendar.Logic.Subject;
+import javafx.animation.FadeTransition;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,12 +10,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.MotionBlur;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ControllerLesson implements Initializable {
+
+    @FXML
+    private AnchorPane anchorPaneLesson;
 
     @FXML
     private Button buttonSave;
@@ -132,13 +138,31 @@ public class ControllerLesson implements Initializable {
     }
 
 
+    /**
+     *################### Windows Navigation ###########################################################################
+     */
+
     @FXML
     private void closeSubjectWindow() {
 
-        Stage stage = (Stage) buttonClose.getScene().getWindow();
-        nodeTabCalendar.setEffect(null);
-        stage.close();
+        makeFadeInTransition(1,0, true);
 
+    }
+
+    private void makeFadeInTransition(int startValue, int targetValue, boolean exit) {
+
+        FadeTransition fadeTransition = new FadeTransition();
+        fadeTransition.setDuration(Duration.millis(800));
+        fadeTransition.setNode(anchorPaneLesson);
+        fadeTransition.setFromValue(startValue);
+        fadeTransition.setToValue(targetValue);
+        if(exit)
+        {
+            fadeTransition.setOnFinished(actionEvent -> {
+                nodeTabCalendar.setEffect(null);
+            });
+        }
+        fadeTransition.play();
     }
 
 }
