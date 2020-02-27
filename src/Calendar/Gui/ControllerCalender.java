@@ -3,6 +3,7 @@ package Calendar.Gui;
 import Calendar.Gui.NewLesson.ControllerLesson;
 import Calendar.Logic.Weekdays;
 import entryPoint.SceneLoader;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -15,6 +16,14 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Formatter;
 import java.util.ResourceBundle;
 
 public class ControllerCalender implements Initializable {
@@ -39,14 +48,24 @@ public class ControllerCalender implements Initializable {
     private int numberOfDays = 6;
     private int numberOfLessons = 8;
 
+    private LocalTime startOfLessons = LocalTime.of(8, 0);
+    private long shortBreakMin = 15;
+    private long lunchBreakMin = 60;
+    private int lunchBreakAfterNumberOfLessons = 3;
+    private long durationOfLectures = 90;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        DateTimeFormatter f = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+        startOfLessons.format(f);
 
         getTimeAndDate();
         generateGridPaneTimetable(gridPaneTimetable);
         generateContextMenuSettings();
         generateLabelsDays();
+        generateLabelTimes();
         generateEmptyLessons();
     }
 
@@ -116,6 +135,30 @@ public class ControllerCalender implements Initializable {
             dayCounter++;
             if (dayCounter > numberOfDays) break;
         }
+    }
+
+    private void generateLabelTimes() {
+
+        int lessonCounter = 0;
+        for (int i = 1; i < numberOfLessons; i++) {
+
+            String time = "";
+            if (i == 1)
+                time = startOfLessons.plusMinutes(durationOfLectures * (i - 1)) + " - " + startOfLessons.plusMinutes(durationOfLectures + durationOfLectures * lessonCounter);
+            else if (i > 1 && i <= lunchBreakAfterNumberOfLessons)
+                time = startOfLessons.plusMinutes(durationOfLectures * (i - 1) + (shortBreakMin * lessonCounter)) + " - " + startOfLessons.plusMinutes((shortBreakMin * lessonCounter) + durationOfLectures + durationOfLectures * lessonCounter);
+            else if(i == lunchBreakAfterNumberOfLessons + 1)
+                time = startOfLessons.plusMinutes(durationOfLectures * (i - 1) + (shortBreakMin * (lessonCounter - 1) + lunchBreakMin)) + " - " + startOfLessons.plusMinutes((shortBreakMin * (lessonCounter - 1) + lunchBreakMin) + durationOfLectures + durationOfLectures * lessonCounter);
+            else
+                time = startOfLessons.plusMinutes(durationOfLectures * (i - 1) + (shortBreakMin * lessonCounter) + lunchBreakMin) + " - " + startOfLessons.plusMinutes((shortBreakMin * lessonCounter + lunchBreakMin) + durationOfLectures + durationOfLectures * lessonCounter);
+            Label labelTime = new Label(time);
+            lessonCounter++;
+
+            gridPaneTimetable.add(labelTime, 0, i);
+            GridPane.setHalignment(labelTime, javafx.geometry.HPos.CENTER);
+        }
+
+
     }
 
 

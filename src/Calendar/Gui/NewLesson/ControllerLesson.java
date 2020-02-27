@@ -57,7 +57,6 @@ public class ControllerLesson implements Initializable {
 
 
     private Node nodeTabCalendar;
-    private Subject selectedSubject = null;
 
     private ObservableList<Subject> subjectObservableList = FXCollections.observableArrayList();
 
@@ -70,13 +69,13 @@ public class ControllerLesson implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+
         listViewSubjects.setItems(subjectObservableList);
         listViewSubjects.setCellFactory(studentListView -> new ControllerListCellLesson());
 
         MotionBlur motionBlur = new MotionBlur();
         nodeTabCalendar.setEffect(motionBlur);
 
-        // textFieldSubject.textProperty().bindBidirectional(selectedSubject.subjectNameProperty());
     }
 
 
@@ -85,12 +84,10 @@ public class ControllerLesson implements Initializable {
      */
 
 
-    private void clearFields(boolean deleteSelectedSubjectReference) {
+    private void clearFields() {
 
         textFieldProfessor.clear();
         textFieldSubject.clear();
-        if (deleteSelectedSubjectReference)
-            this.selectedSubject = null;
     }
 
 
@@ -98,7 +95,7 @@ public class ControllerLesson implements Initializable {
     private void addNewSubject() {
 
         Subject subject = new Subject(colorPickerSubjectColor.getValue(), new SimpleStringProperty(textFieldProfessor.getText()), new SimpleStringProperty(textFieldSubject.getText()));
-        clearFields(false);
+        clearFields();
         subjectObservableList.add(subject);
 
     }
@@ -114,20 +111,24 @@ public class ControllerLesson implements Initializable {
     @FXML
     private void editSubject() {
 
-        this.selectedSubject = (Subject) listViewSubjects.getSelectionModel().getSelectedItem();
-        textFieldSubject.setText(selectedSubject.getSubjectName());
-        textFieldProfessor.setText(selectedSubject.getProfessor());
-        colorPickerSubjectColor.setValue(selectedSubject.getColor());
+        Subject subject = (Subject) listViewSubjects.getSelectionModel().getSelectedItem();
+        textFieldSubject.setText(subject.getSubjectName());
+        textFieldProfessor.setText(subject.getProfessor());
+        colorPickerSubjectColor.setValue(subject.getColor());
     }
+
+    /*   TODO: Hier muss noch ein Listener eingebaut werden um änderungen anzeigen zu können !!!   */
 
     @FXML
     private void saveSubjectChanges() {
 
-        this.selectedSubject.setSubjectName(textFieldSubject.getText());
-        this.selectedSubject.setProfessor(textFieldProfessor.getText());
-        this.selectedSubject.setColor(colorPickerSubjectColor.getValue());
+        Subject subject = (Subject) listViewSubjects.getSelectionModel().getSelectedItem();
+        subject.setSubjectName(textFieldSubject.getText());
+        subject.setProfessor(textFieldProfessor.getText());
+        subject.setColor(colorPickerSubjectColor.getValue());
+
         listViewSubjects.refresh();
-        clearFields(true);
+        clearFields();
     }
 
 

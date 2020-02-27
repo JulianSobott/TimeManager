@@ -1,10 +1,13 @@
 package Calendar.Gui.NewLesson;
 
 import Calendar.Logic.Subject;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
@@ -16,13 +19,18 @@ public class ControllerListCellLesson extends ListCell<Subject> {
     private HBox hBoxSubjectInformation;
 
     @FXML
-    private Label labelSubject;
+    Label labelSubject;
 
     @FXML
-    private Pane paneSubjectColor;
+    Pane paneSubjectColor;
 
     private FXMLLoader mLLoader;
 
+
+
+    public ControllerListCellLesson() {
+
+    }
 
     @Override
     protected void updateItem(Subject subject, boolean empty) {
@@ -41,12 +49,12 @@ public class ControllerListCellLesson extends ListCell<Subject> {
                     e.printStackTrace();
                 }
                 String color = subject.getColor().toString();
-                String paneStyle = "-fx-background-color:" + color.replace("0x", "#");
                 paneSubjectColor.setStyle("-fx-background-color:" + color.replace("0x", "#"));
                 paneSubjectColor.setId("paneSubjectColor");
                 labelSubject.setText(String.valueOf(subject.getSubjectName()));
 
             }
+            setText(null);
             setGraphic(hBoxSubjectInformation);
         }
     }
