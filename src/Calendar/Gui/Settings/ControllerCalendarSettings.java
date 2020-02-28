@@ -75,20 +75,26 @@ public class ControllerCalendarSettings implements Initializable {
         comboBoxDurationOfLectures.setItems(durationOfLecturesObservableList);
 
         makeFadeInTransition(0, 1, false);
+        filComboboxWithContent();
 
-        addElementsToTheObservableList(numberOfDaysObservableList, 7, 1);
-        addElementsToTheObservableList(numberOfLessonsObservableList, 8, 1);
-
-        addElementsToTheObservableList(shortBreakObservableList, 20, 2);
-        addElementsToTheObservableList(lunchBreakObservableList, 70,5);
-        addElementsToTheObservableList(lunchBreakAfterNumberOfLessonsObservableList, 5, 1);
-        addElementsToTheObservableList(durationOfLecturesObservableList, 100,10);
     }
 
 
     /**
      * ##################################### generate Gui elements #####################################################
      */
+
+
+    private void filComboboxWithContent() {
+
+        addElementsToTheObservableList(numberOfDaysObservableList, 7, 1);
+        addElementsToTheObservableList(numberOfLessonsObservableList, 8, 1);
+
+        addElementsToTheObservableList(shortBreakObservableList, 25, 5);
+        addElementsToTheObservableList(lunchBreakObservableList, 70, 5);
+        addElementsToTheObservableList(lunchBreakAfterNumberOfLessonsObservableList, 5, 1);
+        addElementsToTheObservableList(durationOfLecturesObservableList, 100, 10);
+    }
 
 
     private void addElementsToTheObservableList(ObservableList<Integer> observableList, int maximum, int interval) {

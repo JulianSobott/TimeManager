@@ -25,7 +25,7 @@
             <ComboBox fx:id="comboBoxShortBreakMin" prefWidth="150.0" />
             <Label text="Länge der Mittagspause" />
             <ComboBox fx:id="comboBoxLunchBreakMin" prefWidth="150.0" />
-            <Label text="Mittagspause nach Anzahl Vorlesungen" />
+            <Label text="Mittagspause nach Vorlesungen" />
             <ComboBox fx:id="comboBoxLunchBreakAfterNumberOfLessons" prefHeight="25.0" prefWidth="158.0" />
             <Label text="Dauer einer Unterrichstunde" />
             <ComboBox fx:id="comboBoxDurationOfLectures" prefWidth="150.0" />

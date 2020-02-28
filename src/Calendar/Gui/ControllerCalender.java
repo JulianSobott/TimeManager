@@ -2,6 +2,7 @@ package Calendar.Gui;
 
 import Calendar.Gui.NewLesson.ControllerLesson;
 import Calendar.Gui.Settings.ControllerCalendarSettings;
+import Calendar.Logic.SettingsCalendar;
 import Calendar.Logic.Weekdays;
 import entryPoint.SceneLoader;
 import javafx.fxml.FXML;
@@ -49,6 +50,18 @@ public class ControllerCalender implements Initializable {
     private int lunchBreakAfterNumberOfLessons = 3;
     private long durationOfLectures = 90;
 
+
+    public ControllerCalender() {
+
+        SettingsCalendar settings = SettingsCalendar.getInstance();
+        this.numberOfDays = settings.getNumberOfDays();
+        this.numberOfLessons = settings.getNumberOfLessons();
+        this.startOfLessons = settings.getStartOfLessons();
+        this.shortBreakMin = settings.getShortBreakMin();
+        this.lunchBreakMin = settings.getLunchBreakMin();
+        this.lunchBreakAfterNumberOfLessons = settings.getLunchBreakAfterNumberOfLessons();
+        this.durationOfLectures = settings.getDurationOfLectures();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
