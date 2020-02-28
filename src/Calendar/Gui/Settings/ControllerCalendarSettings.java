@@ -80,7 +80,7 @@ public class ControllerCalendarSettings implements Initializable {
         comboBoxLunchBreakAfterNumberOfLessons.setItems(lunchBreakAfterNumberOfLessonsObservableList);
         comboBoxDurationOfLectures.setItems(durationOfLecturesObservableList);
 
-        makeFadeInTransition(0, 1, false);
+        makeFadeInTransition(0, 1);
         filComboboxWithContent();
         setSelectedSettingsInComboBoxes();
 
@@ -120,8 +120,6 @@ public class ControllerCalendarSettings implements Initializable {
      */
 
 
-    // TODO: Invervallschritte müssen in die Settings ausgelagert werden !!!
-
     private void filComboboxWithContent() {
 
         addElementsToTheObservableList(numberOfDaysObservableList, 7, 1);
@@ -149,7 +147,7 @@ public class ControllerCalendarSettings implements Initializable {
      * ################################   Window Navigation #############################################################
      */
 
-    private void makeFadeInTransition(int startValue, int targetValue, boolean exit) {
+    private void makeFadeInTransition(int startValue, int targetValue) {
 
         FadeTransition fadeTransition = new FadeTransition();
         fadeTransition.setDuration(Duration.millis(800));
@@ -163,7 +161,7 @@ public class ControllerCalendarSettings implements Initializable {
     @FXML
     private void closeWindow() {
 
-        makeFadeInTransition(1, 0, true);
+        makeFadeInTransition(1, 0);
 
     }
 
@@ -171,7 +169,7 @@ public class ControllerCalendarSettings implements Initializable {
 
         updateSettings();
         controllerCalender.updateCalendar(true);
-        makeFadeInTransition(1,0, true);
+        makeFadeInTransition(1,0);
 
     }
 

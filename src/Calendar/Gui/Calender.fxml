@@ -5,7 +5,7 @@
 
 <AnchorPane fx:id="anchorPaneCalendar" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: white;" stylesheets="@../../entryPoint/MainDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Calendar.Gui.ControllerCalender">
     <children>
-        <GridPane fx:id="gridPaneTimetable" hgap="5.0" layoutX="174.0" layoutY="208.0" vgap="5.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="100.0">
+        <GridPane fx:id="gridPaneTimetable" hgap="5.0" layoutX="174.0" layoutY="208.0" vgap="5.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="100.0">
          
         </GridPane>
       <Label fx:id="labelCourseOfStudies" layoutX="100.0" layoutY="43.0" text="IN 4" />

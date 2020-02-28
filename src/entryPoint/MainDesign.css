@@ -97,6 +97,8 @@
     -fx-border-width: 1px;
     -fx-border-radius: 15;
     -fx-background-radius: 15;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 5,0,0,2 );
+
 }
 
 .color-picker {
@@ -147,5 +149,10 @@
     -fx-background-color: white;
     -fx-background-color: lightgrey;
     -fx-border-width: 2px;
+}
+
+#SettingsEmptyLesson{
+
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 5,0,0,3 );
 
 }
