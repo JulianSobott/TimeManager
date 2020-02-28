@@ -6,7 +6,7 @@ public class SettingsCalendar {
 
 
     private int numberOfDays = 6;
-    private int numberOfLessons = 6;
+    private int numberOfLessons = 5;
 
     private LocalTime startOfLessons = LocalTime.of(8, 0);
     private long shortBreakMin = 15;

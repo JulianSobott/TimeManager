@@ -1,5 +1,6 @@
 package Calendar.Gui.Settings;
 
+import Calendar.Logic.SettingsCalendar;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,17 +45,6 @@ public class ControllerCalendarSettings implements Initializable {
     private int durationOfLectures;
 
 
-    public ControllerCalendarSettings(int numberOfDays, int numberOfLessons, int shortBreak, int lunchBreakMin,
-                                      int lunchBreakAfterNumberOfLessons, int durationOfLectures) {
-
-        this.numberOfDays = numberOfDays;
-        this.numberOfLessons = numberOfLessons;
-        this.shortBreak = shortBreak;
-        this.lunchBreakMin = lunchBreakMin;
-        this.lunchBreakAfterNumberOfLessons = lunchBreakAfterNumberOfLessons;
-        this.durationOfLectures = durationOfLectures;
-    }
-
     private ObservableList<Integer> numberOfDaysObservableList = FXCollections.observableArrayList();
     private ObservableList<Integer> numberOfLessonsObservableList = FXCollections.observableArrayList();
 
@@ -62,6 +52,19 @@ public class ControllerCalendarSettings implements Initializable {
     private ObservableList<Integer> lunchBreakObservableList = FXCollections.observableArrayList();
     private ObservableList<Integer> lunchBreakAfterNumberOfLessonsObservableList = FXCollections.observableArrayList();
     private ObservableList<Integer> durationOfLecturesObservableList = FXCollections.observableArrayList();
+
+
+    public ControllerCalendarSettings() {
+
+        SettingsCalendar settings = SettingsCalendar.getInstance();
+        this.numberOfDays = settings.getNumberOfDays();
+        this.numberOfLessons = settings.getNumberOfLessons();
+        this.shortBreak = (int) settings.getShortBreakMin();
+        this.lunchBreakMin = (int) settings.getLunchBreakMin();
+        this.lunchBreakAfterNumberOfLessons = settings.getLunchBreakAfterNumberOfLessons();
+        this.durationOfLectures = (int) settings.getDurationOfLectures();
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -76,7 +79,28 @@ public class ControllerCalendarSettings implements Initializable {
 
         makeFadeInTransition(0, 1, false);
         filComboboxWithContent();
+        setSelectedSettingsInComboBoxes();
 
+    }
+
+    /**
+     * ##################################### Settings Calendar ########################################################
+     */
+
+    private void updateSettings(){
+
+    }
+
+    // -1 ist zum umrechen bezüglich des Index
+
+
+    private void setSelectedSettingsInComboBoxes(){
+
+        SettingsCalendar settings = SettingsCalendar.getInstance();
+        comboBoxNumberOfDays.getSelectionModel().select(settings.getNumberOfDays()-1);
+        comboBoNumberOfLessons.getSelectionModel().select(settings.getNumberOfLessons()-1);
+
+        comboBoxShortBreakMin.getSelectionModel().select((int) settings.getShortBreakMin() / 5 - 1);
     }
 
 
@@ -84,6 +108,8 @@ public class ControllerCalendarSettings implements Initializable {
      * ##################################### generate Gui elements #####################################################
      */
 
+
+    // TODO: Invervallschritte müssen in die Settings ausgelagert werden !!!
 
     private void filComboboxWithContent() {
 
