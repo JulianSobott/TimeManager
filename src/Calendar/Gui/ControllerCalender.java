@@ -4,7 +4,6 @@ import Calendar.Gui.NewLesson.ControllerLesson;
 import Calendar.Gui.Settings.ControllerCalendarSettings;
 import Calendar.Logic.Weekdays;
 import entryPoint.SceneLoader;
-import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -17,14 +16,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Formatter;
 import java.util.ResourceBundle;
 
 public class ControllerCalender implements Initializable {
@@ -113,7 +107,7 @@ public class ControllerCalender implements Initializable {
         menuItemSettings.setOnAction(actionEvent -> {
 
             SceneLoader sceneLoader = SceneLoader.getInstance();
-            ControllerCalendarSettings controllerCalendarSettings = new ControllerCalendarSettings();
+            ControllerCalendarSettings controllerCalendarSettings = new ControllerCalendarSettings(this.numberOfDays, this.numberOfLessons, (int) this.durationOfLectures);
             sceneLoader.loadSettingsSceneInBoarderLessNewWindow(SceneLoader.CalendarScene.SETTINGS_CALENDAR, controllerCalendarSettings, buttonSettings);
 
         });

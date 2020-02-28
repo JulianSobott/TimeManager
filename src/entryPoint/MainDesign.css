@@ -1,7 +1,6 @@
+/* #################################################### Tabs ######################################################## */
 
-
-.tab-pane .tab:selected
-{
+.tab-pane .tab:selected {
     -fx-background-color: #1966FF;
 }
 
@@ -16,7 +15,9 @@
 }
 
 
-.menu:hover, .menu:showing{
+/* ############################################# Context Menu ####################################################### */
+
+.menu:hover, .menu:showing {
     -fx-background-color: #1966FF;
 }
 
@@ -39,7 +40,8 @@
     -fx-text-fill: white;
     -fx-background-color: #1966FF;
 }
-.menu-item .label{
+
+.menu-item .label {
     -fx-background-color: white;
 }
 
@@ -57,11 +59,12 @@
 
 }
 
+/* ################################################ Check Box ####################################################### */
 
 .check-box .box {
     -fx-background-color: white;
-    -fx-border-color:grey;
-    -fx-border-radius:3px;
+    -fx-border-color: grey;
+    -fx-border-radius: 3px;
 }
 
 .check-box:selected .mark {
@@ -73,6 +76,8 @@
 }
 
 
+/* ############################################# GUI Elements ####################################################### */
+
 .button {
 
     -fx-background-color: #0080FF;
@@ -81,7 +86,6 @@
     -fx-border-width: 1px;
     -fx-background-radius: 8px;
     -fx-border-radius: 8px;
-
 }
 
 
@@ -102,10 +106,9 @@
     -fx-border-width: 1px;
     -fx-border-radius: 8;
     -fx-background-radius: 8;
-
 }
 
-.button:hover{
+.button:hover {
 
     -fx-background-color: orange;
     -fx-text-fill: white;
@@ -119,8 +122,27 @@
     -fx-font-size: 1.1em;
 }
 
+.combo-box {
+    -fx-background-radius: 2;
+    -fx-background-color: white;
+    -fx-font-weight: bold;
+    -fx-border-radius: 2;
+    -fx-border-color: lightgrey;
+}
 
-#SettingsPane{
+.combo-box .list-cell:hover {
+    -fx-background-color: #1966FF;
+}
+
+.combo-box-popup .list-cell:selected {
+    -fx-background-color: #1966FF;
+}
+
+.combo-box-popup .list-cell:selected{
+    -fx-background-color: #1966FF;
+}
+
+#SettingsPane {
 
     -fx-background-color: white;
     -fx-background-color: lightgrey;
