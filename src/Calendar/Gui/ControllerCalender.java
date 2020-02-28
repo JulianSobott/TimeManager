@@ -107,7 +107,9 @@ public class ControllerCalender implements Initializable {
         menuItemSettings.setOnAction(actionEvent -> {
 
             SceneLoader sceneLoader = SceneLoader.getInstance();
-            ControllerCalendarSettings controllerCalendarSettings = new ControllerCalendarSettings(this.numberOfDays, this.numberOfLessons, (int) this.durationOfLectures);
+            ControllerCalendarSettings controllerCalendarSettings = new ControllerCalendarSettings
+                                                                    (this.numberOfDays, this.numberOfLessons,(int)this.shortBreakMin,(int) this.lunchBreakMin,
+                                                                       this.lunchBreakAfterNumberOfLessons,   (int) this.durationOfLectures);
             sceneLoader.loadSettingsSceneInBoarderLessNewWindow(SceneLoader.CalendarScene.SETTINGS_CALENDAR, controllerCalendarSettings, buttonSettings);
 
         });

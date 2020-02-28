@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
@@ -19,54 +18,71 @@ public class ControllerCalendarSettings implements Initializable {
     private AnchorPane anchorPaneSettings;
 
     @FXML
-    private ComboBox comboBoxNumberOfDays;
+    private ComboBox<Integer> comboBoxNumberOfDays;
 
     @FXML
-    private ComboBox comboBoNumberOfLessons;
+    private ComboBox<Integer> comboBoNumberOfLessons;
 
 
     @FXML
-    private TextField textFieldShortBreakMin;
+    private ComboBox<Integer> comboBoxShortBreakMin;
 
     @FXML
-    private TextField textFieldLunchBreakMin;
+    private ComboBox<Integer> comboBoxLunchBreakMin;
 
     @FXML
-    private ComboBox comboBoxLunchBreakAfterNumberOfLessons;
+    private ComboBox<Integer> comboBoxLunchBreakAfterNumberOfLessons;
 
     @FXML
-    private TextField textFieldDurationOfLectures;
+    private ComboBox<Integer> comboBoxDurationOfLectures;
 
     private int numberOfDays;
     private int numberOfLessons;
+    private int shortBreak;
+    private int lunchBreakMin;
+    private int lunchBreakAfterNumberOfLessons;
     private int durationOfLectures;
 
-    public ControllerCalendarSettings(int numberOfDays, int numberOfLessons, int durationOfLectures) {
+
+    public ControllerCalendarSettings(int numberOfDays, int numberOfLessons, int shortBreak, int lunchBreakMin,
+                                      int lunchBreakAfterNumberOfLessons, int durationOfLectures) {
 
         this.numberOfDays = numberOfDays;
         this.numberOfLessons = numberOfLessons;
+        this.shortBreak = shortBreak;
+        this.lunchBreakMin = lunchBreakMin;
+        this.lunchBreakAfterNumberOfLessons = lunchBreakAfterNumberOfLessons;
         this.durationOfLectures = durationOfLectures;
     }
 
     private ObservableList<Integer> numberOfDaysObservableList = FXCollections.observableArrayList();
     private ObservableList<Integer> numberOfLessonsObservableList = FXCollections.observableArrayList();
+
+    private ObservableList<Integer> shortBreakObservableList = FXCollections.observableArrayList();
+    private ObservableList<Integer> lunchBreakObservableList = FXCollections.observableArrayList();
     private ObservableList<Integer> lunchBreakAfterNumberOfLessonsObservableList = FXCollections.observableArrayList();
-
-
-
-
+    private ObservableList<Integer> durationOfLecturesObservableList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         comboBoxNumberOfDays.setItems(numberOfDaysObservableList);
         comboBoNumberOfLessons.setItems(numberOfLessonsObservableList);
+
+        comboBoxShortBreakMin.setItems(shortBreakObservableList);
+        comboBoxLunchBreakMin.setItems(lunchBreakObservableList);
         comboBoxLunchBreakAfterNumberOfLessons.setItems(lunchBreakAfterNumberOfLessonsObservableList);
+        comboBoxDurationOfLectures.setItems(durationOfLecturesObservableList);
 
         makeFadeInTransition(0, 1, false);
-        addElementsToTheObservableList(numberOfDaysObservableList, numberOfDays,1);
-        addElementsToTheObservableList(numberOfLessonsObservableList, numberOfLessons,1);
-        addElementsToTheObservableList(lunchBreakAfterNumberOfLessonsObservableList, 90, 10);
+
+        addElementsToTheObservableList(numberOfDaysObservableList, 7, 1);
+        addElementsToTheObservableList(numberOfLessonsObservableList, 8, 1);
+
+        addElementsToTheObservableList(shortBreakObservableList, 20, 2);
+        addElementsToTheObservableList(lunchBreakObservableList, 70,5);
+        addElementsToTheObservableList(lunchBreakAfterNumberOfLessonsObservableList, 5, 1);
+        addElementsToTheObservableList(durationOfLecturesObservableList, 100,10);
     }
 
 
@@ -75,19 +91,15 @@ public class ControllerCalendarSettings implements Initializable {
      */
 
 
-    private void addElementsToTheObservableList(ObservableList observableList , int maximum , int interval){
+    private void addElementsToTheObservableList(ObservableList<Integer> observableList, int maximum, int interval) {
 
-        for (int i = 0; i <= maximum ; i = i + interval) {
+        for (int i = 0; i <= maximum; i = i + interval) {
 
+            if (i == 0)
+                continue;
             observableList.add(i);
         }
-
     }
-
-
-
-
-
 
 
     /**
@@ -106,7 +118,7 @@ public class ControllerCalendarSettings implements Initializable {
 
 
     @FXML
-    private void closeWindow() throws InterruptedException {
+    private void closeWindow() {
 
         makeFadeInTransition(1, 0, true);
 
