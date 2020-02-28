@@ -14,6 +14,9 @@ public class SettingsCalendar {
     private int lunchBreakAfterNumberOfLessons = 3;
     private long durationOfLectures = 90;
 
+    private int shortBreakInterval = 10;
+    private int lunchBreakInterval = 5;
+    private int durationOfLectureInterval = 10;
 
     private static SettingsCalendar single_instance;
 
@@ -83,11 +86,27 @@ public class SettingsCalendar {
         this.durationOfLectures = durationOfLectures;
     }
 
-    public static SettingsCalendar getSingle_instance() {
-        return single_instance;
+    public int getShortBreakInterval() {
+        return shortBreakInterval;
     }
 
-    public static void setSingle_instance(SettingsCalendar single_instance) {
-        SettingsCalendar.single_instance = single_instance;
+    public void setShortBreakInterval(int shortBreakInterval) {
+        this.shortBreakInterval = shortBreakInterval;
+    }
+
+    public int getLunchBreakInterval() {
+        return lunchBreakInterval;
+    }
+
+    public void setLunchBreakInterval(int lunchBreakInterval) {
+        this.lunchBreakInterval = lunchBreakInterval;
+    }
+
+    public int getDurationOfLectureInterval() {
+        return durationOfLectureInterval;
+    }
+
+    public void setDurationOfLectureInterval(int durationOfLectureInterval) {
+        this.durationOfLectureInterval = durationOfLectureInterval;
     }
 }

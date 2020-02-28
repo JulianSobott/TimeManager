@@ -44,6 +44,7 @@ public class ControllerCalendarSettings implements Initializable {
     private int lunchBreakAfterNumberOfLessons;
     private int durationOfLectures;
 
+    private SettingsCalendar instance_Calendar = SettingsCalendar.getInstance()  ;
 
     private ObservableList<Integer> numberOfDaysObservableList = FXCollections.observableArrayList();
     private ObservableList<Integer> numberOfLessonsObservableList = FXCollections.observableArrayList();
@@ -56,13 +57,12 @@ public class ControllerCalendarSettings implements Initializable {
 
     public ControllerCalendarSettings() {
 
-        SettingsCalendar settings = SettingsCalendar.getInstance();
-        this.numberOfDays = settings.getNumberOfDays();
-        this.numberOfLessons = settings.getNumberOfLessons();
-        this.shortBreak = (int) settings.getShortBreakMin();
-        this.lunchBreakMin = (int) settings.getLunchBreakMin();
-        this.lunchBreakAfterNumberOfLessons = settings.getLunchBreakAfterNumberOfLessons();
-        this.durationOfLectures = (int) settings.getDurationOfLectures();
+        this.numberOfDays = instance_Calendar.getNumberOfDays();
+        this.numberOfLessons = instance_Calendar.getNumberOfLessons();
+        this.shortBreak = (int) instance_Calendar.getShortBreakMin();
+        this.lunchBreakMin = (int) instance_Calendar.getLunchBreakMin();
+        this.lunchBreakAfterNumberOfLessons = instance_Calendar.getLunchBreakAfterNumberOfLessons();
+        this.durationOfLectures = (int) instance_Calendar.getDurationOfLectures();
     }
 
 
@@ -91,16 +91,17 @@ public class ControllerCalendarSettings implements Initializable {
 
     }
 
-    // -1 ist zum umrechen bezüglich des Index
-
 
     private void setSelectedSettingsInComboBoxes(){
 
-        SettingsCalendar settings = SettingsCalendar.getInstance();
-        comboBoxNumberOfDays.getSelectionModel().select(settings.getNumberOfDays()-1);
-        comboBoNumberOfLessons.getSelectionModel().select(settings.getNumberOfLessons()-1);
+        comboBoxNumberOfDays.getSelectionModel().select(instance_Calendar.getNumberOfDays()-1);
+        comboBoNumberOfLessons.getSelectionModel().select(instance_Calendar.getNumberOfLessons()-1);
 
-        comboBoxShortBreakMin.getSelectionModel().select((int) settings.getShortBreakMin() / 5 - 1);
+        comboBoxShortBreakMin.getSelectionModel().select((int) instance_Calendar.getShortBreakMin() / instance_Calendar.getShortBreakInterval() - 1);
+        comboBoxLunchBreakMin.getSelectionModel().select((int) (instance_Calendar.getLunchBreakMin() / instance_Calendar.getLunchBreakInterval() - 1));
+
+        comboBoxLunchBreakAfterNumberOfLessons.getSelectionModel().select(instance_Calendar.getLunchBreakAfterNumberOfLessons());
+        comboBoxDurationOfLectures.getSelectionModel().select((int) (instance_Calendar.getDurationOfLectures() / instance_Calendar.getDurationOfLectureInterval() -1));
     }
 
 
@@ -116,10 +117,10 @@ public class ControllerCalendarSettings implements Initializable {
         addElementsToTheObservableList(numberOfDaysObservableList, 7, 1);
         addElementsToTheObservableList(numberOfLessonsObservableList, 8, 1);
 
-        addElementsToTheObservableList(shortBreakObservableList, 25, 5);
-        addElementsToTheObservableList(lunchBreakObservableList, 70, 5);
+        addElementsToTheObservableList(shortBreakObservableList, 25, instance_Calendar.getShortBreakInterval());
+        addElementsToTheObservableList(lunchBreakObservableList, 70, instance_Calendar.getLunchBreakInterval());
         addElementsToTheObservableList(lunchBreakAfterNumberOfLessonsObservableList, 5, 1);
-        addElementsToTheObservableList(durationOfLecturesObservableList, 100, 10);
+        addElementsToTheObservableList(durationOfLecturesObservableList, 100, instance_Calendar.getDurationOfLectureInterval());
     }
 
 
