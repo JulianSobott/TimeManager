@@ -14,7 +14,7 @@ public class SettingsCalendar {
     private int lunchBreakAfterNumberOfLessons = 3;
     private long durationOfLectures = 90;
 
-    private int shortBreakInterval = 10;
+    private int shortBreakInterval = 5;
     private int lunchBreakInterval = 5;
     private int durationOfLectureInterval = 10;
 

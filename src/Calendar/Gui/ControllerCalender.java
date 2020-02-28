@@ -5,6 +5,7 @@ import Calendar.Gui.Settings.ControllerCalendarSettings;
 import Calendar.Logic.SettingsCalendar;
 import Calendar.Logic.Weekdays;
 import entryPoint.SceneLoader;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -44,7 +45,7 @@ public class ControllerCalender implements Initializable {
     private int numberOfDays = 5;
     private int numberOfLessons = 6;
 
-    private LocalTime startOfLessons = LocalTime.of(8, 0);
+    private LocalTime startOfLessons;
     private long shortBreakMin = 15;
     private long lunchBreakMin = 60;
     private int lunchBreakAfterNumberOfLessons = 3;
@@ -52,6 +53,55 @@ public class ControllerCalender implements Initializable {
 
 
     public ControllerCalender() {
+
+
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        updateValuesFromSettings();
+        DateTimeFormatter f = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+        startOfLessons.format(f);
+
+        getTimeAndDate();
+        updateCalendar(false);
+    }
+
+    /**
+     * ###################### GUI Initialization #######################################################################
+     */
+
+
+    public void updateCalendar(boolean userUpdateTimetable) {
+
+        if (userUpdateTimetable)
+            deleteRowsAndColumnsFromGridPane();
+        updateValuesFromSettings();
+        generateGridPaneTimetable(gridPaneTimetable);
+        generateContextMenuSettings();
+        generateLabelsDays();
+        generateLabelTimes();
+        generateEmptyLessons();
+    }
+
+
+    private void deleteRowsAndColumnsFromGridPane() {
+
+       // gridPaneTimetable.getChildren().removeIf(node -> GridPane.getRowIndex(node) == rowNumber);
+        ObservableList list = gridPaneTimetable.getChildren();
+        gridPaneTimetable.getChildren().removeAll(list);
+
+        while (gridPaneTimetable.getRowConstraints().size() > 0) {
+            gridPaneTimetable.getRowConstraints().remove(0);
+        }
+
+        while (gridPaneTimetable.getColumnConstraints().size() > 0) {
+            gridPaneTimetable.getColumnConstraints().remove(0);
+        }
+    }
+
+    private void updateValuesFromSettings() {
 
         SettingsCalendar settings = SettingsCalendar.getInstance();
         this.numberOfDays = settings.getNumberOfDays();
@@ -61,25 +111,8 @@ public class ControllerCalender implements Initializable {
         this.lunchBreakMin = settings.getLunchBreakMin();
         this.lunchBreakAfterNumberOfLessons = settings.getLunchBreakAfterNumberOfLessons();
         this.durationOfLectures = settings.getDurationOfLectures();
+
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        DateTimeFormatter f = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
-        startOfLessons.format(f);
-
-        getTimeAndDate();
-        generateGridPaneTimetable(gridPaneTimetable);
-        generateContextMenuSettings();
-        generateLabelsDays();
-        generateLabelTimes();
-        generateEmptyLessons();
-    }
-
-    /**
-     * ###################### GUI Initialization #######################################################################
-     */
 
 
     // neuer Thread / Task der immer die Uhrzeit abfragt und updatet
@@ -96,7 +129,7 @@ public class ControllerCalender implements Initializable {
 
 
     /**
-     * ####################################### GENERATE CONTEXT MENU WITH FUNCTIONALITY ################################
+     * ###### GENERATE CONTEXT MENU WITH FUNCTIONALITY ############
      */
 
     private void generateContextMenuSettings() {
@@ -120,7 +153,7 @@ public class ControllerCalender implements Initializable {
         menuItemSettings.setOnAction(actionEvent -> {
 
             SceneLoader sceneLoader = SceneLoader.getInstance();
-            ControllerCalendarSettings controllerCalendarSettings = new ControllerCalendarSettings();
+            ControllerCalendarSettings controllerCalendarSettings = new ControllerCalendarSettings(this);
             sceneLoader.loadSettingsSceneInBoarderLessNewWindow(SceneLoader.CalendarScene.SETTINGS_CALENDAR, controllerCalendarSettings, buttonSettings);
 
         });

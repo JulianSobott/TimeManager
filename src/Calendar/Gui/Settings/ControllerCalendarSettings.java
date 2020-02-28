@@ -1,5 +1,6 @@
 package Calendar.Gui.Settings;
 
+import Calendar.Gui.ControllerCalender;
 import Calendar.Logic.SettingsCalendar;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
@@ -44,7 +45,8 @@ public class ControllerCalendarSettings implements Initializable {
     private int lunchBreakAfterNumberOfLessons;
     private int durationOfLectures;
 
-    private SettingsCalendar instance_Calendar = SettingsCalendar.getInstance()  ;
+    private SettingsCalendar instance_Calendar = SettingsCalendar.getInstance();
+    private ControllerCalender controllerCalender;
 
     private ObservableList<Integer> numberOfDaysObservableList = FXCollections.observableArrayList();
     private ObservableList<Integer> numberOfLessonsObservableList = FXCollections.observableArrayList();
@@ -55,8 +57,9 @@ public class ControllerCalendarSettings implements Initializable {
     private ObservableList<Integer> durationOfLecturesObservableList = FXCollections.observableArrayList();
 
 
-    public ControllerCalendarSettings() {
+    public ControllerCalendarSettings(ControllerCalender controllerCalender) {
 
+        this.controllerCalender = controllerCalender;
         this.numberOfDays = instance_Calendar.getNumberOfDays();
         this.numberOfLessons = instance_Calendar.getNumberOfLessons();
         this.shortBreak = (int) instance_Calendar.getShortBreakMin();
@@ -89,6 +92,13 @@ public class ControllerCalendarSettings implements Initializable {
 
     private void updateSettings(){
 
+        instance_Calendar.setNumberOfDays(comboBoxNumberOfDays.getValue());
+        instance_Calendar.setNumberOfLessons(comboBoNumberOfLessons.getValue());
+
+        instance_Calendar.setShortBreakMin(comboBoxShortBreakMin.getValue());
+        instance_Calendar.setLunchBreakMin(comboBoxLunchBreakMin.getValue());
+        instance_Calendar.setLunchBreakAfterNumberOfLessons(comboBoxLunchBreakAfterNumberOfLessons.getValue());
+        instance_Calendar.setDurationOfLectures(comboBoxDurationOfLectures.getValue());
     }
 
 
@@ -100,7 +110,7 @@ public class ControllerCalendarSettings implements Initializable {
         comboBoxShortBreakMin.getSelectionModel().select((int) instance_Calendar.getShortBreakMin() / instance_Calendar.getShortBreakInterval() - 1);
         comboBoxLunchBreakMin.getSelectionModel().select((int) (instance_Calendar.getLunchBreakMin() / instance_Calendar.getLunchBreakInterval() - 1));
 
-        comboBoxLunchBreakAfterNumberOfLessons.getSelectionModel().select(instance_Calendar.getLunchBreakAfterNumberOfLessons());
+        comboBoxLunchBreakAfterNumberOfLessons.getSelectionModel().select(instance_Calendar.getLunchBreakAfterNumberOfLessons() - 1);
         comboBoxDurationOfLectures.getSelectionModel().select((int) (instance_Calendar.getDurationOfLectures() / instance_Calendar.getDurationOfLectureInterval() -1));
     }
 
@@ -154,6 +164,14 @@ public class ControllerCalendarSettings implements Initializable {
     private void closeWindow() {
 
         makeFadeInTransition(1, 0, true);
+
+    }
+
+    @FXML void saveButtons(){
+
+        updateSettings();
+        controllerCalender.updateCalendar(true);
+        makeFadeInTransition(1,0, true);
 
     }
 
