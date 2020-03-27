@@ -126,7 +126,6 @@
 
 .table-row-cell:selected {
     -fx-background-color: orange;
-    -fx-background-insets: 0;
     -fx-background-radius: 6;
 }
 
@@ -223,5 +222,11 @@
 #SettingsEmptyLesson{
 
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 5,0,0,3 );
+}
 
+#paneSubjectColor {
+
+    -fx-background-radius: 25px;
+    -fx-max-width: 15px;
+    -fx-max-height: 15px;
 }

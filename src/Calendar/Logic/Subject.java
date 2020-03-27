@@ -1,7 +1,7 @@
 package Calendar.Logic;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
@@ -14,21 +14,23 @@ public class Subject {
     private SimpleStringProperty color;
     private SimpleStringProperty professor;
     private SimpleStringProperty subjectName;
-
+    private Pane paneSubjectColor;
 
     public Subject(String professor, String subjectName) {
 
         this.professor = new SimpleStringProperty(professor);
-        this.subjectName = new SimpleStringProperty (subjectName);
+        this.subjectName = new SimpleStringProperty(subjectName);
         this.id = idGenerator++;
     }
 
     public Subject(String color, String professor, String subjectName) {
 
-        this.color = new SimpleStringProperty (color);
-        this.professor = new SimpleStringProperty (professor);
-        this.subjectName = new SimpleStringProperty (subjectName);
-        this.id = idGenerator++;
+        this(professor, subjectName);
+        this.color = new SimpleStringProperty(color);
+        this.paneSubjectColor = new Pane();
+
+        paneSubjectColor.setId("paneSubjectColor");
+        paneSubjectColor.setStyle("-fx-background-color:" + color);
     }
 
 
@@ -44,7 +46,16 @@ public class Subject {
         this.lessons = lessons;
     }
 
+    public Pane getPaneSubjectColor() {
+        return paneSubjectColor;
+    }
+
+    public void setPaneSubjectColor(Pane paneSubjectColor) {
+        this.paneSubjectColor = paneSubjectColor;
+    }
+
     public String getColor() {
+
         return color.get();
     }
 
@@ -52,8 +63,10 @@ public class Subject {
         return color;
     }
 
+    /* set Color also updates Color of pane */
     public void setColor(String color) {
         this.color.set(color);
+        paneSubjectColor.setStyle("-fx-background-color:" + color);
     }
 
     public String getProfessor() {

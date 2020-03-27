@@ -44,9 +44,9 @@
       <Button fx:id="buttonSaveChanges" layoutX="604.0" layoutY="419.0" mnemonicParsing="false" onMouseClicked="#saveSubjectChanges" prefHeight="27.0" prefWidth="140.0" text="Änderungen speichern" />
       <TableView fx:id="tableViewSubjects" layoutX="57.0" layoutY="81.0" prefHeight="200.0" prefWidth="350.0">
         <columns>
-          <TableColumn fx:id="colColor" prefWidth="75.0" text="Farbe" />
-          <TableColumn fx:id="colSubjectName" prefWidth="146.0" text="Vorlesung" />
-            <TableColumn fx:id="colLecturer" prefWidth="128.0" text="Dozent" />
+          <TableColumn fx:id="colColor" prefWidth="54.0" text="Farbe" />
+          <TableColumn fx:id="colSubjectName" prefWidth="179.0" text="Vorlesung" />
+            <TableColumn fx:id="colLecturer" prefWidth="116.0" text="Dozent" />
         </columns>
       </TableView>
    </children>

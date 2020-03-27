@@ -2,7 +2,6 @@ package Calendar.Gui.NewLesson;
 
 import Calendar.Logic.Subject;
 import javafx.animation.FadeTransition;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -91,7 +90,6 @@ public class ControllerLesson implements Initializable {
         MotionBlur motionBlur = new MotionBlur();
         nodeTabCalendar.setEffect(motionBlur);
         makeFadeInTransition(0, 1);
-
     }
 
 
@@ -101,6 +99,8 @@ public class ControllerLesson implements Initializable {
                 new PropertyValueFactory<Subject, String>("subjectName"));
         colLecturer.setCellValueFactory(
                 new PropertyValueFactory<Subject, String>("professor"));
+        colColor.setCellValueFactory(
+                new PropertyValueFactory<Subject, String>("paneSubjectColor"));
 
     }
 
@@ -125,13 +125,11 @@ public class ControllerLesson implements Initializable {
         Subject subject = new Subject(lessonColor, textFieldProfessor.getText(), textFieldSubject.getText());
         clearFields();
         subjectObservableList.add(subject);
-
-        System.out.println(subject);
     }
 
-    private String colorToHexCode(Color color){
+    private String colorToHexCode(Color color) {
 
-        String lessonColor = "#" + color.toString().substring(2,8);
+        String lessonColor = "#" + color.toString().substring(2, 8);
         return lessonColor;
     }
 
@@ -147,12 +145,11 @@ public class ControllerLesson implements Initializable {
     @FXML
     private void editSubject() {
 
-
         this.selectedSubject = tableViewSubjects.getSelectionModel().getSelectedItem();
 
         textFieldSubject.setText(this.selectedSubject.getSubjectName());
         textFieldProfessor.setText(this.selectedSubject.getProfessor());
-         colorPickerSubjectColor.setValue(Color.web(this.selectedSubject.getColor()));
+        colorPickerSubjectColor.setValue(Color.web(this.selectedSubject.getColor()));
     }
 
 
@@ -180,7 +177,6 @@ public class ControllerLesson implements Initializable {
 
         nodeTabCalendar.setEffect(null);
         makeFadeInTransition(1, 0);
-
     }
 
     private void makeFadeInTransition(int startValue, int targetValue) {
