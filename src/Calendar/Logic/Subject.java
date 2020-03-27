@@ -23,9 +23,9 @@ public class Subject {
         this.id = idGenerator++;
     }
 
-    public Subject(Color color, String professor, String subjectName) {
+    public Subject(String color, String professor, String subjectName) {
 
-        this.color = new SimpleStringProperty (color.toString());
+        this.color = new SimpleStringProperty (color);
         this.professor = new SimpleStringProperty (professor);
         this.subjectName = new SimpleStringProperty (subjectName);
         this.id = idGenerator++;

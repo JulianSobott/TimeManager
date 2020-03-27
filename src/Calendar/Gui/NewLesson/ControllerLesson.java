@@ -2,6 +2,7 @@ package Calendar.Gui.NewLesson;
 
 import Calendar.Logic.Subject;
 import javafx.animation.FadeTransition;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -119,12 +120,21 @@ public class ControllerLesson implements Initializable {
     @FXML
     private void addNewSubject() {
 
-        Subject subject = new Subject(colorPickerSubjectColor.getValue(), textFieldProfessor.getText(), textFieldSubject.getText());
+        String lessonColor = colorToHexCode(colorPickerSubjectColor.getValue());
+
+        Subject subject = new Subject(lessonColor, textFieldProfessor.getText(), textFieldSubject.getText());
         clearFields();
         subjectObservableList.add(subject);
 
-        System.out.println(subjectObservableList);
+        System.out.println(subject);
     }
+
+    private String colorToHexCode(Color color){
+
+        String lessonColor = "#" + color.toString().substring(2,8);
+        return lessonColor;
+    }
+
 
     @FXML
     private void deleteSubject() {
@@ -137,10 +147,12 @@ public class ControllerLesson implements Initializable {
     @FXML
     private void editSubject() {
 
+
         this.selectedSubject = tableViewSubjects.getSelectionModel().getSelectedItem();
+
         textFieldSubject.setText(this.selectedSubject.getSubjectName());
         textFieldProfessor.setText(this.selectedSubject.getProfessor());
-        // colorPickerSubjectColor.setValue( new Color(subject.getColor()));
+         colorPickerSubjectColor.setValue(Color.web(this.selectedSubject.getColor()));
     }
 
 
@@ -150,8 +162,11 @@ public class ControllerLesson implements Initializable {
         if (this.selectedSubject != null) {
             this.selectedSubject.setSubjectName(textFieldSubject.getText());
             this.selectedSubject.setProfessor(textFieldProfessor.getText());
+            this.selectedSubject.setColor(colorToHexCode(colorPickerSubjectColor.getValue()));
             this.selectedSubject = null;
         }
+
+        tableViewSubjects.getSelectionModel().select(null);
         clearFields();
     }
 
