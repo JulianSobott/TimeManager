@@ -2,16 +2,16 @@ package Calendar.Gui.NewLesson;
 
 import Calendar.Logic.Subject;
 import javafx.animation.FadeTransition;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.MotionBlur;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -29,7 +29,17 @@ public class ControllerLesson implements Initializable {
     private Button buttonClose;
 
     @FXML
-    private ListView listViewSubjects;
+    private TableView<Subject> tableViewSubjects;
+
+    @FXML
+    private TableColumn colColor;
+
+    @FXML
+    private TableColumn colSubjectName;
+
+    @FXML
+    private TableColumn colLecturer;
+
 
     @FXML
     private CheckBox checkBoxTutorial;
@@ -58,13 +68,12 @@ public class ControllerLesson implements Initializable {
     @FXML
     private Button buttonDeleteSubject;
 
-    @FXML
-    private Button buttonSaveChanges;
-
 
     private Node nodeTabCalendar;
 
     private ObservableList<Subject> subjectObservableList = FXCollections.observableArrayList();
+
+    private Subject selectedSubject;
 
 
     public ControllerLesson(Node node) {
@@ -75,13 +84,22 @@ public class ControllerLesson implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-
-        listViewSubjects.setItems(subjectObservableList);
-        listViewSubjects.setCellFactory(studentListView -> new ControllerListCellLesson());
+        tableViewSubjects.setItems(subjectObservableList);
+        bindDataToTableView();
 
         MotionBlur motionBlur = new MotionBlur();
         nodeTabCalendar.setEffect(motionBlur);
-        makeFadeInTransition(0,1);
+        makeFadeInTransition(0, 1);
+
+    }
+
+
+    private void bindDataToTableView() {
+
+        colSubjectName.setCellValueFactory(
+                new PropertyValueFactory<Subject, String>("subjectName"));
+        colLecturer.setCellValueFactory(
+                new PropertyValueFactory<Subject, String>("professor"));
 
     }
 
@@ -101,53 +119,52 @@ public class ControllerLesson implements Initializable {
     @FXML
     private void addNewSubject() {
 
-        Subject subject = new Subject(colorPickerSubjectColor.getValue(), new SimpleStringProperty(textFieldProfessor.getText()), new SimpleStringProperty(textFieldSubject.getText()));
+        Subject subject = new Subject(colorPickerSubjectColor.getValue(), textFieldProfessor.getText(), textFieldSubject.getText());
         clearFields();
         subjectObservableList.add(subject);
 
+        System.out.println(subjectObservableList);
     }
 
     @FXML
     private void deleteSubject() {
 
-        Subject subject = (Subject) listViewSubjects.getSelectionModel().getSelectedItem();
-        subjectObservableList.removeAll(subject);
+        Subject subject = tableViewSubjects.getSelectionModel().getSelectedItem();
+        subjectObservableList.remove(subject);
     }
 
 
     @FXML
     private void editSubject() {
 
-        Subject subject = (Subject) listViewSubjects.getSelectionModel().getSelectedItem();
-        textFieldSubject.setText(subject.getSubjectName());
-        textFieldProfessor.setText(subject.getProfessor());
-        colorPickerSubjectColor.setValue(subject.getColor());
+        this.selectedSubject = tableViewSubjects.getSelectionModel().getSelectedItem();
+        textFieldSubject.setText(this.selectedSubject.getSubjectName());
+        textFieldProfessor.setText(this.selectedSubject.getProfessor());
+        // colorPickerSubjectColor.setValue( new Color(subject.getColor()));
     }
 
-    /*   TODO: Hier muss noch ein Listener eingebaut werden um änderungen anzeigen zu können !!!   */
 
     @FXML
     private void saveSubjectChanges() {
 
-        Subject subject = (Subject) listViewSubjects.getSelectionModel().getSelectedItem();
-        subject.setSubjectName(textFieldSubject.getText());
-        subject.setProfessor(textFieldProfessor.getText());
-        subject.setColor(colorPickerSubjectColor.getValue());
-
-        listViewSubjects.refresh();
+        if (this.selectedSubject != null) {
+            this.selectedSubject.setSubjectName(textFieldSubject.getText());
+            this.selectedSubject.setProfessor(textFieldProfessor.getText());
+            this.selectedSubject = null;
+        }
         clearFields();
     }
 
 
     /**
-     *################### Windows Navigation ###########################################################################
+     * ################### Windows Navigation ###########################################################################
      */
 
     @FXML
     private void closeSubjectWindow() {
 
         nodeTabCalendar.setEffect(null);
-        makeFadeInTransition(1,0);
+        makeFadeInTransition(1, 0);
 
     }
 

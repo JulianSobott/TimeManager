@@ -8,7 +8,6 @@
    <children>
       <Button fx:id="buttonSave" layoutX="58.0" layoutY="456.0" mnemonicParsing="false" text="Speichern" />
       <Button fx:id="buttonClose" layoutX="151.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#closeSubjectWindow" prefHeight="25.0" prefWidth="69.0" text="Abrechen" />
-      <ListView fx:id="listViewSubjects" layoutX="58.0" layoutY="81.0" prefHeight="208.0" prefWidth="342.0" />
       <Label layoutX="58.0" layoutY="52.0" text="Fach auswählen:" />
       <Separator layoutX="445.0" layoutY="35.0" orientation="VERTICAL" prefHeight="368.0" prefWidth="5.0" />
       <Label layoutX="474.0" layoutY="52.0" text="Neues Fach hinzufügen:" />
@@ -43,5 +42,12 @@
       </VBox>
       <Button layoutX="448.0" layoutY="419.0" mnemonicParsing="false" onMouseClicked="#editSubject" prefHeight="27.0" prefWidth="140.0" text="Fach bearbeiten" />
       <Button fx:id="buttonSaveChanges" layoutX="604.0" layoutY="419.0" mnemonicParsing="false" onMouseClicked="#saveSubjectChanges" prefHeight="27.0" prefWidth="140.0" text="Änderungen speichern" />
+      <TableView fx:id="tableViewSubjects" layoutX="57.0" layoutY="81.0" prefHeight="200.0" prefWidth="350.0">
+        <columns>
+          <TableColumn fx:id="colColor" prefWidth="75.0" text="Farbe" />
+          <TableColumn fx:id="colSubjectName" prefWidth="146.0" text="Vorlesung" />
+            <TableColumn fx:id="colLecturer" prefWidth="128.0" text="Dozent" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>
