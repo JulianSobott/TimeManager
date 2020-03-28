@@ -224,6 +224,12 @@
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 5,0,0,3 );
 }
 
+#SettingsLesson{
+
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 5,0,0,3 );
+    -fx-background-radius: 12px;
+}
+
 #paneSubjectColor {
 
     -fx-background-radius: 25px;

@@ -1,5 +1,6 @@
 package Calendar.Gui.NewLesson;
 
+import Calendar.Gui.GuiLesson;
 import Calendar.Logic.Subject;
 import Calendar.Logic.Timetable;
 import javafx.animation.FadeTransition;
@@ -11,6 +12,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.MotionBlur;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
@@ -70,15 +73,19 @@ public class ControllerLesson implements Initializable {
 
 
     private Node nodeTabCalendar;
+    private GridPane gridPaneTimetable;
+    private VBox vBoxEmpty;
+
     private ObservableList<Subject> subjectObservableList;
     private Subject selectedSubject;
-
     private Timetable timetable;
 
-    public ControllerLesson(Node node, Timetable timetable) {
+    public ControllerLesson(Node node, Timetable timetable, GridPane gridPane, VBox vBoxEmpty) {
 
         this.nodeTabCalendar = node;
         this.timetable = timetable;
+        this.gridPaneTimetable = gridPane;
+        this.vBoxEmpty = vBoxEmpty;
     }
 
 
@@ -184,6 +191,25 @@ public class ControllerLesson implements Initializable {
         nodeTabCalendar.setEffect(null);
         makeFadeInTransition(1, 0);
     }
+
+    @FXML
+    private void AddSubjectToTimetable() {
+
+        int row = GridPane.getRowIndex(this.vBoxEmpty);
+        int col = GridPane.getColumnIndex(this.vBoxEmpty);
+
+        Subject subject = tableViewSubjects.getSelectionModel().getSelectedItem();
+        if (subject != null && textFieldCourseLocation.getText().isEmpty() == false) {
+
+            GuiLesson guiLesson = new GuiLesson(subject.getSubjectName(), subject.getProfessor(),
+                                                    textFieldCourseLocation.getText(), subject.getColor());
+            gridPaneTimetable.getChildren().remove(vBoxEmpty);
+
+            gridPaneTimetable.add(guiLesson, col, row);
+            closeSubjectWindow();
+        }
+    }
+
 
     private void makeFadeInTransition(int startValue, int targetValue) {
 

@@ -1,42 +1,43 @@
 package Calendar.Gui;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
-public class GuiLesson extends HBox {
+public class GuiLesson extends VBox {
 
     Label subjectName;
     Label lecturer;
     Label subjectLocation;
+    String color;
 
-    public GuiLesson(Label subjectName, Label lecturer, Label subjectLocation) {
-        this.subjectName = subjectName;
-        this.lecturer = lecturer;
-        this.subjectLocation = subjectLocation;
+
+
+
+
+    public GuiLesson(String subjectName, String lecturer, String subjectLocation, String color) {
+
+        this.subjectName = new Label(subjectName);
+        this.lecturer = new Label(lecturer) ;
+        this.subjectLocation = new Label(subjectLocation);
+        this.color = color;
         this.getChildren().addAll(this.subjectName, this.lecturer, this.subjectLocation);
+
+        this.setId("SettingsLesson");
+        this.setStyle("-fx-background-color: " + this.color );
+        this.setAlignment(Pos.CENTER);
     }
 
-    public Label getSubjectName() {
-        return subjectName;
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName.setText(subjectName) ;
     }
 
-    public void setSubjectName(Label subjectName) {
-        this.subjectName = subjectName;
+    public void setLecturer(String lecturer) {
+        this.lecturer.setText(lecturer);
     }
 
-    public Label getLecturer() {
-        return lecturer;
-    }
-
-    public void setLecturer(Label lecturer) {
-        this.lecturer = lecturer;
-    }
-
-    public Label getSubjectLocation() {
-        return subjectLocation;
-    }
-
-    public void setSubjectLocation(Label subjectLocation) {
-        this.subjectLocation = subjectLocation;
+    public void setSubjectLocation(String subjectLocation) {
+        this.subjectLocation.setText(subjectLocation);
     }
 }

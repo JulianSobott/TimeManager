@@ -256,7 +256,7 @@ public class ControllerCalender implements Initializable {
 
         ContextMenu contextMenuEmptyLesson = new ContextMenu();
         MenuItem menuItemAddLesson = new MenuItem("Fach hinzufügen");
-        generateEventAddLesson(menuItemAddLesson);
+        generateEventAddLesson(menuItemAddLesson, emptyVBox);
         contextMenuEmptyLesson.getItems().addAll(menuItemAddLesson);
         emptyVBox.setOnMouseClicked
                 (mouseEvent -> contextMenuEmptyLesson.show
@@ -265,12 +265,12 @@ public class ControllerCalender implements Initializable {
     }
 
 
-    private void generateEventAddLesson(MenuItem menuItemAddLesson) {
+    private void generateEventAddLesson(MenuItem menuItemAddLesson, VBox emtyVBox) {
 
         menuItemAddLesson.setOnAction(actionEvent -> {
 
             SceneLoader sceneLoader = SceneLoader.getInstance();
-            ControllerLesson controllerLesson = new ControllerLesson(anchorPaneCalendar, this.timetable);
+            ControllerLesson controllerLesson = new ControllerLesson(anchorPaneCalendar, this.timetable, this.gridPaneTimetable, emtyVBox);
             sceneLoader.loadSceneInNewWindowWithoutButtons(SceneLoader.CalendarScene.NEW_LESSON, controllerLesson, buttonSettings, 0.2, 0.2);
 
         });
