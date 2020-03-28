@@ -5,7 +5,7 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
-public class Subject {
+public class Subject implements ISubject {
 
     private static int idGenerator = 0;
 
@@ -15,6 +15,8 @@ public class Subject {
     private SimpleStringProperty professor;
     private SimpleStringProperty subjectName;
     private Pane paneSubjectColor;
+
+    private ArrayList<Iobserver> lessonObserver = new ArrayList<>();
 
     public Subject(String professor, String subjectName) {
 
@@ -102,5 +104,26 @@ public class Subject {
                 ", professor='" + professor + '\'' +
                 ", subjectName='" + subjectName + '\'' +
                 '}';
+    }
+
+
+    @Override
+    public void notifyAllObservers() {
+
+        for (Iobserver observer : lessonObserver) {
+            observer.update();
+        }
+    }
+
+    @Override
+    public void registriesObservers(Iobserver observer) {
+
+        lessonObserver.add(observer);
+    }
+
+    @Override
+    public void deregisterObservers(Iobserver observer) {
+
+        lessonObserver.remove(observer);
     }
 }

@@ -44,17 +44,15 @@ public class Timetable implements ITimetable {
     }
 
     @Override
-    public void addLesson(Lesson lesson) {
+    public void addLesson(Lesson lesson, int row, int col) {
 
+        timetableArray[row][col] = lesson;
     }
 
     @Override
-    public void deleteLesson(Lesson lesson) {
+    public void deleteLesson(Lesson lesson, int row, int col) {
 
+        timetableArray[row][col] = null;
     }
 
-    @Override
-    public void getAllLessonsFromOneSubject(Subject subject) {
-
-    }
 }

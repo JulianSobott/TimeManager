@@ -2,6 +2,8 @@ package Calendar.Logic;
 
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
+
 public interface ITimetable {
 
 
@@ -11,10 +13,8 @@ public interface ITimetable {
 
     public ObservableList<Subject> getSubjectList();
 
-    public void addLesson(Lesson lesson);
+    public void addLesson(Lesson lesson, int row, int col);
 
-    public void deleteLesson(Lesson lesson);
-
-    public void getAllLessonsFromOneSubject(Subject subject);
+    public void deleteLesson(Lesson lesson, int row, int col);
 
 }

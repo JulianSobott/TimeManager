@@ -1,6 +1,7 @@
 package Calendar.Gui.NewLesson;
 
 import Calendar.Gui.GuiLesson;
+import Calendar.Logic.Lesson;
 import Calendar.Logic.Subject;
 import Calendar.Logic.Timetable;
 import javafx.animation.FadeTransition;
@@ -96,6 +97,7 @@ public class ControllerLesson implements Initializable {
         tableViewSubjects.setItems(this.subjectObservableList);
         bindDataToTableView();
 
+
         MotionBlur motionBlur = new MotionBlur();
         nodeTabCalendar.setEffect(motionBlur);
         makeFadeInTransition(0, 1);
@@ -173,6 +175,8 @@ public class ControllerLesson implements Initializable {
             this.selectedSubject.setSubjectName(textFieldSubject.getText());
             this.selectedSubject.setProfessor(textFieldProfessor.getText());
             this.selectedSubject.setColor(colorToHexCode(colorPickerSubjectColor.getValue()));
+
+            selectedSubject.notifyAllObservers();
             this.selectedSubject = null;
         }
 
@@ -202,10 +206,15 @@ public class ControllerLesson implements Initializable {
         if (subject != null && textFieldCourseLocation.getText().isEmpty() == false) {
 
             GuiLesson guiLesson = new GuiLesson(subject.getSubjectName(), subject.getProfessor(),
-                                                    textFieldCourseLocation.getText(), subject.getColor());
-            gridPaneTimetable.getChildren().remove(vBoxEmpty);
+                    textFieldCourseLocation.getText(), subject.getColor());
 
+            Lesson lesson = new Lesson(subject, guiLesson ,textFieldCourseLocation.getText());
+            subject.registriesObservers(lesson);
+            timetable.addLesson(lesson, row, col);
+
+            gridPaneTimetable.getChildren().remove(vBoxEmpty);
             gridPaneTimetable.add(guiLesson, col, row);
+
             closeSubjectWindow();
         }
     }
