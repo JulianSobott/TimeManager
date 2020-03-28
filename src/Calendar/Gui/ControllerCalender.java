@@ -3,6 +3,7 @@ package Calendar.Gui;
 import Calendar.Gui.NewLesson.ControllerLesson;
 import Calendar.Gui.Settings.ControllerCalendarSettings;
 import Calendar.Logic.SettingsCalendar;
+import Calendar.Logic.Timetable;
 import Calendar.Logic.Weekdays;
 import entryPoint.SceneLoader;
 import javafx.collections.ObservableList;
@@ -50,6 +51,8 @@ public class ControllerCalender implements Initializable {
     private long lunchBreakMin = 60;
     private int lunchBreakAfterNumberOfLessons = 3;
     private long durationOfLectures = 90;
+
+    private Timetable timetable = new Timetable();
 
 
     public ControllerCalender() {
@@ -267,7 +270,7 @@ public class ControllerCalender implements Initializable {
         menuItemAddLesson.setOnAction(actionEvent -> {
 
             SceneLoader sceneLoader = SceneLoader.getInstance();
-            ControllerLesson controllerLesson = new ControllerLesson(anchorPaneCalendar);
+            ControllerLesson controllerLesson = new ControllerLesson(anchorPaneCalendar, this.timetable);
             sceneLoader.loadSceneInNewWindowWithoutButtons(SceneLoader.CalendarScene.NEW_LESSON, controllerLesson, buttonSettings, 0.2, 0.2);
 
         });

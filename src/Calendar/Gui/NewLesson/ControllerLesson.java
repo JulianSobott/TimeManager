@@ -1,8 +1,8 @@
 package Calendar.Gui.NewLesson;
 
 import Calendar.Logic.Subject;
+import Calendar.Logic.Timetable;
 import javafx.animation.FadeTransition;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -70,21 +70,23 @@ public class ControllerLesson implements Initializable {
 
 
     private Node nodeTabCalendar;
-
-    private ObservableList<Subject> subjectObservableList = FXCollections.observableArrayList();
-
+    private ObservableList<Subject> subjectObservableList;
     private Subject selectedSubject;
 
+    private Timetable timetable;
 
-    public ControllerLesson(Node node) {
+    public ControllerLesson(Node node, Timetable timetable) {
 
         this.nodeTabCalendar = node;
+        this.timetable = timetable;
     }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        tableViewSubjects.setItems(subjectObservableList);
+        this.subjectObservableList = timetable.getSubjectList();
+        tableViewSubjects.setItems(this.subjectObservableList);
         bindDataToTableView();
 
         MotionBlur motionBlur = new MotionBlur();
@@ -124,7 +126,9 @@ public class ControllerLesson implements Initializable {
 
         Subject subject = new Subject(lessonColor, textFieldProfessor.getText(), textFieldSubject.getText());
         clearFields();
+
         subjectObservableList.add(subject);
+        timetable.addSubject(subject);
     }
 
     private String colorToHexCode(Color color) {
@@ -138,7 +142,9 @@ public class ControllerLesson implements Initializable {
     private void deleteSubject() {
 
         Subject subject = tableViewSubjects.getSelectionModel().getSelectedItem();
+
         subjectObservableList.remove(subject);
+        timetable.deleteSubject(subject);
     }
 
 
