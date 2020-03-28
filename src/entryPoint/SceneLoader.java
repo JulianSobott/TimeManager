@@ -1,11 +1,11 @@
 package entryPoint;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Modality;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -14,57 +14,93 @@ public class SceneLoader {
     private static SceneLoader instance;
     private Scene rootScene;
 
-    public SceneLoader() {
+    private SceneLoader() {
+
     }
 
-    public static void loadSceneInNewWindow(GameScene gameScene, Object controller, String title) {
-        instance = new SceneLoader();
-        Parent window = instance.loadFxmlFile(gameScene, controller);
+    public static SceneLoader getInstance() {
+        if (instance == null)
+            instance = new SceneLoader();
+
+        return instance;
+    }
+
+
+    public void loadSceneInNewWindow(CalendarScene calendarScene, Object controller, String title) {
+
+        Parent window = instance.loadFxmlFile(calendarScene, controller);
         Stage stage = new Stage();
         stage.setTitle(title);
         stage.setMinWidth(500);
         stage.setMinHeight(600);
-        //stage.getIcons().add(new Image(SceneLoader.class.getResourceAsStream("/images/General/window_icon.png")));
         stage.setScene(new Scene(window));
         stage.show();
         instance.rootScene = stage.getScene();
     }
 
-    public static void loadSceneInExistingWindow(GameScene gameScene, Object controller) {
-        Parent window = instance.loadFxmlFile(gameScene, controller);
+    public void loadSceneInExistingWindow(CalendarScene calendarScene, Object controller) {
+        Parent window = instance.loadFxmlFile(calendarScene, controller);
         instance.rootScene.setRoot(window);
     }
 
 
-    public static void loadSceneInExistingWindowWithoutButtons(GameScene gameScene, Object controller,
-                                                               String windowTitle) {
+    public void loadSceneInNewWindowWithoutButtons(CalendarScene calendarScene, Object controller,
+                                                   Node node, double xFactor, double yFactor) {
 
-        Parent window = instance.loadFxmlFile(gameScene, controller);
-        Stage stage = new Stage();
-        stage.setTitle(windowTitle);
-        stage.setScene(new Scene(window));
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.resizableProperty().setValue(false);
-        stage.initModality(Modality.APPLICATION_MODAL);
+        Popup popup = createStage(calendarScene, controller);
+        instance.rootScene = node.getParent().getScene();
 
-        double x = instance.rootScene.getX();
-        double y = instance.rootScene.getY();
+        double x = instance.rootScene.getWindow().getX();
+        double y = instance.rootScene.getWindow().getY();
 
         double width = instance.rootScene.getWidth();
         double height = instance.rootScene.getHeight();
 
-        stage.setX(x + (width / 2.5));
-        stage.setY(y + (height / 3));
+        popup.setX(x + (width * xFactor));
+        popup.setY(y + (height * yFactor));
 
-        stage.show();
+        popup.show(node.getScene().getWindow());
 
     }
 
 
-    private Parent loadFxmlFile(GameScene gameScene, Object controllerClass) {
+    private Popup createStage(CalendarScene calendarScene, Object controller) {
+
+        Parent window = instance.loadFxmlFile(calendarScene, controller);
+        Popup popup = new Popup();
+        popup.getContent().add(window);
+        //  popup.setScene(new Scene(window));
+   /*     popup.initStyle(StageStyle.UNDECORATED);
+        popup.resizableProperty().setValue(false);
+        popup.initModality(Modality.APPLICATION_MODAL); */
+        return popup;
+    }
+
+
+    public void loadSettingsSceneInBoarderLessNewWindow(CalendarScene calendarScene, Object controller,
+                                                        Node node) {
+
+        Popup popup = createStage(calendarScene, controller);
+        instance.rootScene = node.getParent().getScene();
+
+        double x = instance.rootScene.getWindow().getX();
+        double y = instance.rootScene.getWindow().getY();
+
+        double width = instance.rootScene.getWidth();
+        double height = instance.rootScene.getHeight();
+
+        popup.setX(x + width - 350);
+        popup.setY(y + 90);
+
+        popup.show(node.getScene().getWindow());
+
+    }
+
+
+    private Parent loadFxmlFile(CalendarScene calendarScene, Object controllerClass) {
 
         Parent window = null;
-        String filePath = "/gui/" + gameScene.fxmlPath;
+        String filePath = "/Calendar/Gui/" + calendarScene.fxmlPath;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(filePath));
             fxmlLoader.setController(controllerClass);
@@ -75,14 +111,21 @@ public class SceneLoader {
         return window;
     }
 
-    public enum GameScene {
-        GAME_OVER("GameOver/GameOver"),
-        ;
+
+    /**
+     * ################################### Header and filepath to the different Scenes #################################
+     */
+
+
+    public enum CalendarScene {
+        NEW_LESSON("NewLesson/Lesson"),
+        SETTINGS_CALENDAR("Settings/CalendarSettings");
 
         private String fxmlPath;
 
-        GameScene(String fxmlPath) {
+        CalendarScene(String fxmlPath) {
             this.fxmlPath = fxmlPath + ".fxml";
         }
     }
+
 }

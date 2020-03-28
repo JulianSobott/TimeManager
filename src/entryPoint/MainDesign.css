@@ -1,0 +1,232 @@
+/* #################################################### Tabs ######################################################## */
+
+.tab-pane .tab:selected {
+    -fx-background-color: #1966FF;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #939393;
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+
+/* ############################################# Context Menu ####################################################### */
+
+.menu:hover, .menu:showing {
+    -fx-background-color: #1966FF;
+}
+
+.context-menu {
+    -fx-background-color: white;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;
+    -fx-border-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;
+    -fx-border-color: lightgrey;
+    /*    -fx-padding: 0.666667em 0.083333em 0.666667em 0.083333em;  8 1 8 1 */
+    -fx-padding: 0.333333em 0.083333em 0.666667em 0.083333em; /* 4 1 8 1 */
+}
+
+.menu-item:focused {
+    -fx-background-color: #1966FF;
+    -fx-text-fill: #FAFAFA;
+}
+
+.menu-item:focused .label {
+    -fx-text-fill: white;
+    -fx-background-color: #1966FF;
+}
+
+.menu-item .label {
+    -fx-background-color: white;
+}
+
+
+#anchorPaneFrameless {
+
+    -fx-border-color: grey;
+    -fx-border-width: 2px;
+    -fx-background-radius: 8px;
+
+}
+
+#paneSubjectColor {
+    -fx-background-radius: 6px;
+
+}
+
+/* ################################################ Check Box ####################################################### */
+
+.check-box .box {
+    -fx-background-color: white;
+    -fx-border-color: grey;
+    -fx-border-radius: 3px;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #28a3f4;
+}
+
+/* ################################################ Check Box ####################################################### */
+
+.table-view{
+    -fx-background-color: transparent;
+}
+
+.table-view:focused{
+    -fx-background-color: transparent;
+}
+
+/* Spaltenköpfe
+    Struktur column-header-background -> column-header */
+
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(#0080FF 0%, #0080FF 100%);
+    -fx-background-radius: 6px;
+    -fx-border-width: 1px;
+    -fx-border-radius: 6px;
+    -fx-border-color: white;
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-cell{
+    -fx-text-fill: white;
+    -fx-alignment: CENTER;
+}
+
+.table-row-cell{
+    -fx-background-color: -fx-table-cell-border-color, #636363;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; /* 0 */
+    -fx-background-radius: 6px;
+}
+
+.table-row-cell:odd{
+    -fx-background-color: -fx-table-cell-border-color, #838383;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; /* 0 */
+    -fx-background-radius: 6px;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: orange;
+    -fx-background-radius: 6;
+}
+
+.table-view > .virtual-flow > .scroll-bar:vertical,
+.table-view > .virtual-flow > .scroll-bar:vertical > .track,
+.table-view > .virtual-flow > .scroll-bar:vertical > .track-background,
+.table-view > .virtual-flow > .scroll-bar:horizontal,
+.table-view > .virtual-flow > .scroll-bar:horizontal > .track,
+.table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
+    -fx-background-color: transparent;
+}
+
+.table-view > .virtual-flow > .scroll-bar > .increment-button,
+.table-view > .virtual-flow > .scroll-bar > .decrement-button {
+    -fx-opacity: 0;
+}
+
+
+/* ############################################# GUI Elements ####################################################### */
+
+.button {
+
+    -fx-background-color: #0080FF;
+    -fx-text-fill: white;
+    -fx-border-color: #0080FF;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+}
+
+
+.buttonSettings {
+
+    -fx-font-weight: bold;
+    -fx-border-color: #0080FF;
+    -fx-background-color: #0080FF;
+    -fx-border-width: 1px;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 5,0,0,2 );
+
+}
+
+.color-picker {
+    -fx-font-weight: bold;
+    -fx-border-color: lightgrey;
+    -fx-background-color: white;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.button:hover {
+
+    -fx-background-color: orange;
+    -fx-text-fill: white;
+    -fx-border-color: orange;
+}
+
+
+.label {
+    -fx-background-radius: 4;
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+}
+
+.combo-box {
+    -fx-background-radius: 2;
+    -fx-background-color: white;
+    -fx-font-weight: bold;
+    -fx-border-radius: 2;
+    -fx-border-color: lightgrey;
+}
+
+.combo-box .list-cell:hover {
+    -fx-background-color: #1966FF;
+}
+
+.combo-box-popup .list-cell:selected {
+    -fx-background-color: #1966FF;
+}
+
+.combo-box-popup .list-cell:selected{
+    -fx-background-color: #1966FF;
+}
+
+#SettingsPane {
+
+    -fx-background-color: white;
+    -fx-background-color: lightgrey;
+    -fx-border-width: 2px;
+}
+
+#SettingsEmptyLesson{
+
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 5,0,0,3 );
+}
+
+#paneSubjectColor {
+
+    -fx-background-radius: 25px;
+    -fx-max-width: 15px;
+    -fx-max-height: 15px;
+}
