@@ -1,6 +1,6 @@
 package Calendar.Logic;
 
-public interface Iobserver {
+public interface IObserver {
 
     public void update();
 }

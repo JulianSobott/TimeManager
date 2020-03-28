@@ -2,8 +2,6 @@ package Calendar.Logic;
 
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
-
 public interface ITimetable {
 
 

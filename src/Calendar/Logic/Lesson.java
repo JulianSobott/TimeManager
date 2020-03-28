@@ -2,7 +2,7 @@ package Calendar.Logic;
 
 import Calendar.Gui.GuiLesson;
 
-public class Lesson implements Iobserver{
+public class Lesson implements IObserver {
 
         private String classroom;
         private int subjectID;

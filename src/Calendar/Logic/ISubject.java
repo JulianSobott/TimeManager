@@ -4,7 +4,7 @@ public interface ISubject {
 
     public void notifyAllObservers();
 
-    public void registriesObservers(Iobserver observer);
+    public void registriesObservers(IObserver observer);
 
-    public void deregisterObservers(Iobserver observer);
+    public void deregisterObservers(IObserver observer);
 }

@@ -16,7 +16,7 @@ public class Subject implements ISubject {
     private SimpleStringProperty subjectName;
     private Pane paneSubjectColor;
 
-    private ArrayList<Iobserver> lessonObserver = new ArrayList<>();
+    private ArrayList<IObserver> lessonObserver = new ArrayList<>();
 
     public Subject(String professor, String subjectName) {
 
@@ -110,19 +110,19 @@ public class Subject implements ISubject {
     @Override
     public void notifyAllObservers() {
 
-        for (Iobserver observer : lessonObserver) {
+        for (IObserver observer : lessonObserver) {
             observer.update();
         }
     }
 
     @Override
-    public void registriesObservers(Iobserver observer) {
+    public void registriesObservers(IObserver observer) {
 
         lessonObserver.add(observer);
     }
 
     @Override
-    public void deregisterObservers(Iobserver observer) {
+    public void deregisterObservers(IObserver observer) {
 
         lessonObserver.remove(observer);
     }
