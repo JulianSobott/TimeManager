@@ -190,7 +190,7 @@ public class ControllerCalender implements Initializable {
         int dayCounter = 1;
         for (Weekdays dayName : Weekdays.values()) {
             Label labelDay = new Label(dayName.toString());
-            labelDay.setStyle("-fx-font-size: 1.4em;");
+            labelDay.setId("labelDays");
 
             gridPaneTimetable.add(labelDay, dayCounter, 0);
             GridPane.setHalignment(labelDay, javafx.geometry.HPos.CENTER);
@@ -214,7 +214,7 @@ public class ControllerCalender implements Initializable {
             else
                 time = startOfLessons.plusMinutes(durationOfLectures * (i - 1) + (shortBreakMin * lessonCounter) + lunchBreakMin) + " - " + startOfLessons.plusMinutes((shortBreakMin * lessonCounter + lunchBreakMin) + durationOfLectures + durationOfLectures * lessonCounter);
             Label labelTime = new Label(time);
-            labelTime.setStyle("-fx-font-size: 1.4em;");
+            labelTime.setId("labelTimes");
             lessonCounter++;
 
             gridPaneTimetable.add(labelTime, 0, i);

@@ -63,7 +63,7 @@
 
 .check-box{
 
-    -fx-font-size: 1.1em;
+    -fx-font-size: 1.0em;
 }
 
 .check-box .box {
@@ -77,7 +77,7 @@
 }
 
 .check-box:selected .box {
-    -fx-background-color: #28a3f4;
+    -fx-background-color: #3D00E0;
 }
 
 /* ################################################ TableView ####################################################### */
@@ -94,7 +94,7 @@
     Struktur column-header-background -> column-header */
 
 .table-view .column-header-background {
-    -fx-background-color: linear-gradient(#0080FF 0%, #0080FF 100%);
+    -fx-background-color: linear-gradient(#3D00E0 0%, #0080FF 100%);
     -fx-background-radius: 6px;
     -fx-border-width: 1px;
     -fx-border-radius: 6px;
@@ -153,9 +153,9 @@
 
 .button {
 
-    -fx-background-color: #0080FF;
+    -fx-background-color: #3D00E0;
     -fx-text-fill: white;
-    -fx-border-color: #0080FF;
+    -fx-border-color: #3D00E0;
     -fx-border-width: 1px;
     -fx-background-radius: 8px;
     -fx-border-radius: 8px;
@@ -165,8 +165,8 @@
 .buttonSettings {
 
     -fx-font-weight: bold;
-    -fx-border-color: #0080FF;
-    -fx-background-color: #0080FF;
+    -fx-border-color: #3D00E0;
+    -fx-background-color: #3D00E0;
     -fx-border-width: 1px;
     -fx-border-radius: 15;
     -fx-background-radius: 15;
@@ -194,11 +194,27 @@
 .label {
     -fx-background-radius: 4;
     -fx-font-weight: normal;
-    -fx-font-size: 1.2em;
+    -fx-font-size: 1.0em;
+}
+
+#labelDays {
+    -fx-background-color: #3D00E0;
+    -fx-padding: 5 15 5 15;
+    -fx-text-fill: white;
+    -fx-font-size: 1.4em;
+    -fx-background-radius: 20px;
+}
+
+#labelTimes {
+    -fx-background-color: #3D00E0;
+    -fx-padding: 5 15 5 15;
+    -fx-text-fill: white;
+    -fx-font-size: 1.4em;
+    -fx-background-radius: 20px;
 }
 
 .text-field{
-    -fx-font-size: 1.1em;
+    -fx-font-size: 1.0em;
 }
 
 .combo-box {
@@ -210,15 +226,15 @@
 }
 
 .combo-box .list-cell:hover {
-    -fx-background-color: #1966FF;
+    -fx-background-color: #3D00E0;
 }
 
 .combo-box-popup .list-cell:selected {
-    -fx-background-color: #1966FF;
+    -fx-background-color: #3D00E0;
 }
 
 .combo-box-popup .list-cell:selected {
-    -fx-background-color: #1966FF;
+    -fx-background-color: #3D00E0;
 }
 
 #SettingsPane {
