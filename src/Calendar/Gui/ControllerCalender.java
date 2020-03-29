@@ -91,7 +91,7 @@ public class ControllerCalender implements Initializable {
 
     private void deleteRowsAndColumnsFromGridPane() {
 
-       // gridPaneTimetable.getChildren().removeIf(node -> GridPane.getRowIndex(node) == rowNumber);
+        // gridPaneTimetable.getChildren().removeIf(node -> GridPane.getRowIndex(node) == rowNumber);
         ObservableList list = gridPaneTimetable.getChildren();
         gridPaneTimetable.getChildren().removeAll(list);
 
@@ -228,6 +228,7 @@ public class ControllerCalender implements Initializable {
      * ########## generate Empty Lessons ##########
      */
 
+
     private void generateEmptyLessons() {
 
         for (int i = 1; i <= numberOfDays; i++) {
@@ -238,6 +239,7 @@ public class ControllerCalender implements Initializable {
             }
         }
     }
+
 
     private VBox generateEmptyVBox(int day, int block) {
 
@@ -270,7 +272,8 @@ public class ControllerCalender implements Initializable {
         menuItemAddLesson.setOnAction(actionEvent -> {
 
             SceneLoader sceneLoader = SceneLoader.getInstance();
-            ControllerLesson controllerLesson = new ControllerLesson(anchorPaneCalendar, this.timetable, this.gridPaneTimetable, emtyVBox);
+            ControllerLesson controllerLesson = new ControllerLesson(this.anchorPaneCalendar, this.timetable,
+                    this.gridPaneTimetable, emtyVBox);
             sceneLoader.loadSceneInNewWindowWithoutButtons(SceneLoader.CalendarScene.NEW_LESSON, controllerLesson, buttonSettings, 0.2, 0.2);
 
         });

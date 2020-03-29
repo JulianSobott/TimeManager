@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Timetable implements ITimetable {
 
-    private int days = 7;
+    private int days = 8;
     private int lecturesPerDay = 10;
 
     ArrayList<Subject> subjects = new ArrayList<>();
@@ -26,11 +26,29 @@ public class Timetable implements ITimetable {
         subjects.add(subject);
     }
 
+
     @Override
     public void deleteSubject(Subject subject) {
 
         subjects.remove(subject);
+        deleteAllLessonsForSubject(subject);
     }
+
+
+    //  [] [] erst Zeile dann Spalte
+    private void deleteAllLessonsForSubject(Subject subject){
+
+        for (int i = 1; i < lecturesPerDay; i++) {
+            for (int j = 1; j < days; j++) {
+
+                if( timetableArray[i][j] != null && timetableArray[i][j].getSubjectID() == subject.getId()){
+
+                    timetableArray[i][j] = null ;
+                }
+            }
+        }
+    }
+
 
     @Override
     public ObservableList<Subject> getSubjectList() {
@@ -42,6 +60,7 @@ public class Timetable implements ITimetable {
         }
         return subjectObservableList;
     }
+
 
     @Override
     public void addLesson(Lesson lesson, int row, int col) {

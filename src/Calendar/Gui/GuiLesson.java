@@ -2,6 +2,7 @@ package Calendar.Gui;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 public class GuiLesson extends VBox {
@@ -11,8 +12,10 @@ public class GuiLesson extends VBox {
     Label subjectLocation;
     String color;
 
+    GridPane gridPaneCalendar;
 
-    public GuiLesson(String subjectName, String lecturer, String subjectLocation, String color) {
+
+    public GuiLesson(String subjectName, String lecturer, String subjectLocation, String color, GridPane pane) {
 
         this.subjectName = new Label(subjectName);
         this.lecturer = new Label(lecturer);
@@ -20,6 +23,7 @@ public class GuiLesson extends VBox {
         this.color = color;
         this.getChildren().addAll(this.subjectName, this.lecturer, this.subjectLocation);
 
+        this.gridPaneCalendar = pane;
         designGuiLesson();
     }
 
@@ -57,4 +61,10 @@ public class GuiLesson extends VBox {
         setColor(color);
 
     }
+
+    public void deleteGuiLesson(){
+
+        gridPaneCalendar.getChildren().remove(this);
+    }
+
 }

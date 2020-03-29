@@ -126,4 +126,13 @@ public class Subject implements ISubject {
 
         lessonObserver.remove(observer);
     }
+
+    @Override
+    public void deleteAllObject() {
+
+        for (IObserver observer : lessonObserver) {
+
+            observer.delete();
+        }
+    }
 }

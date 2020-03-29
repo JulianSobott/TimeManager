@@ -152,8 +152,11 @@ public class ControllerLesson implements Initializable {
 
         Subject subject = tableViewSubjects.getSelectionModel().getSelectedItem();
 
-        subjectObservableList.remove(subject);
-        timetable.deleteSubject(subject);
+        if (selectedSubject != null) {
+            subject.deleteAllObject();
+            subjectObservableList.remove(subject);
+            timetable.deleteSubject(subject);
+        }
     }
 
 
@@ -162,9 +165,11 @@ public class ControllerLesson implements Initializable {
 
         this.selectedSubject = tableViewSubjects.getSelectionModel().getSelectedItem();
 
-        textFieldSubject.setText(this.selectedSubject.getSubjectName());
-        textFieldProfessor.setText(this.selectedSubject.getProfessor());
-        colorPickerSubjectColor.setValue(Color.web(this.selectedSubject.getColor()));
+        if (selectedSubject != null) {
+            textFieldSubject.setText(this.selectedSubject.getSubjectName());
+            textFieldProfessor.setText(this.selectedSubject.getProfessor());
+            colorPickerSubjectColor.setValue(Color.web(this.selectedSubject.getColor()));
+        }
     }
 
 
@@ -206,9 +211,10 @@ public class ControllerLesson implements Initializable {
         if (subject != null && textFieldCourseLocation.getText().isEmpty() == false) {
 
             GuiLesson guiLesson = new GuiLesson(subject.getSubjectName(), subject.getProfessor(),
-                    textFieldCourseLocation.getText(), subject.getColor());
+                    textFieldCourseLocation.getText(), subject.getColor(),
+                    this.gridPaneTimetable);
 
-            Lesson lesson = new Lesson(subject, guiLesson ,textFieldCourseLocation.getText());
+            Lesson lesson = new Lesson(subject, guiLesson, textFieldCourseLocation.getText(), gridPaneTimetable);
             subject.registriesObservers(lesson);
             timetable.addLesson(lesson, row, col);
 
