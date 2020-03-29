@@ -9,11 +9,14 @@
       <Button fx:id="buttonSave" layoutX="58.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#AddSubjectToTimetable" text="Speichern" />
       <Button fx:id="buttonClose" layoutX="151.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#closeSubjectWindow" prefHeight="25.0" prefWidth="69.0" text="Abrechen" />
       <Label layoutX="58.0" layoutY="52.0" text="Fach auswählen:" />
-      <Separator layoutX="445.0" layoutY="35.0" orientation="VERTICAL" prefHeight="368.0" prefWidth="5.0" />
+      <Separator layoutX="428.0" layoutY="36.0" orientation="VERTICAL" prefHeight="368.0" prefWidth="5.0" />
       <Label layoutX="474.0" layoutY="52.0" text="Neues Fach hinzufügen:" />
       <VBox layoutX="474.0" layoutY="104.0" prefHeight="242.0" prefWidth="246.0" spacing="10.0">
          <children>
-            <Label text="Dozent / Lehrkraft" />
+            <Label text="Dozent / Lehrkraft">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin></Label>
             <TextField fx:id="textFieldProfessor" />
             <Label text="Unterrichtsfach" />
             <TextField fx:id="textFieldSubject" />
@@ -25,7 +28,7 @@
             </ColorPicker>
          </children>
       </VBox>
-      <VBox layoutX="55.0" layoutY="381.0" prefHeight="51.0" prefWidth="148.0" spacing="7.0">
+      <VBox layoutX="55.0" layoutY="381.0" prefHeight="51.0" prefWidth="179.0" spacing="7.0">
          <children>
             <CheckBox fx:id="checkBoxDoubleHour" mnemonicParsing="false" text="Doppelstunde" />
             <CheckBox fx:id="checkBoxInterval" mnemonicParsing="false" text="2 wöchiges Intervall" />
@@ -35,7 +38,7 @@
       <Button fx:id="buttonDeleteSubject" layoutX="604.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#deleteSubject" prefHeight="27.0" prefWidth="140.0" text="Fach löschen" />
       <Label layoutX="57.0" layoutY="304.0" text="Gebäude- / Raumbezeichnung" />
       <TextField fx:id="textFieldCourseLocation" layoutX="57.0" layoutY="329.0" prefHeight="25.0" prefWidth="246.0" />
-      <VBox layoutX="229.0" layoutY="381.0" prefHeight="51.0" prefWidth="98.0">
+      <VBox layoutX="266.0" layoutY="378.0" prefHeight="51.0" prefWidth="149.0">
          <children>
             <CheckBox fx:id="checkBoxTutorial" mnemonicParsing="false" text="Tutorium" />
          </children>

@@ -159,13 +159,13 @@ public class ControllerLesson implements Initializable {
         ArrayList<Position> positionArrayList;
 
         if (subject != null) {
-             positionArrayList = subject.deleteAllObject();
+            positionArrayList = subject.deleteAllObject();
             subjectObservableList.remove(subject);
             timetable.deleteSubject(subject);
 
             for (Position p : positionArrayList) {
 
-               VBox vBox = controllerCalender.generateEmptyVBox(p.getCol(), p.getRow());
+                VBox vBox = controllerCalender.generateEmptyVBox(p.getCol(), p.getRow());
                 gridPaneTimetable.add(vBox, p.getCol(), p.getRow());
             }
         }
@@ -222,9 +222,8 @@ public class ControllerLesson implements Initializable {
         Subject subject = tableViewSubjects.getSelectionModel().getSelectedItem();
         if (subject != null && textFieldCourseLocation.getText().isEmpty() == false) {
 
-            GuiLesson guiLesson = new GuiLesson(subject.getSubjectName(), subject.getProfessor(),
-                    textFieldCourseLocation.getText(), subject.getColor(),
-                    this.gridPaneTimetable);
+            GuiLesson guiLesson = new GuiLesson(subject, textFieldCourseLocation.getText(),
+                    this.gridPaneTimetable, this.controllerCalender, this.timetable);
 
             Lesson lesson = new Lesson(subject, guiLesson, textFieldCourseLocation.getText(), gridPaneTimetable);
             subject.registriesObservers(lesson);

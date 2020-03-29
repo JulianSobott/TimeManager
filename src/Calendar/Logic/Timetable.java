@@ -69,7 +69,7 @@ public class Timetable implements ITimetable {
     }
 
     @Override
-    public void deleteLesson(Lesson lesson, int row, int col) {
+    public void deleteLesson(int row, int col) {
 
         timetableArray[row][col] = null;
     }

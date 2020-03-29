@@ -91,7 +91,6 @@ public class ControllerCalender implements Initializable {
 
     private void deleteRowsAndColumnsFromGridPane() {
 
-        // gridPaneTimetable.getChildren().removeIf(node -> GridPane.getRowIndex(node) == rowNumber);
         ObservableList list = gridPaneTimetable.getChildren();
         gridPaneTimetable.getChildren().removeAll(list);
 
@@ -191,6 +190,7 @@ public class ControllerCalender implements Initializable {
         int dayCounter = 1;
         for (Weekdays dayName : Weekdays.values()) {
             Label labelDay = new Label(dayName.toString());
+            labelDay.setStyle("-fx-font-size: 1.4em;");
 
             gridPaneTimetable.add(labelDay, dayCounter, 0);
             GridPane.setHalignment(labelDay, javafx.geometry.HPos.CENTER);
@@ -214,6 +214,7 @@ public class ControllerCalender implements Initializable {
             else
                 time = startOfLessons.plusMinutes(durationOfLectures * (i - 1) + (shortBreakMin * lessonCounter) + lunchBreakMin) + " - " + startOfLessons.plusMinutes((shortBreakMin * lessonCounter + lunchBreakMin) + durationOfLectures + durationOfLectures * lessonCounter);
             Label labelTime = new Label(time);
+            labelTime.setStyle("-fx-font-size: 1.4em;");
             lessonCounter++;
 
             gridPaneTimetable.add(labelTime, 0, i);
@@ -267,13 +268,13 @@ public class ControllerCalender implements Initializable {
     }
 
 
-    private void generateEventAddLesson(MenuItem menuItemAddLesson, VBox emtyVBox) {
+    private void generateEventAddLesson(MenuItem menuItemAddLesson, VBox emptyVBox) {
 
         menuItemAddLesson.setOnAction(actionEvent -> {
 
             SceneLoader sceneLoader = SceneLoader.getInstance();
             ControllerLesson controllerLesson = new ControllerLesson(this.anchorPaneCalendar, this.timetable,
-                    this.gridPaneTimetable, emtyVBox, this);
+                    this.gridPaneTimetable, emptyVBox, this);
             sceneLoader.loadSceneInNewWindowWithoutButtons(SceneLoader.CalendarScene.NEW_LESSON, controllerLesson, buttonSettings, 0.2, 0.2);
 
         });

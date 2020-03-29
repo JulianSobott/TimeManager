@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -8,8 +9,18 @@
         <GridPane fx:id="gridPaneTimetable" hgap="5.0" layoutX="174.0" layoutY="208.0" vgap="5.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
          
         </GridPane>
-      <Label fx:id="labelCourseOfStudies" layoutX="100.0" layoutY="43.0" text="IN 4" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="30.0" />
-      <Label fx:id="labelCurrentTimeAndDate" layoutX="100.0" layoutY="60.0" text="24.02.2020 10:50" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0" />
-      <Button fx:id="buttonSettings" layoutX="721.0" layoutY="49.0" mnemonicParsing="false" styleClass="buttonSettings" text="..." AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="40.0" />
+      <VBox layoutX="45.0" layoutY="75.0" style="-fx-background-color: lightgrey; -fx-background-radius: 12px;" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="30.0">
+         <children>
+            <Label fx:id="labelCourseOfStudies" text="Software Engineering" />
+            <Label fx:id="labelCurrentTimeAndDate" text="24.02.2020 10:50" />
+         </children>
+         <opaqueInsets>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+      <Button fx:id="buttonSettings" layoutX="721.0" layoutY="49.0" mnemonicParsing="false" styleClass="buttonSettings" text="..." AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0" />
     </children>
 </AnchorPane>

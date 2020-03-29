@@ -13,6 +13,6 @@ public interface ITimetable {
 
     public void addLesson(Lesson lesson, int row, int col);
 
-    public void deleteLesson(Lesson lesson, int row, int col);
+    public void deleteLesson(int row, int col);
 
 }
