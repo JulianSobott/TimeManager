@@ -4,6 +4,6 @@ public interface IObserver {
 
     public void update();
 
-    public void delete();
+    public Position delete();
 
 }

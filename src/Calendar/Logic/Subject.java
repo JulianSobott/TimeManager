@@ -128,11 +128,14 @@ public class Subject implements ISubject {
     }
 
     @Override
-    public void deleteAllObject() {
+    public ArrayList<Position> deleteAllObject() {
+
+        ArrayList<Position> position = new ArrayList<>();
 
         for (IObserver observer : lessonObserver) {
 
-            observer.delete();
+            position.add(observer.delete());
         }
+        return position;
     }
 }

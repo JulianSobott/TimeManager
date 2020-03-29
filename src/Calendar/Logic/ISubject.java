@@ -1,5 +1,7 @@
 package Calendar.Logic;
 
+import java.util.ArrayList;
+
 public interface ISubject {
 
     public void notifyAllObservers();
@@ -8,5 +10,5 @@ public interface ISubject {
 
     public void deregisterObservers(IObserver observer);
 
-    public void deleteAllObject();
+    public ArrayList<Position> deleteAllObject();
 }

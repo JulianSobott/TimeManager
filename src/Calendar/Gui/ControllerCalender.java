@@ -241,7 +241,7 @@ public class ControllerCalender implements Initializable {
     }
 
 
-    private VBox generateEmptyVBox(int day, int block) {
+    public VBox generateEmptyVBox(int day, int block) {
 
         VBox vBoxLessonBasicLayout = new VBox();
         vBoxLessonBasicLayout.setId("SettingsEmptyLesson");
@@ -273,7 +273,7 @@ public class ControllerCalender implements Initializable {
 
             SceneLoader sceneLoader = SceneLoader.getInstance();
             ControllerLesson controllerLesson = new ControllerLesson(this.anchorPaneCalendar, this.timetable,
-                    this.gridPaneTimetable, emtyVBox);
+                    this.gridPaneTimetable, emtyVBox, this);
             sceneLoader.loadSceneInNewWindowWithoutButtons(SceneLoader.CalendarScene.NEW_LESSON, controllerLesson, buttonSettings, 0.2, 0.2);
 
         });

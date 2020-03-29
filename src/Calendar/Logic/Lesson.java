@@ -49,8 +49,9 @@ public class Lesson implements IObserver {
         }
 
         @Override
-        public void delete() {
+        public Position delete() {
 
-            guiLesson.deleteGuiLesson();
+           Position position =  guiLesson.deleteGuiLesson();
+                return position;
         }
 }

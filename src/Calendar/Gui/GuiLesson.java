@@ -1,5 +1,6 @@
 package Calendar.Gui;
 
+import Calendar.Logic.Position;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -62,9 +63,12 @@ public class GuiLesson extends VBox {
 
     }
 
-    public void deleteGuiLesson(){
+    public Position deleteGuiLesson(){
 
+        Position position = new Position(GridPane.getRowIndex(this), GridPane.getColumnIndex(this));
         gridPaneCalendar.getChildren().remove(this);
+        return position;
+
     }
 
 }

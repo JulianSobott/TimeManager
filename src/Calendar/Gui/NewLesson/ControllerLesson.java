@@ -1,7 +1,9 @@
 package Calendar.Gui.NewLesson;
 
+import Calendar.Gui.ControllerCalender;
 import Calendar.Gui.GuiLesson;
 import Calendar.Logic.Lesson;
+import Calendar.Logic.Position;
 import Calendar.Logic.Subject;
 import Calendar.Logic.Timetable;
 import javafx.animation.FadeTransition;
@@ -19,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ControllerLesson implements Initializable {
@@ -80,13 +83,15 @@ public class ControllerLesson implements Initializable {
     private ObservableList<Subject> subjectObservableList;
     private Subject selectedSubject;
     private Timetable timetable;
+    private ControllerCalender controllerCalender;
 
-    public ControllerLesson(Node node, Timetable timetable, GridPane gridPane, VBox vBoxEmpty) {
+    public ControllerLesson(Node node, Timetable timetable, GridPane gridPane, VBox vBoxEmpty, ControllerCalender calender) {
 
         this.nodeTabCalendar = node;
         this.timetable = timetable;
         this.gridPaneTimetable = gridPane;
         this.vBoxEmpty = vBoxEmpty;
+        this.controllerCalender = calender;
     }
 
 
@@ -151,11 +156,18 @@ public class ControllerLesson implements Initializable {
     private void deleteSubject() {
 
         Subject subject = tableViewSubjects.getSelectionModel().getSelectedItem();
+        ArrayList<Position> positionArrayList;
 
-        if (selectedSubject != null) {
-            subject.deleteAllObject();
+        if (subject != null) {
+             positionArrayList = subject.deleteAllObject();
             subjectObservableList.remove(subject);
             timetable.deleteSubject(subject);
+
+            for (Position p : positionArrayList) {
+
+               VBox vBox = controllerCalender.generateEmptyVBox(p.getCol(), p.getRow());
+                gridPaneTimetable.add(vBox, p.getCol(), p.getRow());
+            }
         }
     }
 
