@@ -248,7 +248,7 @@ public class ControllerCalender implements Initializable {
         vBoxLessonBasicLayout.setId("SettingsEmptyLesson");
         generateContextMenuEmptyLesson(vBoxLessonBasicLayout);
         vBoxLessonBasicLayout.setOpacity(0.95);
-        vBoxLessonBasicLayout.setBackground(new Background(new BackgroundFill(Color.rgb(day * 10, block * 15, 130),
+        vBoxLessonBasicLayout.setBackground(new Background(new BackgroundFill(Color.rgb(135, block * 15, day *10),
                 new CornerRadii(13),
                 new Insets(0.0, 0.0, 0.0, 0.0))));
 

@@ -235,7 +235,7 @@
 }
 
 #labelTimes {
-    -fx-background-color: linear-gradient(#3D00E0 0%, #0080FF 100%);
+    -fx-background-color: linear-gradient(#f47100 0%, #ff9e22 100%);
     -fx-padding: 5 15 5 15;
     -fx-text-fill: white;
     -fx-font-size: 1.4em;
@@ -296,4 +296,10 @@
     -fx-background-radius: 25px;
     -fx-max-width: 15px;
     -fx-max-height: 15px;
+}
+
+#MainInformationTimeTable{
+
+    -fx-background-radius: 12px;
+    -fx-background-color: #757575;
 }
