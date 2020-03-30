@@ -22,7 +22,7 @@
 }
 
 .context-menu {
-    -fx-background-color: white;
+    -fx-background-color: #9E9E9E;
     -fx-background-insets: 0, 1, 2;
     -fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;
     -fx-border-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;
@@ -42,15 +42,18 @@
 }
 
 .menu-item .label {
-    -fx-background-color: white;
+    -fx-background-color: #9E9E9E;
+    -fx-padding: 2 2 2 2;
 }
 
 
 #anchorPaneFrameless {
 
-    -fx-border-color: grey;
+    -fx-background-color: grey;
+    -fx-border-color: darkgrey;
     -fx-border-width: 2px;
-    -fx-background-radius: 8px;
+    -fx-border-radius: 14px;
+    -fx-background-radius: 14px;
 
 }
 
@@ -64,11 +67,15 @@
 .check-box{
 
     -fx-font-size: 1.0em;
+    -fx-text-fill: white;
+    -fx-background-color: #616161;
+    -fx-background-radius: 6px;
+    -fx-padding: 6 6 6 6;
 }
 
 .check-box .box {
     -fx-background-color: white;
-    -fx-border-color: grey;
+    -fx-border-color: white;
     -fx-border-radius: 3px;
 }
 
@@ -151,6 +158,21 @@
 
 /* ############################################# GUI Elements ####################################################### */
 
+
+.separator
+{
+    -fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 60% , #9BB6CC, white);
+    -fx-background-radius: 2;
+    -fx-padding:1;
+}
+
+.separator .line
+{
+    -fx-border-style: solid;
+    -fx-border-width: 0px;
+}
+
+
 .button {
 
     -fx-background-color: linear-gradient(#3D00E0 0%, #0080FF 100%);
@@ -176,11 +198,13 @@
 
 .color-picker {
     -fx-font-weight: bold;
-    -fx-border-color: lightgrey;
-    -fx-background-color: white;
-    -fx-border-width: 1px;
-    -fx-border-radius: 8;
+    -fx-background-color: #9E9E9E;
     -fx-background-radius: 8;
+}
+
+.color-picker .label {
+
+    -fx-background-color: #9E9E9E;
 }
 
 .button:hover {
@@ -195,6 +219,10 @@
     -fx-background-radius: 4;
     -fx-font-weight: normal;
     -fx-font-size: 1.0em;
+    -fx-text-fill: white;
+    -fx-background-color: #616161;
+    -fx-padding: 5 10 5 10;
+    -fx-background-radius: 12px;
 }
 
 #labelDays {
@@ -203,6 +231,7 @@
     -fx-text-fill: white;
     -fx-font-size: 1.4em;
     -fx-background-radius: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 5, 0, 0, 3);
 }
 
 #labelTimes {
@@ -211,18 +240,22 @@
     -fx-text-fill: white;
     -fx-font-size: 1.4em;
     -fx-background-radius: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 5, 0, 0, 3);
 }
 
 .text-field{
     -fx-font-size: 1.0em;
+    -fx-background-radius: 4px;
+    -fx-text-fill: white;
+    -fx-background-color: #9E9E9E;
+    -fx-font-weight: bold;
 }
 
 .combo-box {
-    -fx-background-radius: 2;
-    -fx-background-color: white;
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+    -fx-background-color: #9E9E9E;
     -fx-font-weight: bold;
-    -fx-border-radius: 2;
-    -fx-border-color: lightgrey;
 }
 
 .combo-box .list-cell:hover {
@@ -239,10 +272,13 @@
 
 #SettingsPane {
 
-    -fx-border-color: grey;
+    -fx-border-color: darkgrey;
     -fx-border-width: 2px;
-    -fx-background-color: white;
+    -fx-background-color: grey;
+    -fx-border-radius: 14px;
+    -fx-background-radius: 14px;
 }
+
 
 #SettingsEmptyLesson {
 
