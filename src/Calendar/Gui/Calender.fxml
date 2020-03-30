@@ -2,15 +2,17 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="anchorPaneCalendar" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: white;" stylesheets="@../../entryPoint/MainDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Calendar.Gui.ControllerCalender">
+<AnchorPane fx:id="anchorPaneCalendar" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: grey;" stylesheets="@../../entryPoint/MainDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Calendar.Gui.ControllerCalender">
     <children>
         <GridPane fx:id="gridPaneTimetable" hgap="5.0" layoutX="174.0" layoutY="208.0" vgap="5.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
-         
+
         </GridPane>
-      <VBox layoutX="45.0" layoutY="75.0" style="-fx-background-color: lightgrey; -fx-background-radius: 12px;" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="30.0">
+      <VBox alignment="BOTTOM_CENTER" layoutX="20.0" layoutY="20.0" prefHeight="111.0" prefWidth="153.0" spacing="5.0" style="-fx-background-color: lightgrey; -fx-background-radius: 12px;" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>
+            <ImageView fitHeight="48.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true" />
             <Label fx:id="labelCourseOfStudies" text="Software Engineering" />
             <Label fx:id="labelCurrentTimeAndDate" text="24.02.2020 10:50" />
          </children>
