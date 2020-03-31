@@ -10,15 +10,19 @@
         <GridPane fx:id="gridPaneTimetable" hgap="5.0" layoutX="174.0" layoutY="208.0" vgap="5.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
 
         </GridPane>
-      <VBox id="MainInformationTimeTable" alignment="BOTTOM_CENTER" layoutX="20.0" layoutY="20.0" prefHeight="126.0" prefWidth="168.0" spacing="4.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+      <VBox id="MainInformationTimeTable" alignment="BOTTOM_CENTER" layoutX="20.0" layoutY="20.0" prefHeight="101.0" prefWidth="168.0" spacing="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>
-            <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../Icons/icons8-zeitplan-64.png" />
-               </image>
-            </ImageView>
+            <HBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Icons/icons8-zeitplan-64.png" />
+                     </image>
+                  </ImageView>
+                  <Label style="-fx-font-weight: bold;" text="IN 4" />
+               </children>
+            </HBox>
             <Label fx:id="labelCourseOfStudies" style="-fx-font-weight: bold;" text="Software Engineering" />
-            <Label fx:id="labelCurrentTimeAndDate" style="-fx-font-weight: bold;" text="24.02.2020 10:50" />
          </children>
          <opaqueInsets>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

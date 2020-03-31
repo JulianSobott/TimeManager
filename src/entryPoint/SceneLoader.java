@@ -47,7 +47,7 @@ public class SceneLoader {
     public void loadSceneInNewWindowWithoutButtons(CalendarScene calendarScene, Object controller,
                                                    Node node, double xFactor, double yFactor) {
 
-        Popup popup = createStage(calendarScene, controller);
+        Popup popup = createPopup(calendarScene, controller);
         instance.rootScene = node.getParent().getScene();
 
         double x = instance.rootScene.getWindow().getX();
@@ -64,15 +64,11 @@ public class SceneLoader {
     }
 
 
-    private Popup createStage(CalendarScene calendarScene, Object controller) {
+    private Popup createPopup(CalendarScene calendarScene, Object controller) {
 
         Parent window = instance.loadFxmlFile(calendarScene, controller);
         Popup popup = new Popup();
         popup.getContent().add(window);
-        //  popup.setScene(new Scene(window));
-   /*     popup.initStyle(StageStyle.UNDECORATED);
-        popup.resizableProperty().setValue(false);
-        popup.initModality(Modality.APPLICATION_MODAL); */
         return popup;
     }
 
@@ -80,7 +76,7 @@ public class SceneLoader {
     public void loadSettingsSceneInBoarderLessNewWindow(CalendarScene calendarScene, Object controller,
                                                         Node node) {
 
-        Popup popup = createStage(calendarScene, controller);
+        Popup popup = createPopup(calendarScene, controller);
         instance.rootScene = node.getParent().getScene();
 
         double x = instance.rootScene.getWindow().getX();

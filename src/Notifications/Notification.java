@@ -17,7 +17,6 @@ public class Notification {
 
     Popup popup;
     private String text = "";
-    private Stage stage;
     private Label lblHeader;
     private Label lblContent;
     private ImageView notificationIconView;
@@ -28,14 +27,14 @@ public class Notification {
     private long autoHideMillis;
     private boolean autoHide = false;
 
-    private Notification(Stage stage) {
-        this.stage = stage;
+    private Notification() {
+
         this.popup = new Popup();
         this.notificationLevel = NotificationLevel.NONE;
 
         Pane root = new HBox();
         root.setId("root");
-        stage.getScene().getStylesheets().add("/styles/notifications.css");
+
         // left side
         leftSide = new VBox();
         leftSide.setId("leftSide");
@@ -69,9 +68,8 @@ public class Notification {
         popup.getContent().add(root);
     }
 
-    public static Notification create(Node node) {
-        Stage stage = (Stage) node.getScene().getWindow();
-        return new Notification(stage);
+    public static Notification create() {
+        return new Notification();
     }
 
     public Notification header(String text) {
@@ -96,18 +94,18 @@ public class Notification {
         return this;
     }
 
-    public void show() {
+    public void show(Node node) {
         // Level
         if (this.notificationLevel != NotificationLevel.NONE) {
-            Image image = new Image("/images/icons/" + notificationLevel.imageName);
-            notificationIconView.setImage(image);
+           // Image image = new Image("/images/icons/" + notificationLevel.imageName);
+           // notificationIconView.setImage(image);
         }
         rightSide.setStyle("-fx-background-color: " +
                 Color.web(notificationLevel.color).brighter().toString().replace("0x", "#"));
         leftSide.setStyle("-fx-background-color: " +
                 Color.web(notificationLevel.color).darker().toString().replace("0x", "#"));
 
-        popup.show(this.stage);
+        popup.show(node.getScene().getWindow());
         if (autoHide) {
             Task<Void> hider = new Task<Void>() {
                 @Override

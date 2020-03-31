@@ -6,6 +6,7 @@ import Calendar.Logic.Lesson;
 import Calendar.Logic.Position;
 import Calendar.Logic.Subject;
 import Calendar.Logic.Timetable;
+import Notifications.Notification;
 import javafx.animation.FadeTransition;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -257,6 +258,9 @@ public class ControllerLesson implements Initializable {
             gridPaneTimetable.add(guiLesson, position.getCol(), position.getRow());
 
             closeSubjectWindow();
+        }
+        else{
+
         }
     }
 

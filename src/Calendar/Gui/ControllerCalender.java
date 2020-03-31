@@ -5,6 +5,7 @@ import Calendar.Gui.Settings.ControllerCalendarSettings;
 import Calendar.Logic.SettingsCalendar;
 import Calendar.Logic.Timetable;
 import Calendar.Logic.Weekdays;
+import Notifications.Notification;
 import entryPoint.SceneLoader;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -220,8 +221,6 @@ public class ControllerCalender implements Initializable {
             gridPaneTimetable.add(labelTime, 0, i);
             GridPane.setHalignment(labelTime, javafx.geometry.HPos.CENTER);
         }
-
-
     }
 
 
