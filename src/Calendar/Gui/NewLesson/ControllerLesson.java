@@ -102,7 +102,6 @@ public class ControllerLesson implements Initializable {
         tableViewSubjects.setItems(this.subjectObservableList);
         bindDataToTableView();
 
-
         MotionBlur motionBlur = new MotionBlur();
         nodeTabCalendar.setEffect(motionBlur);
         makeFadeInTransition(0, 1);
@@ -118,6 +117,32 @@ public class ControllerLesson implements Initializable {
         colColor.setCellValueFactory(
                 new PropertyValueFactory<Subject, String>("paneSubjectColor"));
 
+    }
+
+    public void setData() {
+
+        Position position = getPosition(this.vBoxLesson);
+        Lesson lesson = timetable.getLesson(position.getRow(), position.getCol());
+        Subject subject = timetable.getSubject(lesson);
+
+        textFieldCourseLocation.setText(lesson.getClassroom());
+        int index = 0;
+        for (Subject s : subjectObservableList){
+
+           if (subject.getId() == s.getId())
+               break;
+           index++;
+        }
+
+        tableViewSubjects.getSelectionModel().select(index);
+        editSubject();
+    }
+
+
+    private Position getPosition(VBox vBox) {
+
+        Position position = new Position(GridPane.getRowIndex(vBox), GridPane.getColumnIndex(this.vBoxLesson));
+        return position;
     }
 
 
@@ -216,8 +241,7 @@ public class ControllerLesson implements Initializable {
     @FXML
     private void AddSubjectToTimetable() {
 
-        int row = GridPane.getRowIndex(this.vBoxLesson);
-        int col = GridPane.getColumnIndex(this.vBoxLesson);
+        Position position = getPosition(this.vBoxLesson);
 
         Subject subject = tableViewSubjects.getSelectionModel().getSelectedItem();
         if (subject != null && textFieldCourseLocation.getText().isEmpty() == false) {
@@ -227,18 +251,13 @@ public class ControllerLesson implements Initializable {
 
             Lesson lesson = new Lesson(subject, guiLesson, textFieldCourseLocation.getText(), gridPaneTimetable);
             subject.registriesObservers(lesson);
-            timetable.addLesson(lesson, row, col);
+            timetable.addLesson(lesson, position.getRow(), position.getCol());
 
             gridPaneTimetable.getChildren().remove(vBoxLesson);
-            gridPaneTimetable.add(guiLesson, col, row);
+            gridPaneTimetable.add(guiLesson, position.getCol(), position.getRow());
 
             closeSubjectWindow();
         }
-    }
-
-    private void updateLesson(){
-
-
     }
 
 

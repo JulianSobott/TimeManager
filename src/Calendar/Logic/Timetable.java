@@ -26,6 +26,18 @@ public class Timetable implements ITimetable {
         subjects.add(subject);
     }
 
+    @Override
+    public Subject getSubject(Lesson lesson) {
+
+        Subject subject = null ;
+        for (Subject s: subjects) {
+
+            if(s.getId() == lesson.getSubjectID())
+                subject = s;
+        }
+        return subject;
+    }
+
 
     @Override
     public void deleteSubject(Subject subject) {
@@ -66,6 +78,12 @@ public class Timetable implements ITimetable {
     public void addLesson(Lesson lesson, int row, int col) {
 
         timetableArray[row][col] = lesson;
+    }
+
+    @Override
+    public Lesson getLesson(int row, int col) {
+
+        return timetableArray[row][col];
     }
 
     @Override

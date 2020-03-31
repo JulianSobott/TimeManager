@@ -119,6 +119,7 @@ public class GuiLesson extends VBox {
             SceneLoader sceneLoader = SceneLoader.getInstance();
             ControllerLesson controllerLesson = new ControllerLesson(gridPaneCalendar, this.timetable, this.gridPaneCalendar, this, controllerCalender);
             sceneLoader.loadSceneInNewWindowWithoutButtons(SceneLoader.CalendarScene.NEW_LESSON, controllerLesson, this, 0.2, 0.2);
+            controllerLesson.setData();
         });
     }
 

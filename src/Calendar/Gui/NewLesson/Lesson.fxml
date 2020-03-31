@@ -6,11 +6,11 @@
 
 <AnchorPane id="anchorPaneFrameless" fx:id="anchorPaneLesson" prefHeight="522.0" prefWidth="781.0" stylesheets="@../../../entryPoint/MainDesign.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="buttonSave" layoutX="58.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#AddSubjectToTimetable" text="Speichern" />
-      <Button fx:id="buttonClose" layoutX="151.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#closeSubjectWindow" prefHeight="25.0" prefWidth="69.0" text="Abrechen" />
-      <Label layoutX="58.0" layoutY="46.0" text="Fach auswählen:" />
-      <Separator layoutX="439.0" layoutY="53.0" orientation="VERTICAL" prefHeight="267.0" prefWidth="0.0" />
-      <Label layoutX="474.0" layoutY="52.0" text="Neues Fach hinzufügen:" />
+      <Button fx:id="buttonSave" layoutX="58.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#AddSubjectToTimetable" prefHeight="27.0" prefWidth="84.0" text="erstellen" />
+      <Button fx:id="buttonClose" layoutX="152.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#closeSubjectWindow" prefHeight="27.0" prefWidth="84.0" text="Abrechen" />
+      <Label layoutX="58.0" layoutY="46.0" style="-fx-font-weight: bold;" text="Unterrichstunde erstellen" />
+      <Separator layoutX="439.0" layoutY="53.0" orientation="VERTICAL" prefHeight="447.0" prefWidth="0.0" AnchorPane.bottomAnchor="35.0" AnchorPane.topAnchor="35.0" />
+      <Label layoutX="468.0" layoutY="46.0" style="-fx-font-weight: bold;" text="Neues Fach hinzufügen" />
       <VBox layoutX="468.0" layoutY="104.0" prefHeight="242.0" prefWidth="246.0" spacing="10.0">
          <children>
             <Label text="Dozent / Lehrkraft">
@@ -34,7 +34,7 @@
             <CheckBox fx:id="checkBoxInterval" mnemonicParsing="false" text="2 wöchiges Intervall" />
          </children>
       </VBox>
-      <Button fx:id="buttonAddSubject" layoutX="467.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#addNewSubject" text="neues Fach hinzufügen" />
+      <Button fx:id="buttonAddSubject" layoutX="467.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#addNewSubject" prefHeight="27.0" prefWidth="140.0" text="Fach erstellen" />
       <Button fx:id="buttonDeleteSubject" layoutX="618.0" layoutY="381.0" mnemonicParsing="false" onMouseClicked="#deleteSubject" prefHeight="27.0" prefWidth="140.0" text="Fach löschen" />
       <Label layoutX="57.0" layoutY="295.0" text="Gebäude- / Raumbezeichnung" />
       <TextField fx:id="textFieldCourseLocation" layoutX="57.0" layoutY="332.0" prefHeight="25.0" prefWidth="246.0" />
