@@ -44,6 +44,7 @@
 .menu-item .label {
     -fx-background-color: #9E9E9E;
     -fx-padding: 2 2 2 2;
+    -fx-font-weight: bold;
 }
 
 
@@ -197,14 +198,16 @@
 }
 
 .color-picker {
-    -fx-font-weight: bold;
     -fx-background-color: #9E9E9E;
     -fx-background-radius: 8;
 }
 
 .color-picker .label {
-
+    -fx-font-weight: bold;
     -fx-background-color: #9E9E9E;
+}
+.color-picker.box{
+    -fx-background-color: red;
 }
 
 .button:hover {
@@ -256,6 +259,11 @@
     -fx-background-radius: 6;
     -fx-background-color: #9E9E9E;
     -fx-font-weight: bold;
+}
+
+.combo-box .list-cell{
+    -fx-background-color: #9E9E9E;
+    -fx-text-fill: white;
 }
 
 .combo-box .list-cell:hover {

@@ -146,7 +146,7 @@ public class ControllerCalender implements Initializable {
 
         contextMenuCalendar.getItems().addAll(menuItemSettings, menuItemSave, menuItemDelete, menuItemLoad, menuItemCreate);
         buttonSettings.setOnMouseClicked(event ->
-                contextMenuCalendar.show(buttonSettings, Side.BOTTOM, -30, 5));
+                contextMenuCalendar.show(buttonSettings, Side.BOTTOM, -40, 5));
     }
 
 
@@ -263,7 +263,7 @@ public class ControllerCalender implements Initializable {
         contextMenuEmptyLesson.getItems().addAll(menuItemAddLesson);
         emptyVBox.setOnMouseClicked
                 (mouseEvent -> contextMenuEmptyLesson.show
-                        (emptyVBox, Side.BOTTOM, -emptyVBox.getHeight() / 2, -emptyVBox.getHeight() / 2));
+                        (emptyVBox, Side.BOTTOM, -emptyVBox.getHeight() * 0.35, -emptyVBox.getHeight() / 2));
 
     }
 

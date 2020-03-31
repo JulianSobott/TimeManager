@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -11,7 +12,10 @@
       <Label layoutX="124.0" layoutY="33.0" style="-fx-font-weight: bold;" text="Einstellungen" />
       <VBox alignment="CENTER" layoutX="44.0" layoutY="120.0" prefHeight="109.0" prefWidth="247.0" spacing="10.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0">
          <children>
-            <Label text="Anzahl Wochentage" />
+            <Label text="Anzahl Wochentage">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin></Label>
             <ComboBox fx:id="comboBoxNumberOfDays" prefWidth="150.0" />
             <Label text="Anzahl Unterichtsstunden" />
             <ComboBox fx:id="comboBoNumberOfLessons" prefWidth="150.0" />

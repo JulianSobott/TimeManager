@@ -78,19 +78,19 @@ public class ControllerLesson implements Initializable {
 
     private Node nodeTabCalendar;
     private GridPane gridPaneTimetable;
-    private VBox vBoxEmpty;
+    private VBox vBoxLesson;
 
     private ObservableList<Subject> subjectObservableList;
     private Subject selectedSubject;
     private Timetable timetable;
     private ControllerCalender controllerCalender;
 
-    public ControllerLesson(Node node, Timetable timetable, GridPane gridPane, VBox vBoxEmpty, ControllerCalender calender) {
+    public ControllerLesson(Node node, Timetable timetable, GridPane gridPane, VBox vBoxLesson, ControllerCalender calender) {
 
         this.nodeTabCalendar = node;
         this.timetable = timetable;
         this.gridPaneTimetable = gridPane;
-        this.vBoxEmpty = vBoxEmpty;
+        this.vBoxLesson = vBoxLesson;
         this.controllerCalender = calender;
     }
 
@@ -216,8 +216,8 @@ public class ControllerLesson implements Initializable {
     @FXML
     private void AddSubjectToTimetable() {
 
-        int row = GridPane.getRowIndex(this.vBoxEmpty);
-        int col = GridPane.getColumnIndex(this.vBoxEmpty);
+        int row = GridPane.getRowIndex(this.vBoxLesson);
+        int col = GridPane.getColumnIndex(this.vBoxLesson);
 
         Subject subject = tableViewSubjects.getSelectionModel().getSelectedItem();
         if (subject != null && textFieldCourseLocation.getText().isEmpty() == false) {
@@ -229,11 +229,16 @@ public class ControllerLesson implements Initializable {
             subject.registriesObservers(lesson);
             timetable.addLesson(lesson, row, col);
 
-            gridPaneTimetable.getChildren().remove(vBoxEmpty);
+            gridPaneTimetable.getChildren().remove(vBoxLesson);
             gridPaneTimetable.add(guiLesson, col, row);
 
             closeSubjectWindow();
         }
+    }
+
+    private void updateLesson(){
+
+
     }
 
 

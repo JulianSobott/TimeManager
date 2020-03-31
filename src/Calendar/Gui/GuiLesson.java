@@ -1,8 +1,10 @@
 package Calendar.Gui;
 
+import Calendar.Gui.NewLesson.ControllerLesson;
 import Calendar.Logic.Position;
 import Calendar.Logic.Subject;
 import Calendar.Logic.Timetable;
+import entryPoint.SceneLoader;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
@@ -39,15 +41,22 @@ public class GuiLesson extends VBox {
     private void designGuiLesson() {
 
         this.setId("SettingsLesson");
-        this.setStyle("-fx-background-color: " + this.color);
+        this.subjectName.setWrapText(true);
         this.setAlignment(Pos.CENTER);
 
-        subjectName.setStyle("-fx-font-size: 1.5em;");
-
-
+        updateDesign();
         generateContextMenu();
     }
 
+    private void updateDesign() {
+
+        this.setStyle("-fx-background-color: " + this.color);
+        subjectName.setStyle("-fx-font-size: 1.5em; -fx-padding: 5 5 5 5; " +
+                "-fx-background-color:" + this.color);
+
+        lecturer.setStyle("-fx-padding: 5 5 5 5; -fx-background-color:" + this.color);
+        subjectLocation.setStyle("-fx-padding: 5 5 5 5; -fx-background-color: " + this.color);
+    }
 
     public void setSubjectName(String subjectName) {
         this.subjectName.setText(subjectName);
@@ -64,7 +73,7 @@ public class GuiLesson extends VBox {
     public void setColor(String color) {
 
         this.color = color;
-        this.setStyle("-fx-background-color: " + this.color);
+        updateDesign();
 
     }
 
@@ -88,15 +97,32 @@ public class GuiLesson extends VBox {
     private void generateContextMenu() {
 
         ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem menuItemEditSubject = new MenuItem("Bearbeiten");
+        generateEditLesson(menuItemEditSubject);
         MenuItem menuItemDelete = new MenuItem("Löschen");
         generateDeleteLessonEvent(menuItemDelete);
 
-        contextMenu.getItems().addAll(menuItemDelete);
+        contextMenu.getItems().addAll(menuItemEditSubject ,menuItemDelete);
         this.setOnMouseClicked(mouseEvent -> {
 
-            contextMenu.show(this, Side.BOTTOM, -this.getHeight() / 2, -this.getHeight() / 2);
+            contextMenu.show(this, Side.BOTTOM, -this.getHeight() *0.20, -this.getHeight() / 2);
         });
     }
+
+
+
+    private void generateEditLesson(MenuItem menuItem){
+
+        menuItem.setOnAction(actionEvent -> {
+
+            SceneLoader sceneLoader = SceneLoader.getInstance();
+            ControllerLesson controllerLesson = new ControllerLesson(gridPaneCalendar, this.timetable, this.gridPaneCalendar, this, controllerCalender);
+            sceneLoader.loadSceneInNewWindowWithoutButtons(SceneLoader.CalendarScene.NEW_LESSON, controllerLesson, this, 0.2, 0.2);
+        });
+    }
+
+
 
     private void generateDeleteLessonEvent(MenuItem menuItem) {
 
@@ -108,7 +134,7 @@ public class GuiLesson extends VBox {
             timetable.deleteLesson(position.getRow(), position.getCol());
 
             VBox vBox = controllerCalender.generateEmptyVBox(position.getCol(), position.getRow());
-            gridPaneCalendar.add( vBox ,position.getCol(), position.getRow());
+            gridPaneCalendar.add(vBox, position.getCol(), position.getRow());
 
         });
     }
