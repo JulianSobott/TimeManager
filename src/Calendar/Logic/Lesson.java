@@ -10,10 +10,9 @@ public class Lesson implements IObserver {
 
         private final ISubject iSubject;
         private GuiLesson guiLesson;
-        private GridPane gridPaneCalendar;
 
 
-        public Lesson(ISubject iSubject , GuiLesson guiLesson , String classroom, GridPane gridPane) {
+        public Lesson(ISubject iSubject , GuiLesson guiLesson , String classroom) {
 
                 Subject subject = (Subject)iSubject;
 
@@ -21,7 +20,6 @@ public class Lesson implements IObserver {
                 this.subjectID = subject.getId();
                 this.iSubject = iSubject;
                 this.guiLesson = guiLesson;
-                this.gridPaneCalendar = gridPane;
         }
 
         public String getClassroom() {

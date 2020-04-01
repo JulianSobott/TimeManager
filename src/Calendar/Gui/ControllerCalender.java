@@ -5,7 +5,6 @@ import Calendar.Gui.Settings.ControllerCalendarSettings;
 import Calendar.Logic.SettingsCalendar;
 import Calendar.Logic.Timetable;
 import Calendar.Logic.Weekdays;
-import Notifications.Notification;
 import entryPoint.SceneLoader;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -205,7 +204,7 @@ public class ControllerCalender implements Initializable {
         int lessonCounter = 0;
         for (int i = 1; i <= numberOfLessons; i++) {
 
-            String time = "";
+            String time;
             if (i == 1)
                 time = startOfLessons.plusMinutes(durationOfLectures * (i - 1)) + " - " + startOfLessons.plusMinutes(durationOfLectures + durationOfLectures * lessonCounter);
             else if (i > 1 && i <= lunchBreakAfterNumberOfLessons)

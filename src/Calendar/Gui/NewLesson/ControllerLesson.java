@@ -134,6 +134,8 @@ public class ControllerLesson implements Initializable {
         Subject subject = timetable.getSubject(lesson);
 
         textFieldCourseLocation.setText(lesson.getClassroom());
+        textFieldCourseLocation.hidePopup();
+
         int index = 0;
         for (Subject s : subjectObservableList){
 
@@ -149,8 +151,7 @@ public class ControllerLesson implements Initializable {
 
     private Position getPosition(VBox vBox) {
 
-        Position position = new Position(GridPane.getRowIndex(vBox), GridPane.getColumnIndex(this.vBoxLesson));
-        return position;
+        return new Position(GridPane.getRowIndex(vBox), GridPane.getColumnIndex(this.vBoxLesson));
     }
 
 
@@ -180,8 +181,7 @@ public class ControllerLesson implements Initializable {
 
     private String colorToHexCode(Color color) {
 
-        String lessonColor = "#" + color.toString().substring(2, 8);
-        return lessonColor;
+        return "#" + color.toString().substring(2, 8);
     }
 
 
@@ -252,12 +252,12 @@ public class ControllerLesson implements Initializable {
         Position position = getPosition(this.vBoxLesson);
 
         Subject subject = tableViewSubjects.getSelectionModel().getSelectedItem();
-        if (subject != null && textFieldCourseLocation.getText().isEmpty() == false) {
+        if (subject != null && !textFieldCourseLocation.getText().isEmpty()) {
 
             GuiLesson guiLesson = new GuiLesson(subject, textFieldCourseLocation.getText(),
                     this.gridPaneTimetable, this.controllerCalender, this.timetable);
 
-            Lesson lesson = new Lesson(subject, guiLesson, textFieldCourseLocation.getText(), gridPaneTimetable);
+            Lesson lesson = new Lesson(subject, guiLesson, textFieldCourseLocation.getText() );
             subject.registriesObservers(lesson);
             timetable.addLesson(lesson, position.getRow(), position.getCol());
 
