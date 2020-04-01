@@ -291,6 +291,7 @@
 #SettingsEmptyLesson {
 
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 5, 0, 0, 3);
+    -fx-opacity: 0.95;
 }
 
 #SettingsLesson {

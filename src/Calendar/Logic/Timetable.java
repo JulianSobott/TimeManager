@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Timetable implements ITimetable {
 
@@ -29,10 +30,10 @@ public class Timetable implements ITimetable {
     @Override
     public Subject getSubject(Lesson lesson) {
 
-        Subject subject = null ;
-        for (Subject s: subjects) {
+        Subject subject = null;
+        for (Subject s : subjects) {
 
-            if(s.getId() == lesson.getSubjectID())
+            if (s.getId() == lesson.getSubjectID())
                 subject = s;
         }
         return subject;
@@ -48,14 +49,14 @@ public class Timetable implements ITimetable {
 
 
     //  [] [] erst Zeile dann Spalte
-    private void deleteAllLessonsForSubject(Subject subject){
+    private void deleteAllLessonsForSubject(Subject subject) {
 
         for (int i = 1; i < lecturesPerDay; i++) {
             for (int j = 1; j < days; j++) {
 
-                if( timetableArray[i][j] != null && timetableArray[i][j].getSubjectID() == subject.getId()){
+                if (timetableArray[i][j] != null && timetableArray[i][j].getSubjectID() == subject.getId()) {
 
-                    timetableArray[i][j] = null ;
+                    timetableArray[i][j] = null;
                 }
             }
         }
@@ -90,6 +91,24 @@ public class Timetable implements ITimetable {
     public void deleteLesson(int row, int col) {
 
         timetableArray[row][col] = null;
+    }
+
+    @Override
+    public List<String> getLocationList() {
+
+        ArrayList<String> locationList = new ArrayList<>();
+
+        for (int i = 0; i < lecturesPerDay; i++) {
+            for (int j = 0; j < days; j++) {
+
+                if (timetableArray[i][j] != null && (!locationList.contains(timetableArray[i][j].getClassroom()))) {
+
+                    locationList.add(timetableArray[i][j].getClassroom());
+                }
+            }
+        }
+
+        return locationList;
     }
 
 }

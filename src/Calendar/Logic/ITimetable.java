@@ -2,6 +2,8 @@ package Calendar.Logic;
 
 import javafx.collections.ObservableList;
 
+import java.util.List;
+
 public interface ITimetable {
 
 
@@ -18,5 +20,7 @@ public interface ITimetable {
     public Lesson getLesson(int row, int col);
 
     public void deleteLesson(int row, int col);
+
+    public List<String> getLocationList();
 
 }

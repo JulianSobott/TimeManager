@@ -6,6 +6,7 @@ import Calendar.Logic.Lesson;
 import Calendar.Logic.Position;
 import Calendar.Logic.Subject;
 import Calendar.Logic.Timetable;
+import GuiElements.AutoCompleteTextField;
 import Notifications.Notification;
 import javafx.animation.FadeTransition;
 import javafx.collections.ObservableList;
@@ -23,6 +24,8 @@ import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControllerLesson implements Initializable {
@@ -65,7 +68,7 @@ public class ControllerLesson implements Initializable {
     private TextField textFieldSubject;
 
     @FXML
-    private TextField textFieldCourseLocation;
+    private AutoCompleteTextField textFieldCourseLocation;
 
     @FXML
     private ColorPicker colorPickerSubjectColor;
@@ -102,6 +105,7 @@ public class ControllerLesson implements Initializable {
         this.subjectObservableList = timetable.getSubjectList();
         tableViewSubjects.setItems(this.subjectObservableList);
         bindDataToTableView();
+        textFieldCourseLocation.getEntries().addAll( timetable.getLocationList() );
 
         MotionBlur motionBlur = new MotionBlur();
         nodeTabCalendar.setEffect(motionBlur);
@@ -119,6 +123,9 @@ public class ControllerLesson implements Initializable {
                 new PropertyValueFactory<Subject, String>("paneSubjectColor"));
 
     }
+
+
+
 
     public void setData() {
 
