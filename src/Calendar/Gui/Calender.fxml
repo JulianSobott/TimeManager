@@ -19,7 +19,7 @@
                         <Image url="@../../Icons/icons8-zeitplan-64.png" />
                      </image>
                   </ImageView>
-                  <Label style="-fx-font-weight: bold;" text="IN 4" />
+                  <Label fx:id="labelCurrentSemester" style="-fx-font-weight: bold;" text="IN 4" />
                </children>
             </HBox>
             <Label fx:id="labelCourseOfStudies" style="-fx-font-weight: bold;" text="Software Engineering" />

@@ -4,6 +4,8 @@ import java.time.LocalTime;
 
 public class SettingsCalendar {
 
+    private int currentSemester = 4;
+    private String semesterName = "Software Engeneering";
 
     private int numberOfDays = 6;
     private int numberOfLessons = 5;
@@ -21,14 +23,28 @@ public class SettingsCalendar {
     private static SettingsCalendar single_instance;
 
 
-    public static SettingsCalendar getInstance()
-    {
+    public static SettingsCalendar getInstance() {
         if (single_instance == null)
             single_instance = new SettingsCalendar();
 
         return single_instance;
     }
 
+    public int getCurrentSemester() {
+        return currentSemester;
+    }
+
+    public void setCurrentSemester(int currentSemester) {
+        this.currentSemester = currentSemester;
+    }
+
+    public String getSemesterName() {
+        return semesterName;
+    }
+
+    public void setSemesterName(String semesterName) {
+        this.semesterName = semesterName;
+    }
 
     public int getNumberOfDays() {
         return numberOfDays;

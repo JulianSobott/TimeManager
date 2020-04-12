@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
@@ -18,6 +19,12 @@ public class ControllerCalendarSettings implements Initializable {
 
     @FXML
     private AnchorPane anchorPaneSettings;
+
+    @FXML
+    private ComboBox<Integer> comboBoxCurrentSemester;
+
+    @FXML
+    private TextField textFieldSemesterName;
 
     @FXML
     private ComboBox<Integer> comboBoxNumberOfDays;
@@ -38,6 +45,9 @@ public class ControllerCalendarSettings implements Initializable {
     @FXML
     private ComboBox<Integer> comboBoxDurationOfLectures;
 
+    private int currentSemester;
+    private String semesterName;
+
     private int numberOfDays;
     private int numberOfLessons;
     private int shortBreak;
@@ -47,6 +57,8 @@ public class ControllerCalendarSettings implements Initializable {
 
     private SettingsCalendar instance_Calendar = SettingsCalendar.getInstance();
     private ControllerCalender controllerCalender;
+
+    private ObservableList<Integer> numberOfSemestersObservableList = FXCollections.observableArrayList();
 
     private ObservableList<Integer> numberOfDaysObservableList = FXCollections.observableArrayList();
     private ObservableList<Integer> numberOfLessonsObservableList = FXCollections.observableArrayList();
@@ -72,6 +84,8 @@ public class ControllerCalendarSettings implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        comboBoxCurrentSemester.setItems(numberOfSemestersObservableList);
+
         comboBoxNumberOfDays.setItems(numberOfDaysObservableList);
         comboBoNumberOfLessons.setItems(numberOfLessonsObservableList);
 
@@ -92,6 +106,9 @@ public class ControllerCalendarSettings implements Initializable {
 
     private void updateSettings(){
 
+        instance_Calendar.setCurrentSemester(comboBoxCurrentSemester.getValue());
+        instance_Calendar.setSemesterName(textFieldSemesterName.getText());
+
         instance_Calendar.setNumberOfDays(comboBoxNumberOfDays.getValue());
         instance_Calendar.setNumberOfLessons(comboBoNumberOfLessons.getValue());
 
@@ -103,6 +120,10 @@ public class ControllerCalendarSettings implements Initializable {
 
 
     private void setSelectedSettingsInComboBoxes(){
+
+        comboBoxCurrentSemester.getSelectionModel().select(instance_Calendar.getCurrentSemester() -1);
+
+        textFieldSemesterName.setText(instance_Calendar.getSemesterName());
 
         comboBoxNumberOfDays.getSelectionModel().select(instance_Calendar.getNumberOfDays()-1);
         comboBoNumberOfLessons.getSelectionModel().select(instance_Calendar.getNumberOfLessons()-1);
@@ -121,6 +142,8 @@ public class ControllerCalendarSettings implements Initializable {
 
 
     private void filComboboxWithContent() {
+
+        addElementsToTheObservableList(numberOfSemestersObservableList, 12, 1);
 
         addElementsToTheObservableList(numberOfDaysObservableList, 7, 1);
         addElementsToTheObservableList(numberOfLessonsObservableList, 8, 1);

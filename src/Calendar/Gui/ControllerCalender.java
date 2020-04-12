@@ -31,6 +31,9 @@ public class ControllerCalender implements Initializable {
     private AnchorPane anchorPaneCalendar;
 
     @FXML
+    private Label labelCurrentSemester;
+
+    @FXML
     private Label labelCourseOfStudies;
 
     @FXML
@@ -108,6 +111,10 @@ public class ControllerCalender implements Initializable {
     private void updateValuesFromSettings() {
 
         SettingsCalendar settings = SettingsCalendar.getInstance();
+
+        labelCurrentSemester.setText("IN  " + settings.getCurrentSemester());
+        labelCourseOfStudies.setText(settings.getSemesterName());
+
         this.numberOfDays = settings.getNumberOfDays();
         this.numberOfLessons = settings.getNumberOfLessons();
         this.startOfLessons = settings.getStartOfLessons();
