@@ -43,6 +43,7 @@ public class ControllerCalender implements Initializable {
     private GridPane gridPaneTimetable;
 
     private double cellPercentageWidth;
+    private double cellPercentageHeight;
 
     private int numberOfDays = 5;
     private int numberOfLessons = 6;
@@ -167,6 +168,7 @@ public class ControllerCalender implements Initializable {
     private void generateGridPaneTimetable(GridPane gridPane) {
 
         cellPercentageWidth = 100 / numberOfDays;
+        cellPercentageHeight = 100 / numberOfLessons;
 
         for (int i = 0; i <= numberOfDays; i++) {
             ColumnConstraints col = new ColumnConstraints();
@@ -176,7 +178,7 @@ public class ControllerCalender implements Initializable {
 
         for (int i = 0; i <= numberOfLessons; i++) {
             RowConstraints row = new RowConstraints();
-            row.setPercentHeight(cellPercentageWidth);
+            row.setPercentHeight(cellPercentageHeight);
             gridPane.getRowConstraints().add(row);
         }
     }
