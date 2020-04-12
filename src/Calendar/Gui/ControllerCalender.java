@@ -143,10 +143,10 @@ public class ControllerCalender implements Initializable {
         generateEventSettings(menuItemSettings);
         MenuItem menuItemSave = new MenuItem("Speichern");
         MenuItem menuItemDelete = new MenuItem("Löschen");
-        MenuItem menuItemLoad = new MenuItem("Laden");
-        MenuItem menuItemCreate = new MenuItem("Erstellen");
+        MenuItem menuItemImport = new MenuItem("Importieren");
+        MenuItem menuItemExport = new MenuItem("Exportieren");
 
-        contextMenuCalendar.getItems().addAll(menuItemSettings, menuItemSave, menuItemDelete, menuItemLoad, menuItemCreate);
+        contextMenuCalendar.getItems().addAll(menuItemSettings, menuItemSave, menuItemDelete, menuItemImport, menuItemExport);
         buttonSettings.setOnMouseClicked(event ->
                 contextMenuCalendar.show(buttonSettings, Side.BOTTOM, -40, 5));
     }
