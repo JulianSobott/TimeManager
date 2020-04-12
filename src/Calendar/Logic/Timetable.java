@@ -2,6 +2,7 @@ package Calendar.Logic;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +13,8 @@ public class Timetable implements ITimetable {
     private int lecturesPerDay = 10;
 
     ArrayList<Subject> subjects = new ArrayList<>();
-    Lesson[][] timetableArray = new Lesson[lecturesPerDay][days];
-
+    Lesson[][] timetableArray = new Lesson [lecturesPerDay][days];
+    VBox[][] emptyLessons = new VBox [lecturesPerDay][days];
 
     public Timetable() {
 
@@ -111,4 +112,12 @@ public class Timetable implements ITimetable {
         return locationList;
     }
 
+
+    public VBox getEmptyLesson(Position position) {
+        return emptyLessons[position.getRow()] [position.getCol()];
+    }
+
+    public void setEmptyLesson(Position position, VBox emptyLesson) {
+        this.emptyLessons[position.getRow()] [position.getCol()] = emptyLesson;
+    }
 }

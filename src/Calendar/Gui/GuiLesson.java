@@ -24,6 +24,7 @@ public class GuiLesson extends VBox {
     ControllerCalender controllerCalender;
     Timetable timetable;
 
+
     public GuiLesson(Subject subject, String subjectLocation, GridPane pane, ControllerCalender calender, Timetable timetable) {
 
         this.subjectName = new Label(subject.getSubjectName());
@@ -41,7 +42,6 @@ public class GuiLesson extends VBox {
     private void designGuiLesson() {
 
         this.setId("SettingsLesson");
-        this.subjectName.setWrapText(true);
         this.setAlignment(Pos.CENTER);
 
         updateDesign();

@@ -2,6 +2,7 @@ package Calendar.Gui;
 
 import Calendar.Gui.NewLesson.ControllerLesson;
 import Calendar.Gui.Settings.ControllerCalendarSettings;
+import Calendar.Logic.Position;
 import Calendar.Logic.SettingsCalendar;
 import Calendar.Logic.Timetable;
 import Calendar.Logic.Weekdays;
@@ -243,6 +244,8 @@ public class ControllerCalender implements Initializable {
     public VBox generateEmptyVBox(int day, int block) {
 
         VBox vBoxLessonBasicLayout = new VBox();
+        timetable.setEmptyLesson(new Position(block, day), vBoxLessonBasicLayout);
+
         vBoxLessonBasicLayout.setId("SettingsEmptyLesson");
         generateContextMenuEmptyLesson(vBoxLessonBasicLayout);
         vBoxLessonBasicLayout.setBackground(new Background(new BackgroundFill(Color.rgb(135, block * 15, day *10),

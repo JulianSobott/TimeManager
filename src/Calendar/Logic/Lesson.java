@@ -1,12 +1,11 @@
 package Calendar.Logic;
 
 import Calendar.Gui.GuiLesson;
-import javafx.scene.layout.GridPane;
 
 public class Lesson implements IObserver {
 
         private String classroom;
-        private int subjectID;
+        private final int subjectID;
 
         private final ISubject iSubject;
         private GuiLesson guiLesson;
@@ -30,13 +29,7 @@ public class Lesson implements IObserver {
                 this.classroom = classroom;
         }
 
-        public int getSubjectID() {
-                return subjectID;
-        }
-
-        public void setSubjectID(int subjectID) {
-                this.subjectID = subjectID;
-        }
+        public int getSubjectID() { return subjectID; }
 
 
         @Override

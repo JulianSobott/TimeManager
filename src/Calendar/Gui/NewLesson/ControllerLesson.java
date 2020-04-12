@@ -2,12 +2,8 @@ package Calendar.Gui.NewLesson;
 
 import Calendar.Gui.ControllerCalender;
 import Calendar.Gui.GuiLesson;
-import Calendar.Logic.Lesson;
-import Calendar.Logic.Position;
-import Calendar.Logic.Subject;
-import Calendar.Logic.Timetable;
+import Calendar.Logic.*;
 import GuiElements.AutoCompleteTextField;
-import Notifications.Notification;
 import javafx.animation.FadeTransition;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,8 +20,6 @@ import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControllerLesson implements Initializable {
@@ -84,6 +78,7 @@ public class ControllerLesson implements Initializable {
     private GridPane gridPaneTimetable;
     private VBox vBoxLesson;
 
+
     private ObservableList<Subject> subjectObservableList;
     private Subject selectedSubject;
     private Timetable timetable;
@@ -105,7 +100,7 @@ public class ControllerLesson implements Initializable {
         this.subjectObservableList = timetable.getSubjectList();
         tableViewSubjects.setItems(this.subjectObservableList);
         bindDataToTableView();
-        textFieldCourseLocation.getEntries().addAll( timetable.getLocationList() );
+        textFieldCourseLocation.getEntries().addAll(timetable.getLocationList());
 
         MotionBlur motionBlur = new MotionBlur();
         nodeTabCalendar.setEffect(motionBlur);
@@ -125,8 +120,6 @@ public class ControllerLesson implements Initializable {
     }
 
 
-
-
     public void setData() {
 
         Position position = getPosition(this.vBoxLesson);
@@ -137,11 +130,11 @@ public class ControllerLesson implements Initializable {
         textFieldCourseLocation.hidePopup();
 
         int index = 0;
-        for (Subject s : subjectObservableList){
+        for (Subject s : subjectObservableList) {
 
-           if (subject.getId() == s.getId())
-               break;
-           index++;
+            if (subject.getId() == s.getId())
+                break;
+            index++;
         }
 
         tableViewSubjects.getSelectionModel().select(index);
@@ -254,21 +247,27 @@ public class ControllerLesson implements Initializable {
         Subject subject = tableViewSubjects.getSelectionModel().getSelectedItem();
         if (subject != null && !textFieldCourseLocation.getText().isEmpty()) {
 
-            GuiLesson guiLesson = new GuiLesson(subject, textFieldCourseLocation.getText(),
-                    this.gridPaneTimetable, this.controllerCalender, this.timetable);
-
-            Lesson lesson = new Lesson(subject, guiLesson, textFieldCourseLocation.getText() );
-            subject.registriesObservers(lesson);
-            timetable.addLesson(lesson, position.getRow(), position.getCol());
-
-            gridPaneTimetable.getChildren().remove(vBoxLesson);
-            gridPaneTimetable.add(guiLesson, position.getCol(), position.getRow());
-
+            generateNewLesson(subject, position);
+            if (checkBoxDoubleHour.isSelected())
+                generateNewLesson(subject, new Position(position.getRow() + 1, position.getCol()));
             closeSubjectWindow();
         }
-        else{
 
-        }
+    }
+
+    private void generateNewLesson(Subject subject, Position position) {
+
+        GuiLesson guiLesson = new GuiLesson(subject, textFieldCourseLocation.getText(),
+                this.gridPaneTimetable, this.controllerCalender, this.timetable);
+
+        Lesson lesson = new Lesson(subject, guiLesson, textFieldCourseLocation.getText());
+        subject.registriesObservers(lesson);
+        timetable.addLesson(lesson, position.getRow(), position.getCol());
+
+        VBox emptyLesson = timetable.getEmptyLesson(position);
+        gridPaneTimetable.getChildren().remove(emptyLesson);
+        gridPaneTimetable.add(guiLesson, position.getCol(), position.getRow());
+
     }
 
 
