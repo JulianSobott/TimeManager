@@ -7,7 +7,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
@@ -16,6 +18,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ControllerCalendarSettings implements Initializable {
+
+    @FXML
+    private Label labelInformation;
 
     @FXML
     private AnchorPane anchorPaneSettings;
