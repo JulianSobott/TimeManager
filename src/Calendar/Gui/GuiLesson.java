@@ -19,16 +19,20 @@ public class GuiLesson extends VBox {
     Label lecturer;
     Label subjectLocation;
     String color;
+    boolean tutorial;
 
     GridPane gridPaneCalendar;
     ControllerCalender controllerCalender;
     Timetable timetable;
 
 
-    public GuiLesson(Subject subject, String subjectLocation, GridPane pane, ControllerCalender calender, Timetable timetable) {
+    public GuiLesson(Subject subject, String subjectLocation, GridPane pane, ControllerCalender calender, Timetable timetable, boolean tutorial) {
 
         this.subjectName = new Label(subject.getSubjectName());
-        this.lecturer = new Label(subject.getProfessor());
+        this.lecturer = new Label();
+        this.tutorial = tutorial;
+        checkTutorial(subject.getProfessor());
+
         this.subjectLocation = new Label(subjectLocation);
         this.color = subject.getColor();
         this.getChildren().addAll(this.subjectName, this.lecturer, this.subjectLocation);
@@ -38,6 +42,16 @@ public class GuiLesson extends VBox {
         this.timetable = timetable;
         designGuiLesson();
     }
+
+    private void checkTutorial(String lecturer){
+
+        if (this.tutorial) {
+            this.lecturer.setText("Tutorium");
+        } else {
+            this.lecturer.setText(lecturer);
+        }
+    }
+
 
     private void designGuiLesson() {
 
@@ -54,8 +68,8 @@ public class GuiLesson extends VBox {
         subjectName.setStyle("-fx-font-size: 1.5em; -fx-padding: 5 5 5 5; " +
                 "-fx-background-color:" + this.color);
 
-        lecturer.setStyle("-fx-padding: 5 5 5 5; -fx-background-color:" + this.color);
-        subjectLocation.setStyle("-fx-padding: 5 5 5 5; -fx-background-color: " + this.color);
+        this.lecturer.setStyle("-fx-padding: 5 5 5 5; -fx-background-color:" + this.color);
+        this.subjectLocation.setStyle("-fx-padding: 5 5 5 5; -fx-background-color: " + this.color);
     }
 
     public void setSubjectName(String subjectName) {
@@ -80,7 +94,7 @@ public class GuiLesson extends VBox {
     public void updateUserInformation(String subjectName, String lecturer, String subjectLocation, String color) {
 
         setSubjectName(subjectName);
-        setLecturer(lecturer);
+        checkTutorial(lecturer);
         setSubjectLocation(subjectLocation);
         setColor(color);
 

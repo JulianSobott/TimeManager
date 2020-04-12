@@ -247,20 +247,25 @@ public class ControllerLesson implements Initializable {
         Subject subject = tableViewSubjects.getSelectionModel().getSelectedItem();
         if (subject != null && !textFieldCourseLocation.getText().isEmpty()) {
 
-            generateNewLesson(subject, position);
+            boolean tutorial = false;
+            if (checkBoxTutorial.isSelected()) {
+                tutorial = true;
+            }
+            generateNewLesson(subject, position, tutorial);
+
             if (checkBoxDoubleHour.isSelected())
-                generateNewLesson(subject, new Position(position.getRow() + 1, position.getCol()));
+                generateNewLesson(subject, new Position(position.getRow() + 1, position.getCol()), tutorial);
             closeSubjectWindow();
         }
 
     }
 
-    private void generateNewLesson(Subject subject, Position position) {
+    private void generateNewLesson(Subject subject, Position position, Boolean tutorial) {
 
         GuiLesson guiLesson = new GuiLesson(subject, textFieldCourseLocation.getText(),
-                this.gridPaneTimetable, this.controllerCalender, this.timetable);
+                this.gridPaneTimetable, this.controllerCalender, this.timetable, tutorial);
 
-        Lesson lesson = new Lesson(subject, guiLesson, textFieldCourseLocation.getText());
+        Lesson lesson = new Lesson(subject, guiLesson, textFieldCourseLocation.getText(), tutorial);
         subject.registriesObservers(lesson);
         timetable.addLesson(lesson, position.getRow(), position.getCol());
 
