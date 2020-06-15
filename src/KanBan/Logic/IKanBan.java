@@ -11,4 +11,6 @@ public interface IKanBan {
     public boolean deleteNote(Note note);
 
     public Note getUrgentNote();
+
+    public boolean finishNote(Note note);
 }
