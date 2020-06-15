@@ -7,4 +7,8 @@ public interface IKanBan {
     public void addNote(Note note);
 
     public List<Note> getAllNotes();
+
+    public boolean deleteNote(Note note);
+
+    public Note getUrgentNote();
 }
