@@ -31,8 +31,14 @@ public class Note {
     }
 
     public boolean addStepData(int step, String title, String description){
-        if (step > stepCount || step < 1)
+        if (step > stepCount || step < 0)
             return false;
+        // TODO: better implementation or change method signature
+        if (steps.size() - 1 < step) {
+            for (int i = 0; i <= step; i++) {
+                steps.add(null);
+            }
+        }
 
         steps.set(step, new Step(title,description));
         return true;

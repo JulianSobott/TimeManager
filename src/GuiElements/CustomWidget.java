@@ -10,7 +10,6 @@ public class CustomWidget extends Pane {
     protected Pane fxml;
 
     public CustomWidget(String fxmlFile) {
-        System.out.println(getClass());
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
         loader.setRoot(this);
         loader.setController(this);
