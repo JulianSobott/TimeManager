@@ -9,7 +9,7 @@ public class Note {
 
     private String title;
     private int stepCount;
-    private List<String> stepTitles = new ArrayList<>();
+    private List<Step> steps = new ArrayList<>();
     private List<String> stepDescriptions = new ArrayList<>();
     private List<Boolean> stepStatus = new ArrayList<>();
     private Date dueDate;
@@ -22,13 +22,11 @@ public class Note {
         this.dueDate = dueDate;
     }
 
-    public boolean setStepData(int step, String title, String description){
+    public boolean addStepData(int step, String title, String description){
         if (step > stepCount || step < 1)
             return false;
 
-        stepTitles.set(step, title);
-        stepDescriptions.set(step, description);
-        stepStatus.set(step, false);
+        steps.set(step, new Step(title,description));
         return true;
     }
 
@@ -43,15 +41,10 @@ public class Note {
     public boolean finishStep(int step){
         if(stepStatus.get(step))
             return false;
-        stepStatus.set(step, true);
+        steps.get(step).finish();
         if(step == stepCount)
             finishNote();
         return true;
-    }
-
-    private void finishNote(){
-        noteStatus = true;
-        //TODO move note to done Notes
     }
 
     public String getTitle() {
@@ -62,16 +55,12 @@ public class Note {
         return stepCount;
     }
 
-    public List<String> getStepTitles() {
-        return stepTitles;
+    public List<Step> getSteps() {
+        return steps;
     }
 
-    public List<String> getStepDescriptions() {
-        return stepDescriptions;
-    }
-
-    public List<Boolean> getStepStatus() {
-        return stepStatus;
+    public Step getStep(int step) {
+        return steps.get(step);
     }
 
     public Date getDueDate() {
@@ -82,7 +71,12 @@ public class Note {
         return attachments;
     }
 
-    public boolean isNoteStatus() {
+    public boolean isNoteFinished() {
         return noteStatus;
+    }
+
+    private void finishNote(){
+        noteStatus = true;
+        //TODO move note to done Notes
     }
 }
