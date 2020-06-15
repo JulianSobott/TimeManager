@@ -9,6 +9,7 @@ public class Note {
 
     private String title;
     private int stepCount;
+    private int priority;
     private List<Step> steps = new ArrayList<>();
     private List<String> stepDescriptions = new ArrayList<>();
     private List<Boolean> stepStatus = new ArrayList<>();
@@ -20,6 +21,13 @@ public class Note {
         this.title = title;
         this.stepCount = stepCount;
         this.dueDate = dueDate;
+    }
+
+    public Note(String title, int stepCount, Date dueDate, int priority) {
+        this.title = title;
+        this.stepCount = stepCount;
+        this.dueDate = dueDate;
+        this.priority = priority;
     }
 
     public boolean addStepData(int step, String title, String description){
@@ -65,6 +73,10 @@ public class Note {
 
     public Date getDueDate() {
         return dueDate;
+    }
+
+    public int getPriority() {
+        return priority;
     }
 
     public List<File> getAttachments() {

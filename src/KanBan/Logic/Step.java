@@ -27,7 +27,7 @@ public class Step {
         return title;
     }
 
-    public boolean isSFinished() {
+    public boolean isFinished() {
         return status;
     }
 
