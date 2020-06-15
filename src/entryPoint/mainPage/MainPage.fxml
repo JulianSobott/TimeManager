@@ -11,7 +11,9 @@
                 <Tab text="Stundenplan">
                     <fx:include source="../../Calendar/Gui/Calender.fxml" />
                 </Tab>
-                <Tab text="Can Ban Board" />
+                <Tab text="Kanban Board">
+                    <fx:include source="../../KanBan/Gui/kanban.fxml"/>
+                </Tab>
                 <Tab text="Hochschulnews" />
             </tabs>
         </TabPane>
