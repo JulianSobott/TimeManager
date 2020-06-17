@@ -12,10 +12,11 @@ public class Note {
     private int priority;
     private List<Step> steps = new ArrayList<>();
     private List<String> stepDescriptions = new ArrayList<>();
-    private List<Boolean> stepStatus = new ArrayList<>();
     private Date dueDate;
     private List<File> attachments = new ArrayList<>();
+    private int currentStep = 1;
     private boolean noteStatus;
+
 
     public Note(String title, int stepCount, Date dueDate) {
         this.title = title;
@@ -30,17 +31,8 @@ public class Note {
         this.priority = priority;
     }
 
-    public boolean addStepData(int step, String title, String description){
-        if (step > stepCount || step < 0)
-            return false;
-        // TODO: better implementation or change method signature
-        if (steps.size() - 1 < step) {
-            for (int i = 0; i <= step; i++) {
-                steps.add(null);
-            }
-        }
-
-        steps.set(step, new Step(title,description));
+    public boolean addStepData(String title, String description){
+        steps.add(new Step(title,description));
         return true;
     }
 
@@ -53,11 +45,12 @@ public class Note {
     }
 
     public boolean finishStep(int step){
-        if(stepStatus.get(step))
+        if(steps.get(step).isFinished())
             return false;
         steps.get(step).finish();
         if(step == stepCount)
             finishNote();
+        currentStep++;
         return true;
     }
 
@@ -91,6 +84,10 @@ public class Note {
 
     public boolean isNoteFinished() {
         return noteStatus;
+    }
+
+    public int getCurrentStep() {
+        return currentStep;
     }
 
     private void finishNote(){

@@ -36,14 +36,14 @@ public class KanbanController implements Initializable {
             // Notes
             // TODO: dynamic size
             int i = 0;
-            for(Note note : kanban.getAllNotes()) {
+            for(Note note : kanban.getAllDoneNotes()) {
                 if (note.isNoteFinished()) {
                     paneTodo.addRow(i++, new NoteWidget(note));
                 }
             }
 
             i = 0;
-            for(Note note : kanban.getAllNotes()) {
+            for(Note note : kanban.getAllDoneNotes()) {
                 if (!note.isNoteFinished()) {
                     paneFinished.addRow(i++, new NoteWidget(note));
                 }
