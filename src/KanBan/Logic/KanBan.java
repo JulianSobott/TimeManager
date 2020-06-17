@@ -15,22 +15,31 @@ public class KanBan implements IKanBan{
     }
 
     @Override
-    public List<Note> getAllNotes() {
-        return null;
+    public List<Note> getAllOpenNotes() {
+        return openNotes;
+    }
+
+    @Override
+    public List<Note> getAllDoneNotes() {
+        return doneNotes;
     }
 
     @Override
     public boolean deleteNote(Note note) {
-        return false;
+        return openNotes.remove(note);
     }
 
     @Override
     public Note getUrgentNote() {
-        return null;
+        return openNotes.get(0);
     }
 
     @Override
-    public boolean finishNote(Note note) {
-        return false;
+    public boolean moveNoteToDone(Note note) {
+        if (!openNotes.contains(note))
+            return false;
+        openNotes.remove(note);
+        doneNotes.add(note);
+        return true;
     }
 }

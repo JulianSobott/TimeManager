@@ -6,11 +6,13 @@ public interface IKanBan {
 
     public void addNote(Note note);
 
-    public List<Note> getAllNotes();
+    public List<Note> getAllOpenNotes();
+
+    public List<Note> getAllDoneNotes();
 
     public boolean deleteNote(Note note);
 
     public Note getUrgentNote();
 
-    public boolean finishNote(Note note);
+    public boolean moveNoteToDone(Note note);
 }
