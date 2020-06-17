@@ -12,7 +12,9 @@
                     <fx:include source="../../Calendar/Gui/Calender.fxml" />
                 </Tab>
                 <Tab text="Can Ban Board" />
-                <Tab text="Hochschulnews" />
+                <Tab text="Hochschulnews" >
+                    <fx:include source="../../WebView/Gui/WebView.fxml" />
+                </Tab>
             </tabs>
         </TabPane>
     </children>
