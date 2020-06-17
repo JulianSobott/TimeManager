@@ -25,29 +25,26 @@ public class KanbanController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // TODO set kanban and remove if
-        if (kanban != null) {
-            kanban.addNote(new Note("Hello world", 2, new Date()));
+        kanban = new KanBan();
 
-            // Urgent Note
-            paneUrgentNote.getChildren().remove(0, paneUrgentNote.getChildren().size());
-            //paneUrgentNote.getChildren().add(new NoteWidget(kanban.getUrgentNote()));
+        Note newNote = new Note("Hello world", 2, new Date());
+        newNote.addStepData("Test", "description");
+        kanban.addNote(newNote);
 
-            // Notes
-            // TODO: dynamic size
-            int i = 0;
-            for(Note note : kanban.getAllDoneNotes()) {
-                if (note.isNoteFinished()) {
-                    paneTodo.addRow(i++, new NoteWidget(note));
-                }
-            }
+        // Urgent Note
+        paneUrgentNote.getChildren().remove(0, paneUrgentNote.getChildren().size());
+        paneUrgentNote.getChildren().add(new NoteWidget(kanban.getUrgentNote()));
 
-            i = 0;
-            for(Note note : kanban.getAllDoneNotes()) {
-                if (!note.isNoteFinished()) {
-                    paneFinished.addRow(i++, new NoteWidget(note));
-                }
-            }
+        // Notes
+        // TODO: dynamic size
+        int i = 0;
+        for(Note note : kanban.getAllOpenNotes()) {
+            paneTodo.addRow(i++, new NoteWidget(note));
+        }
+
+        i = 0;
+        for(Note note : kanban.getAllDoneNotes()) {
+            paneFinished.addRow(i++, new NoteWidget(note));
         }
     }
 }
