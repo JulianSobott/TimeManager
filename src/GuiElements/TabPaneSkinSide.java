@@ -281,13 +281,9 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             maxw = Math.max(maxw, snapSizeX(contentRegion.prefWidth(-1)));
         }
 
-        final boolean isHorizontal = isHorizontal();
-        final double tabHeaderAreaSize = isHorizontal
-                ? snapSizeX(tabHeaderArea.prefWidth(-1))
-                : snapSizeY(tabHeaderArea.prefHeight(-1));
+        final double tabHeaderAreaSize = snapSizeY(tabHeaderArea.prefHeight(-1));
 
-        double prefWidth = isHorizontal ?
-                Math.max(maxw, tabHeaderAreaSize) : maxw + tabHeaderAreaSize;
+        double prefWidth = maxw + tabHeaderAreaSize;
         return snapSizeX(prefWidth) + rightInset + leftInset;
     }
 
@@ -299,22 +295,14 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             maxh = Math.max(maxh, snapSizeY(contentRegion.prefHeight(-1)));
         }
 
-        final boolean isHorizontal = isHorizontal();
-        final double tabHeaderAreaSize = isHorizontal
-                ? snapSizeY(tabHeaderArea.prefHeight(-1))
-                : snapSizeX(tabHeaderArea.prefWidth(-1));
+        final double tabHeaderAreaSize = snapSizeX(tabHeaderArea.prefWidth(-1));
 
-        double prefHeight = isHorizontal ?
-                maxh + snapSizeY(tabHeaderAreaSize) : Math.max(maxh, tabHeaderAreaSize);
+        double prefHeight = Math.max(maxh, tabHeaderAreaSize);
         return snapSizeY(prefHeight) + topInset + bottomInset;
     }
 
     /** {@inheritDoc} */
     @Override public double computeBaselineOffset(double topInset, double rightInset, double bottomInset, double leftInset) {
-        Side tabPosition = getSkinnable().getSide();
-        if (tabPosition == Side.TOP) {
-            return tabHeaderArea.getBaselineOffset() + topInset;
-        }
         return 0;
     }
 
@@ -324,27 +312,20 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         TabWindow tabPane = getSkinnable();
         Side tabPosition = tabPane.getSide();
         double headerHeight = snapSizeX(tabHeaderArea.prefHeight(-1));
-        headerHeight = 100;
+        double headerWidth = snapSizeX(tabHeaderArea.prefWidth(-1));
         double tabsStartX = x;
         double tabsStartY = y;
 
         final double leftInset = snappedLeftInset();
         final double topInset = snappedTopInset();
 
-        // Always on the LEFT side
-        tabHeaderArea.resize(h, headerHeight);
-        tabHeaderArea.relocate(tabsStartX + headerHeight, h - headerHeight + topInset);
-        tabHeaderArea.getTransforms().clear();
-        //tabHeaderArea.getTransforms().add(new Rotate(getRotation(Side.LEFT), 0, headerHeight));
+        tabHeaderArea.resize(headerWidth, h);
+        tabHeaderArea.relocate(tabsStartX, tabsStartY);
 
         tabHeaderAreaClipRect.setX(0);
         tabHeaderAreaClipRect.setY(0);
-        if (isHorizontal()) {
-            tabHeaderAreaClipRect.setWidth(w);
-        } else {
-            tabHeaderAreaClipRect.setWidth(h);
-        }
-        tabHeaderAreaClipRect.setHeight(headerHeight);
+        tabHeaderAreaClipRect.setWidth(headerWidth);
+        tabHeaderAreaClipRect.setHeight(h);
 
         // ==================================
         // position the tab content for the selected tab only
@@ -353,38 +334,15 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         double contentStartX = 0;
         double contentStartY = 0;
 
-        if (tabPosition == Side.TOP) {
-            contentStartX = x;
-            contentStartY = y + headerHeight;
-            if (isFloatingStyleClass()) {
-                // This is to hide the top border content
-                contentStartY -= 1;
-            }
-        } else if (tabPosition == Side.BOTTOM) {
-            contentStartX = x;
-            contentStartY = y + topInset;
-            if (isFloatingStyleClass()) {
-                // This is to hide the bottom border content
-                contentStartY = 1 + topInset;
-            }
-        } else if (tabPosition == Side.LEFT) {
-            contentStartX = x + headerHeight;
-            contentStartY = y;
-            if (isFloatingStyleClass()) {
-                // This is to hide the left border content
-                contentStartX -= 1;
-            }
-        } else if (tabPosition == Side.RIGHT) {
-            contentStartX = x + leftInset;
-            contentStartY = y;
-            if (isFloatingStyleClass()) {
-                // This is to hide the right border content
-                contentStartX = 1 + leftInset;
-            }
+        contentStartX = x + headerWidth;
+        contentStartY = y;
+        if (isFloatingStyleClass()) {
+            // This is to hide the left border content
+            contentStartX -= 1;
         }
 
-        double contentWidth = w - (isHorizontal() ? 0 : headerHeight);
-        double contentHeight = h - (isHorizontal() ? headerHeight: 0);
+        double contentWidth = w - headerWidth;
+        double contentHeight = h;
 
         for (int i = 0, max = tabContentRegions.size(); i < max; i++) {
             TabContentRegion tabContent = tabContentRegions.get(i);
@@ -410,20 +368,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
      *                                                                         *
      **************************************************************************/
 
-    private static int getRotation(Side pos) {
-        switch (pos) {
-            case TOP:
-                return 0;
-            case BOTTOM:
-                return 180;
-            case LEFT:
-                return -90;
-            case RIGHT:
-                return 90;
-            default:
-                return 0;
-        }
-    }
 
     /**
      * VERY HACKY - this lets us 'duplicate' Label and ImageView nodes to be used in a
@@ -771,19 +715,22 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                     for (Node child : getChildren()) {
                         TabHeaderSkin tabHeaderSkin = (TabHeaderSkin)child;
                         if (tabHeaderSkin.isVisible() && (measureClosingTabs || ! tabHeaderSkin.isClosing)) {
-                            width += tabHeaderSkin.prefWidth(height);
+                            width = Math.max(tabHeaderSkin.prefWidth(height), width);
                         }
                     }
-                    return snapSize(width) + snappedLeftInset() + snappedRightInset();
+//                    return snapSize(width) + snappedLeftInset() + snappedRightInset(); TODO: 1
+                    return snapSizeX(10);
                 }
 
                 @Override protected double computePrefHeight(double width) {
                     double height = 0.0F;
                     for (Node child : getChildren()) {
                         TabHeaderSkin tabHeaderSkin = (TabHeaderSkin)child;
-                        height = Math.max(height, tabHeaderSkin.prefHeight(width));
+                        if (tabHeaderSkin.isVisible() && (measureClosingTabs || ! tabHeaderSkin.isClosing)) {
+                            height += tabHeaderSkin.prefHeight(width);
+                        }
                     }
-                    return snapSize(height) + snappedTopInset() + snappedBottomInset();
+                    return snapSizeY(height) + snappedTopInset() + snappedBottomInset();
                 }
 
                 @Override protected void layoutChildren() {
@@ -910,9 +857,11 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                 clipHeight = headersPrefHeight;
             }
 
+            clipHeight = headersPrefHeight;
+
             headerClip.setX(x);
             headerClip.setY(y);
-            headerClip.setWidth(clipWidth);
+            headerClip.setWidth(50);
             headerClip.setHeight(clipHeight);
         }
 
@@ -1098,27 +1047,11 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             double controlStartY = 0;
             Side tabPosition = getSkinnable().getSide();
 
-            if (tabPosition.equals(Side.TOP)) {
-                startX = leftInset;
-                startY = tabBackgroundHeight - headersPrefHeight - bottomInset;
-                controlStartX = w - btnWidth + leftInset;
-                controlStartY = snapSize(getHeight()) - btnHeight - bottomInset;
-            } else if (tabPosition.equals(Side.RIGHT)) {
-                startX = topInset;
-                startY = tabBackgroundHeight - headersPrefHeight - leftInset;
-                controlStartX = w - btnWidth + topInset;
-                controlStartY = snapSize(getHeight()) - btnHeight - leftInset;
-            } else if (tabPosition.equals(Side.BOTTOM)) {
-                startX = snapSize(getWidth()) - headersPrefWidth - leftInset;
-                startY = tabBackgroundHeight - headersPrefHeight - topInset;
-                controlStartX = rightInset;
-                controlStartY = snapSize(getHeight()) - btnHeight - topInset;
-            } else if (tabPosition.equals(Side.LEFT)) {
-                startX = snapSize(getWidth()) - headersPrefWidth - topInset;
-                startY = tabBackgroundHeight - headersPrefHeight - rightInset;
-                controlStartX = leftInset;
-                controlStartY = snapSize(getHeight()) - btnHeight - rightInset;
-            }
+            startX = 0;
+            startY = tabBackgroundHeight - headersPrefHeight - rightInset;
+            controlStartX = leftInset;
+            controlStartY = snapSize(getHeight()) - btnHeight - rightInset;
+
             if (headerBackground.isVisible()) {
                 positionInArea(headerBackground, 0, 0,
                         snapSize(getWidth()), snapSize(getHeight()), /*baseline ignored*/0, HPos.CENTER, VPos.CENTER);

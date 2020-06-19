@@ -10,6 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        setUserAgentStylesheet(getClass().getResource("debug_styles.css").toString());
         Parent root = FXMLLoader.load(getClass().getResource("mainPage/MainPage.fxml"));
         primaryStage.setTitle("Time Manager");
         primaryStage.setScene(new Scene(root, 1200, 800));
