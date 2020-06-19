@@ -86,6 +86,7 @@ import javafx.scene.input.SwipeEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
@@ -694,7 +695,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
      **************************************************************************/
     class TabHeaderArea extends StackPane {
         private Rectangle headerClip;
-        private StackPane headersRegion;
+        private VBox headersRegion;
         private StackPane headerBackground;
         private TabControlButtons controlButtons;
 
@@ -709,72 +710,10 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
             headerClip = new Rectangle();
 
-            headersRegion = new StackPane() {
-                @Override protected double computePrefWidth(double height) {
-                    double width = 0.0F;
-                    for (Node child : getChildren()) {
-                        TabHeaderSkin tabHeaderSkin = (TabHeaderSkin)child;
-                        if (tabHeaderSkin.isVisible() && (measureClosingTabs || ! tabHeaderSkin.isClosing)) {
-                            width = Math.max(tabHeaderSkin.prefWidth(height), width);
-                        }
-                    }
-//                    return snapSize(width) + snappedLeftInset() + snappedRightInset(); TODO: 1
-                    return snapSizeX(10);
-                }
+            headersRegion = new VBox();
 
-                @Override protected double computePrefHeight(double width) {
-                    double height = 0.0F;
-                    for (Node child : getChildren()) {
-                        TabHeaderSkin tabHeaderSkin = (TabHeaderSkin)child;
-                        if (tabHeaderSkin.isVisible() && (measureClosingTabs || ! tabHeaderSkin.isClosing)) {
-                            height += tabHeaderSkin.prefHeight(width);
-                        }
-                    }
-                    return snapSizeY(height) + snappedTopInset() + snappedBottomInset();
-                }
-
-                @Override protected void layoutChildren() {
-                    if (tabsFit()) {
-                        setScrollOffset(0.0);
-                    } else {
-                        if (isSelectingTab) {
-                            ensureSelectedTabIsVisible();
-                        } else {
-                            validateScrollOffset();
-                        }
-                    }
-                    isSelectingTab = false;
-
-                    Side tabPosition = getSkinnable().getSide();
-                    double tabBackgroundHeight = snapSize(prefHeight(-1));
-                    double startX = 0;
-                    double tabY = 0;
-
-                    updateHeaderClip();
-                    for (Node node : getChildren()) {
-                        TabHeaderSkin tabHeader = (TabHeaderSkin)node;
-
-                        // size and position the header relative to the other headers
-                        double tabHeaderPrefWidth = snapSize(tabHeader.prefWidth(-1) * tabHeader.animationTransition.get());
-                        double tabHeaderPrefHeight = snapSize(tabHeader.prefHeight(-1));
-                        tabHeader.resize(tabHeaderPrefWidth, tabHeaderPrefHeight);
-
-                        // This ensures that the tabs are located in the correct position
-                        // when there are tabs of differing heights.
-//                        double tabX = tabPosition.equals(Side.BOTTOM) ?
-//                                0 : tabBackgroundHeight - tabHeaderPrefHeight - snappedBottomInset();
-                        if (dragState != DragState.REORDER ||
-                                (tabHeader != dragTabHeader && tabHeader != dropAnimHeader)) {
-                            tabHeader.relocate(startX, tabY);
-                        }
-                        tabY += tabHeaderPrefHeight;
-                    }
-                }
-
-            };
-            headersRegion.getStyleClass().setAll("headers-region");
-            headersRegion.setClip(headerClip);
-            setupReordering(headersRegion);
+            headersRegion.getStyleClass().setAll("headers-region", "debug");
+//            setupReordering(headersRegion);
 
             headerBackground = new StackPane();
             headerBackground.getStyleClass().setAll("tab-header-background");
@@ -813,58 +752,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             });
         }
 
-        private void updateHeaderClip() {
-            Side tabPosition = getSkinnable().getSide();
-
-            double x = 0;
-            double y = 0;
-            double clipWidth = 0;
-            double clipHeight = 0;
-            double maxWidth = 0;
-            double shadowRadius = 0;
-            double clipOffset = firstTabIndent();
-            double controlButtonPrefWidth = snapSize(controlButtons.prefWidth(-1));
-
-            measureClosingTabs = true;
-            double headersPrefWidth = snapSize(headersRegion.prefWidth(-1));
-            measureClosingTabs = false;
-
-            double headersPrefHeight = snapSize(headersRegion.prefHeight(-1));
-
-            // Add the spacer if isShowTabsMenu is true.
-            if (controlButtonPrefWidth > 0) {
-                controlButtonPrefWidth = controlButtonPrefWidth + SPACER;
-            }
-
-            if (headersRegion.getEffect() instanceof DropShadow) {
-                DropShadow shadow = (DropShadow)headersRegion.getEffect();
-                shadowRadius = shadow.getRadius();
-            }
-
-            maxWidth = snapSize(getWidth()) - controlButtonPrefWidth - clipOffset;
-            if (tabPosition.equals(Side.LEFT) || tabPosition.equals(Side.BOTTOM)) {
-                if (headersPrefWidth < maxWidth) {
-                    clipWidth = headersPrefWidth + shadowRadius;
-                } else {
-                    x = headersPrefWidth - maxWidth;
-                    clipWidth = maxWidth + shadowRadius;
-                }
-                clipHeight = headersPrefHeight;
-            } else {
-                // If x = 0 the header region's drop shadow is clipped.
-                x = -shadowRadius;
-                clipWidth = (headersPrefWidth < maxWidth ? headersPrefWidth : maxWidth) + shadowRadius;
-                clipHeight = headersPrefHeight;
-            }
-
-            clipHeight = headersPrefHeight;
-
-            headerClip.setX(x);
-            headerClip.setY(y);
-            headerClip.setWidth(50);
-            headerClip.setHeight(clipHeight);
-        }
-
         private void addTab(Tab tab, int addToIndex) {
             TabHeaderSkin tabHeaderSkin = new TabHeaderSkin(tab);
             headersRegion.getChildren().add(addToIndex, tabHeaderSkin);
@@ -888,10 +775,9 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         }
 
         private boolean tabsFit() {
-            double headerPrefWidth = snapSize(headersRegion.prefWidth(-1));
-            double controlTabWidth = snapSize(controlButtons.prefWidth(-1));
-            double visibleWidth = headerPrefWidth + controlTabWidth + firstTabIndent() + SPACER;
-            return visibleWidth < getWidth();
+            double headerPrefHeight = snapSize(headersRegion.prefHeight(-1));
+            double visibleHeight = headerPrefHeight;
+            return visibleHeight < getHeight();
         }
 
         private void ensureSelectedTabIsVisible() {
@@ -987,11 +873,10 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         }
 
         @Override protected double computePrefWidth(double height) {
-            double padding = isHorizontal() ?
-                    snappedLeftInset() + snappedRightInset() :
-                    snappedTopInset() + snappedBottomInset();
-            return snapSize(headersRegion.prefWidth(height)) + controlButtons.prefWidth(height) +
-                    firstTabIndent() + SPACER + padding;
+            double padding = snappedTopInset() + snappedBottomInset();
+//            return snapSize(headersRegion.prefWidth(height)) + controlButtons.prefWidth(height) +
+//                    firstTabIndent() + SPACER + padding;
+            return snapSizeX(headersRegion.prefWidth(height));
         }
 
         @Override protected double computePrefHeight(double width) {
@@ -1002,9 +887,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         }
 
         @Override public double getBaselineOffset() {
-            if (getSkinnable().getSide() == Side.TOP) {
-                return headersRegion.getBaselineOffset() + snappedTopInset();
-            }
             return 0;
         }
 
@@ -1023,7 +905,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
             controlButtons.showTabsMenu(! tabsFit());
 
-            updateHeaderClip();
             headersRegion.requestLayout();
 
             // RESIZE CONTROL BUTTONS
@@ -1059,6 +940,8 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             positionInArea(headersRegion, startX, startY, w, h, /*baseline ignored*/0, HPos.LEFT, VPos.CENTER);
             positionInArea(controlButtons, controlStartX, controlStartY, btnWidth, btnHeight,
                     /*baseline ignored*/0, HPos.CENTER, VPos.CENTER);
+
+            headersRegion.relocate(0, 0);
 
         }
 
