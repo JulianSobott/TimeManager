@@ -53,13 +53,7 @@ import javafx.css.StyleableObjectProperty;
 import javafx.css.StyleableProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
-import javafx.geometry.HPos;
-import javafx.geometry.NodeOrientation;
-import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
-import javafx.geometry.Side;
-import javafx.geometry.VPos;
+import javafx.geometry.*;
 import javafx.scene.AccessibleAction;
 import javafx.scene.AccessibleAttribute;
 import javafx.scene.AccessibleRole;
@@ -89,6 +83,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
@@ -325,8 +321,8 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         tabHeaderArea.resize(headerWidth, h);
         tabHeaderArea.relocate(tabsStartX, tabsStartY);
 
-        tabHeaderAreaClipRect.setX(0);
-        tabHeaderAreaClipRect.setY(0);
+        tabHeaderAreaClipRect.setX(tabsStartX);
+        tabHeaderAreaClipRect.setY(tabsStartY);
         tabHeaderAreaClipRect.setWidth(headerWidth);
         tabHeaderAreaClipRect.setHeight(h);
 
@@ -388,9 +384,8 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         if (isShowing) {
             width = tabHeaderArea.prefWidth(-1);
         } else {
-            width = getSkinnable().getImageSize();
+            width = getSkinnable().getImageSize() + 8; // TODO: get LeftInset of label?
         }
-        width += tabHeaderArea.snappedLeftInset() + tabHeaderArea.snappedRightInset();
         tabHeaderArea.resize(width, tabHeaderArea.getHeight());
         tabHeaderAreaClipRect.setWidth(width);
     }
@@ -719,7 +714,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
      *
      **************************************************************************/
     class TabHeaderArea extends StackPane {
-        private Rectangle headerClip;
         private StackPane menu;
         private VBox headersRegion;
         private StackPane headerBackground;
@@ -734,7 +728,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             setManaged(false);
             final TabWindow tabPane = getSkinnable();
 
-            headerClip = new Rectangle();
+
             headersRegion = new VBox();
 
             Image menuImage = new Image("/Icons/list-48dp.png");
@@ -745,7 +739,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             menu.setOnMousePressed(e -> {
                 tabPane.setShowingText(!tabPane.isShowingText());
             });
-            menu.getStyleClass().setAll("debug");
 
             headersRegion.getStyleClass().setAll("headers-region");
 //            setupReordering(headersRegion);
@@ -973,7 +966,8 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             positionInArea(controlButtons, controlStartX, controlStartY, btnWidth, btnHeight,
                     /*baseline ignored*/0, HPos.CENTER, VPos.CENTER);
 
-            positionInArea(menu, 0, 0, menu.getWidth(), menu.getHeight(), 0, HPos.LEFT, VPos.CENTER);
+            positionInArea(menu, 0, snappedTopInset(), menu.getWidth(), menu.getHeight(), 0, HPos.LEFT,
+                    VPos.CENTER);
             menu.resize(menu.getPrefWidth(), menu.getPrefHeight());
             headersRegion.relocate(0, menu.getPrefHeight() + SPACER);
         }
@@ -1027,10 +1021,19 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             setClip(clip);
 
             Node graphic = tab.getGraphic();
+            String text = tab.getText();
+            if (text == null || text.length() == 0) {
+                text = "DummyText";
+            }
+            if (graphic == null) {
+                // We always need an Image
+                Text fallbackImage = new Text(text.substring(0, 1).toUpperCase());
+                StackPane stackPane = new StackPane();
+                stackPane.getChildren().add(fallbackImage);
+                graphic = stackPane;
+            }
             label = new Label(tab.getText(), graphic);
             label.getStyleClass().setAll("tab-label");
-
-            updateGraphicRotation();
 
             final Region focusIndicator = new Region();
             focusIndicator.setMouseTransparent(true);
@@ -1102,7 +1105,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                 }
             };
             inner.getStyleClass().add("tab-container");
-            inner.setRotate(getSkinnable().getSide().equals(Side.BOTTOM) ? 180.0F : 0.0F);
             inner.getChildren().addAll(label, focusIndicator);
 
             getChildren().addAll(inner);
@@ -1160,11 +1162,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                 pseudoClassStateChanged(BOTTOM_PSEUDOCLASS_STATE, (side == Side.BOTTOM));
                 pseudoClassStateChanged(LEFT_PSEUDOCLASS_STATE, (side == Side.LEFT));
                 inner.setRotate(side == Side.BOTTOM ? 180.0F : 0.0F);
-                if (getSkinnable().isRotateGraphic()) {
-                    updateGraphicRotation();
-                }
             });
-            listener.registerChangeListener(getSkinnable().rotateGraphicProperty(), e -> updateGraphicRotation());
             listener.registerChangeListener(getSkinnable().tabMinWidthProperty(), e -> {
                 requestLayout();
                 getSkinnable().requestLayout();
@@ -1238,14 +1236,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             requestLayout();
         }
 
-        private void updateGraphicRotation() {
-            if (label.getGraphic() != null) {
-                label.getGraphic().setRotate(getSkinnable().isRotateGraphic() ? 0.0F :
-                        (getSkinnable().getSide().equals(Side.RIGHT) ? -90.0F :
-                                (getSkinnable().getSide().equals(Side.LEFT) ? 90.0F : 0.0F)));
-            }
-        }
-
         private boolean showCloseButton() {
             return tab.isClosable() &&
                     (getSkinnable().getTabClosingPolicy().equals(TabClosingPolicy.ALL_TABS) ||
@@ -1294,7 +1284,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             double maxHeight = snapSize(getSkinnable().getTabMaxHeight());
             double paddingTop = snappedTopInset();
             double paddingBottom = snappedBottomInset();
-            double tmpPrefHeight = snapSize(label.prefHeight(width));
+            double tmpPrefHeight = snapSizeY(getSkinnable().getImageSize());
 
             if (tmpPrefHeight > maxHeight) {
                 tmpPrefHeight = maxHeight;
@@ -1307,6 +1297,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
         @Override protected void layoutChildren() {
             double w = (snapSize(getWidth()) - snappedRightInset() - snappedLeftInset()) * animationTransition.getValue();
+            double h = getHeight();
             inner.resize(w, snapSize(getHeight()) - snappedTopInset() - snappedBottomInset());
             inner.relocate(snappedLeftInset(), snappedTopInset());
             double imageSize = getSkinnable().getImageSize();
@@ -1314,6 +1305,12 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                 ImageView image = (ImageView) label.getGraphic();
                 image.setPreserveRatio(true);
                 image.setFitWidth(imageSize);
+            } else if(label.getGraphic() instanceof StackPane) {
+                StackPane inner = (StackPane) label.getGraphic();
+                inner.setPrefSize(imageSize, imageSize);
+                Text t = (Text) inner.getChildren().get(0); // Text is set in Constructor
+                t.setStyle("-fx-font-size: " + imageSize);
+                t.setBoundsType(TextBoundsType.VISUAL);
             }
         }
 

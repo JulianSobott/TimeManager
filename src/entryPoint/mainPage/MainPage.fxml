@@ -21,8 +21,9 @@
             </graphic>
             <fx:include source="/Calendar/Gui/Calender.fxml"/>
         </Tab>
-        <Tab text="etc">
+        <Tab text="asd">
             <Label text="Hello World"/>
         </Tab>
     </TabWindow>
+    <Button text="Click" fx:id="debugButton"/>
 </AnchorPane>

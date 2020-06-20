@@ -82,6 +82,7 @@ is being used to size a border should also be in pixels.
  *                                                                             *
  ******************************************************************************/
 
+/* DEBUG TabWindow
 .headers-region {
     -fx-border-color: blue;
     -fx-border-width: 2px;
@@ -106,6 +107,12 @@ is being used to size a border should also be in pixels.
     -fx-border-color: violet;
     -fx-border-width: 2px;
 }
+
+.tab-container {
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+}
+*/
 
 .debug {
     -fx-border-color: orange;
