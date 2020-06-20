@@ -19,7 +19,7 @@
                     <Image url="/Icons/icons8-zeitplan-64.png"/>
                 </ImageView>
             </graphic>
-            <fx:include source="../../Calendar/Gui/Calender.fxml"/>
+            <fx:include source="/Calendar/Gui/Calender.fxml"/>
         </Tab>
         <Tab text="etc">
             <Label text="Hello World"/>
