@@ -6,14 +6,24 @@
 
 <?import GuiElements.TabWindow?>
 <?import javafx.scene.control.Label?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.Button?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="entryPoint.mainPage.ControllerMainPage">
     <TabWindow tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" fx:id="window">
         <Tab text="Stundenplan">
+            <graphic>
+                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="/Icons/icons8-zeitplan-64.png"/>
+                </ImageView>
+            </graphic>
             <fx:include source="../../Calendar/Gui/Calender.fxml"/>
         </Tab>
         <Tab text="etc">
             <Label text="Hello World"/>
         </Tab>
     </TabWindow>
+    <Button text="Click me" fx:id="debugButton"/>
 </AnchorPane>

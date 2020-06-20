@@ -77,6 +77,7 @@ import javafx.scene.control.TabPane.TabDragPolicy;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
@@ -156,7 +157,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
     private final TabPaneBehavior behavior;
 
 
-
     /***************************************************************************
      *                                                                         *
      * Constructors                                                            *
@@ -204,6 +204,8 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         registerChangeListener(control.sideProperty(), e -> updateTabPosition());
         registerChangeListener(control.widthProperty(), e -> clipRect.setWidth(getSkinnable().getWidth()));
         registerChangeListener(control.heightProperty(), e -> clipRect.setHeight(getSkinnable().getHeight()));
+
+        registerChangeListener(control.showingTextProperty(), e -> showText(control.isShowingText()));
 
         selectedTab = getSkinnable().getSelectionModel().getSelectedItem();
         // Could not find the selected tab try and get the selected tab using the selected index
@@ -282,7 +284,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             maxw = Math.max(maxw, snapSizeX(contentRegion.prefWidth(-1)));
         }
 
-        final double tabHeaderAreaSize = snapSizeY(tabHeaderArea.prefHeight(-1));
+        final double tabHeaderAreaSize = snapSizeX(tabHeaderArea.prefWidth(-1));
 
         double prefWidth = maxw + tabHeaderAreaSize;
         return snapSizeX(prefWidth) + rightInset + leftInset;
@@ -296,7 +298,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             maxh = Math.max(maxh, snapSizeY(contentRegion.prefHeight(-1)));
         }
 
-        final double tabHeaderAreaSize = snapSizeX(tabHeaderArea.prefWidth(-1));
+        final double tabHeaderAreaSize = snapSizeY(tabHeaderArea.prefHeight(-1));
 
         double prefHeight = Math.max(maxh, tabHeaderAreaSize);
         return snapSizeY(prefHeight) + topInset + bottomInset;
@@ -358,6 +360,17 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             // see RT-29167
             tabContent.resize(contentWidth, contentHeight);
             tabContent.relocate(contentStartX, contentStartY);
+
+            tabHeaderArea.widthProperty().addListener(l -> {
+                double headerW = tabHeaderArea.getWidth();
+                double contentW = w - headerW;
+                tabContent.relocate(headerW, y);
+                tabContent.resize(contentW, contentHeight);
+                if (tabContent.getClip() != null) {
+                    ((Rectangle)tabContent.getClip()).setWidth(contentW);
+                    ((Rectangle)tabContent.getClip()).setHeight(contentHeight);
+                }
+            });
         }
     }
 
@@ -369,6 +382,11 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
      *                                                                         *
      **************************************************************************/
 
+    private void showText(boolean isShowing) {
+//        tabHeaderAreaClipRect.setWidth(10);
+        tabHeaderArea.resize(10, tabHeaderArea.getHeight());
+        tabHeaderAreaClipRect.setWidth(10);
+    }
 
     /**
      * VERY HACKY - this lets us 'duplicate' Label and ImageView nodes to be used in a
@@ -695,6 +713,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
      **************************************************************************/
     class TabHeaderArea extends StackPane {
         private Rectangle headerClip;
+        private StackPane menu;
         private VBox headersRegion;
         private StackPane headerBackground;
         private TabControlButtons controlButtons;
@@ -706,13 +725,22 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         public TabHeaderArea() {
             getStyleClass().setAll("tab-header-area");
             setManaged(false);
-            final TabPane tabPane = getSkinnable();
+            final TabWindow tabPane = getSkinnable();
 
             headerClip = new Rectangle();
-
             headersRegion = new VBox();
 
-            headersRegion.getStyleClass().setAll("headers-region", "debug");
+            Image menuImage = new Image("/Icons/list-48dp.png");
+            ImageView menuView = new ImageView(menuImage);
+            menu = new StackPane();
+            menu.getChildren().add(menuView);
+            menu.setPrefSize(menuImage.getWidth(), menuImage.getHeight());
+            menu.setOnMousePressed(e -> {
+                tabPane.setShowingText(!tabPane.isShowingText());
+            });
+            menu.getStyleClass().setAll("debug");
+
+            headersRegion.getStyleClass().setAll("headers-region");
 //            setupReordering(headersRegion);
 
             headerBackground = new StackPane();
@@ -728,7 +756,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             if (controlButtons.isVisible()) {
                 controlButtons.setVisible(true);
             }
-            getChildren().addAll(headerBackground, headersRegion, controlButtons);
+            getChildren().addAll(headerBackground, menu, headersRegion, controlButtons);
 
             // support for mouse scroll of header area (for when the tabs exceed
             // the available space).
@@ -873,9 +901,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         }
 
         @Override protected double computePrefWidth(double height) {
-            double padding = snappedTopInset() + snappedBottomInset();
-//            return snapSize(headersRegion.prefWidth(height)) + controlButtons.prefWidth(height) +
-//                    firstTabIndent() + SPACER + padding;
             return snapSizeX(headersRegion.prefWidth(height));
         }
 
@@ -941,8 +966,9 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             positionInArea(controlButtons, controlStartX, controlStartY, btnWidth, btnHeight,
                     /*baseline ignored*/0, HPos.CENTER, VPos.CENTER);
 
-            headersRegion.relocate(0, 0);
-
+            positionInArea(menu, 0, 0, menu.getWidth(), menu.getHeight(), 0, HPos.LEFT, VPos.CENTER);
+            menu.resize(menu.getPrefWidth(), menu.getPrefHeight());
+            headersRegion.relocate(0, menu.getPrefHeight() + SPACER);
         }
 
 
@@ -963,7 +989,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             return tab;
         }
         private Label label;
-        private StackPane closeBtn;
         private StackPane inner;
         private Tooltip oldTooltip;
         private Tooltip tooltip;
@@ -997,43 +1022,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             label = new Label(tab.getText(), tab.getGraphic());
             label.getStyleClass().setAll("tab-label");
 
-            closeBtn = new StackPane() {
-                @Override protected double computePrefWidth(double h) {
-                    return CLOSE_BTN_SIZE;
-                }
-                @Override protected double computePrefHeight(double w) {
-                    return CLOSE_BTN_SIZE;
-                }
-                @Override
-                public void executeAccessibleAction(AccessibleAction action, Object... parameters) {
-                    switch (action) {
-                        case FIRE: {
-                            Tab tab = getTab();
-                            if (behavior.canCloseTab(tab)) {
-                                behavior.closeTab(tab);
-                                setOnMousePressed(null);
-                            }
-                            break;
-                        }
-                        default: super.executeAccessibleAction(action, parameters);
-                    }
-                }
-            };
-            closeBtn.setAccessibleRole(AccessibleRole.BUTTON);
-            closeBtn.setAccessibleText(getString("Accessibility.title.TabPane.CloseButton"));
-            closeBtn.getStyleClass().setAll("tab-close-button");
-            closeBtn.setOnMousePressed(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent me) {
-                    Tab tab = getTab();
-                    if (me.getButton().equals(MouseButton.PRIMARY) && behavior.canCloseTab(tab)) {
-                        behavior.closeTab(tab);
-                        setOnMousePressed(null);
-                        me.consume();
-                    }
-                }
-            });
-
             updateGraphicRotation();
 
             final Region focusIndicator = new Region();
@@ -1054,8 +1042,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                     final double prefLabelWidth = snapSize(label.prefWidth(-1));
                     final double prefLabelHeight = snapSize(label.prefHeight(-1));
 
-                    final double closeBtnWidth = showCloseButton() ? snapSize(closeBtn.prefWidth(-1)) : 0;
-                    final double closeBtnHeight = showCloseButton() ? snapSize(closeBtn.prefHeight(-1)) : 0;
                     final double minWidth = snapSize(skinnable.getTabMinWidth());
                     final double maxWidth = snapSize(skinnable.getTabMaxWidth());
                     final double maxHeight = snapSize(skinnable.getTabMaxHeight());
@@ -1064,14 +1050,14 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                     double labelWidth = prefLabelWidth;
                     double labelHeight = prefLabelHeight;
 
-                    final double childrenWidth = labelAreaWidth + closeBtnWidth;
-                    final double childrenHeight = Math.max(labelHeight, closeBtnHeight);
+                    final double childrenWidth = labelAreaWidth ;
+                    final double childrenHeight = labelHeight;
 
                     if (childrenWidth > maxWidth && maxWidth != Double.MAX_VALUE) {
-                        labelAreaWidth = maxWidth - closeBtnWidth;
-                        labelWidth = maxWidth - closeBtnWidth;
+                        labelAreaWidth = maxWidth;
+                        labelWidth = maxWidth;
                     } else if (childrenWidth < minWidth) {
-                        labelAreaWidth = minWidth - closeBtnWidth;
+                        labelAreaWidth = minWidth;
                     }
 
                     if (childrenHeight > maxHeight && maxHeight != Double.MAX_VALUE) {
@@ -1079,36 +1065,17 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                     }
 
                     if (animationState != TabAnimationState.NONE) {
-                        //                        if (prefWidth.getValue() < labelAreaWidth) {
-                        //                            labelAreaWidth = prefWidth.getValue();
-                        //                        }
                         labelAreaWidth *= animationTransition.get();
-                        closeBtn.setVisible(false);
-                    } else {
-                        closeBtn.setVisible(showCloseButton());
                     }
-
 
                     label.resize(labelWidth, labelHeight);
 
 
                     double labelStartX = paddingLeft;
 
-                    // If maxWidth is less than Double.MAX_VALUE, the user has
-                    // clamped the max width, but we should
-                    // position the close button at the end of the tab,
-                    // which may not necessarily be the entire width of the
-                    // provided max width.
-                    double closeBtnStartX = (maxWidth < Double.MAX_VALUE ? Math.min(w, maxWidth) : w) - paddingRight - closeBtnWidth;
-
                     positionInArea(label, labelStartX, paddingTop, labelAreaWidth, h,
                             /*baseline ignored*/0, HPos.CENTER, VPos.CENTER);
 
-                    if (closeBtn.isVisible()) {
-                        closeBtn.resize(closeBtnWidth, closeBtnHeight);
-                        positionInArea(closeBtn, closeBtnStartX, paddingTop, closeBtnWidth, h,
-                                /*baseline ignored*/0, HPos.CENTER, VPos.CENTER);
-                    }
 
                     // Magic numbers regretfully introduced for RT-28944 (so that
                     // the focus rect appears as expected on Windows and Mac).
@@ -1128,7 +1095,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             };
             inner.getStyleClass().add("tab-container");
             inner.setRotate(getSkinnable().getSide().equals(Side.BOTTOM) ? 180.0F : 0.0F);
-            inner.getChildren().addAll(label, closeBtn, focusIndicator);
+            inner.getChildren().addAll(label, focusIndicator);
 
             getChildren().addAll(inner);
 
@@ -1299,11 +1266,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             double paddingRight = snappedRightInset();
             double paddingLeft = snappedLeftInset();
             double tmpPrefWidth = snapSize(label.prefWidth(-1));
-
-            // only include the close button width if it is relevant
-            if (showCloseButton()) {
-                tmpPrefWidth += snapSize(closeBtn.prefWidth(-1));
-            }
 
             if (tmpPrefWidth > maxWidth) {
                 tmpPrefWidth = maxWidth;
