@@ -25,5 +25,4 @@
             <Label text="Hello World"/>
         </Tab>
     </TabWindow>
-    <Button text="Click me" fx:id="debugButton"/>
 </AnchorPane>

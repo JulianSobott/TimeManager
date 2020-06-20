@@ -2,7 +2,9 @@ package GuiElements;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Side;
@@ -42,4 +44,22 @@ public class TabWindow extends TabPane {
         }
         return this.showingText;
     }
+
+    private DoubleProperty imageSize;
+
+    public final void setImageSize(double value) {
+        this.imageSizeProperty().set(value);
+    }
+
+    public final double getImageSize() {
+        return this.imageSize != null ? this.imageSize.get() : 0;
+    }
+
+    public final DoubleProperty imageSizeProperty() {
+        if(imageSize == null) {
+            imageSize = new SimpleDoubleProperty(this, "imageSize", 48);
+        }
+        return imageSize;
+    }
+
 }

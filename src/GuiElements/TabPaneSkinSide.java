@@ -372,6 +372,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                 }
             });
         }
+        showText(getSkinnable().isShowingText());
     }
 
 
@@ -383,9 +384,15 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
      **************************************************************************/
 
     private void showText(boolean isShowing) {
-//        tabHeaderAreaClipRect.setWidth(10);
-        tabHeaderArea.resize(10, tabHeaderArea.getHeight());
-        tabHeaderAreaClipRect.setWidth(10);
+        double width;
+        if (isShowing) {
+            width = tabHeaderArea.prefWidth(-1);
+        } else {
+            width = getSkinnable().getImageSize();
+        }
+        width += tabHeaderArea.snappedLeftInset() + tabHeaderArea.snappedRightInset();
+        tabHeaderArea.resize(width, tabHeaderArea.getHeight());
+        tabHeaderAreaClipRect.setWidth(width);
     }
 
     /**
@@ -1019,7 +1026,8 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             clip = new Rectangle();
             setClip(clip);
 
-            label = new Label(tab.getText(), tab.getGraphic());
+            Node graphic = tab.getGraphic();
+            label = new Label(tab.getText(), graphic);
             label.getStyleClass().setAll("tab-label");
 
             updateGraphicRotation();
@@ -1173,6 +1181,10 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                 requestLayout();
                 getSkinnable().requestLayout();
             });
+            listener.registerChangeListener(getSkinnable().imageSizeProperty(), e -> {
+                requestLayout();
+                getSkinnable().requestLayout();
+            });
 
             getProperties().put(Tab.class, tab);
             getProperties().put(ContextMenu.class, tab.getContextMenu());
@@ -1297,6 +1309,12 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             double w = (snapSize(getWidth()) - snappedRightInset() - snappedLeftInset()) * animationTransition.getValue();
             inner.resize(w, snapSize(getHeight()) - snappedTopInset() - snappedBottomInset());
             inner.relocate(snappedLeftInset(), snappedTopInset());
+            double imageSize = getSkinnable().getImageSize();
+            if (label.getGraphic() instanceof ImageView) {
+                ImageView image = (ImageView) label.getGraphic();
+                image.setPreserveRatio(true);
+                image.setFitWidth(imageSize);
+            }
         }
 
         @Override protected void setWidth(double value) {

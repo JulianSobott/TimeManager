@@ -14,13 +14,7 @@ public class ControllerMainPage implements Initializable {
     @FXML
     TabWindow window;
 
-    @FXML
-    Button debugButton;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        debugButton.setOnMousePressed(e -> {
-            window.getTabs().add(new Tab("New Tab"));
-        });
     }
 }
