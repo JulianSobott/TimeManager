@@ -312,3 +312,18 @@
     -fx-background-radius: 12px;
     -fx-background-color: #757575;
 }
+
+/* ########################################### WEB View Elements ##################################################### */
+
+
+#BoxWebView {
+
+    -fx-background-radius: 12px;
+    -fx-background-color: #757575;
+}
+
+#BoxWebViewLight {
+
+    -fx-background-radius: 12px;
+    -fx-background-color: darkgrey;
+}

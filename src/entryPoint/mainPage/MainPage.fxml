@@ -11,10 +11,12 @@
                 <Tab text="Stundenplan">
                     <fx:include source="../../Calendar/Gui/Calender.fxml" />
                 </Tab>
+                <Tab text="Hochschulnews" >
+                    <fx:include source="../../WebView/Gui/WebView.fxml" />
+                </Tab>
                 <Tab text="Kanban Board">
                     <fx:include source="../../KanBan/Gui/kanban.fxml"/>
                 </Tab>
-                <Tab text="Hochschulnews" />
             </tabs>
         </TabPane>
     </children>
