@@ -16,7 +16,7 @@
         <Tab text="Stundenplan">
             <graphic>
                 <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="/Icons/icons8-zeitplan-64.png"/>
+                    <Image url="/Icons/debug_background.png"/>
                 </ImageView>
             </graphic>
             <fx:include source="/Calendar/Gui/Calender.fxml"/>

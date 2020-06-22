@@ -1660,8 +1660,7 @@ is being used to size a border should also be in pixels.
     -fx-text-fill: -fx-text-base-color;
 }
 .tab-pane > .tab-header-area > .headers-region > .tab {
-    -fx-background-insets: 0 1 1 0, 1 2 1 1, 2 3 1 2;
-    -fx-background-radius: 3 3 0 0, 2 2 0 0, 1 1 0 0;
+    -fx-background-insets: 1, 2, 3;
     -fx-padding: 0.083333em 0.5em 0.0769em 0.5em; /* 1 6 0.99 6 */
 }
 .tab-pane > .tab-header-area > .headers-region > .tab:top {
@@ -1686,8 +1685,8 @@ is being used to size a border should also be in pixels.
 .tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
     -fx-border-width: 1, 1;
     -fx-border-color: -fx-focus-color, -fx-faint-focus-color;
-    -fx-border-insets: -4 -4 -6 -5, -2 -2 -5 -3;
-    -fx-border-radius: 2, 1; /* looks sharper if outer border has a tighter radius (2 instead of 3) */
+    -fx-border-insets: -4 -4 -4 -4, -2 -2 -2 -2;
+    -fx-border-radius: 2; /* looks sharper if outer border has a tighter radius (2 instead of 3) */
 }
 .tab-pane:focused > .tab-header-area > .headers-region > .tab:bottom:selected .focus-indicator {
     -fx-border-insets: -6 -5 -4 -4, -5 -3 -2 -2;
