@@ -1,20 +1,18 @@
 package WebView.Gui;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 import java.net.URL;
@@ -79,8 +77,11 @@ public class ControllerWebView implements Initializable {
         MenuItem menuItemDeleteEntry = new MenuItem("Eintrag löschen");
 
         contextMenu.getItems().addAll(menuItemSplitHorizontal, menuItemSplitVertical, menuItemEditURL, menuItemDeleteEntry);
-        pane.setOnMouseClicked(event ->
-                contextMenu.show(pane, Side.BOTTOM, x / 2, -y / 2));
+        pane.setOnMouseClicked(actionEvent -> {
+
+            if (actionEvent.getButton() == MouseButton.SECONDARY)
+            contextMenu.show(pane, Side.BOTTOM, x / 2, -y / 2);
+        });
 
         //breite -> rechts / höhe -> oben
     }
