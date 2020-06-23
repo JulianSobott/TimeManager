@@ -185,7 +185,7 @@ public class SplitWindow {
             this.splitPaneOrientation = SplitPaneOrientation.horizontal;
             replaceElements(hBox);
 
-            //Zeiger noch Zuweißen
+            //Zeiger noch Zuweißen ...
         });
 
 
