@@ -183,10 +183,7 @@ public class SplitWindow {
         contextMenu.getItems().get(0).setOnAction(event -> {
 
             this.splitPaneOrientation = SplitPaneOrientation.horizontal;
-            SplitPane splitPane = createBasicSplitPane();
-
-            parentNode.getItems().remove(hBox);
-            parentNode.getItems().add(splitPane);
+            replaceElements(hBox);
 
             //Zeiger noch Zuweißen
         });
@@ -195,17 +192,33 @@ public class SplitWindow {
         contextMenu.getItems().get(1).setOnAction(event -> {
 
             this.splitPaneOrientation = SplitPaneOrientation.vertical;
-            SplitPane splitPane = createBasicSplitPane();
-
-            parentNode.getItems().remove(hBox);
-            parentNode.getItems().add(splitPane);
+           replaceElements(hBox);
 
             //Zeiger noch Zuweißen
         });
 
-
     }
 
+
+    /**
+     *      Hilfsmethode zum bestimmen des Index
+     */
+
+    private void replaceElements(HBox hBox){
+
+        SplitPane splitPane = createBasicSplitPane();
+
+        int index = -1;
+        for (int i = 0; i < parentNode.getItems().size() ; i++) {
+
+            if (hBox == parentNode.getItems().get(i))
+                index = i;
+
+        }
+
+        parentNode.getItems().remove(hBox);
+        parentNode.getItems().add(index, splitPane);
+    }
 
     /**
      * ENUM Orientation SplitPane
