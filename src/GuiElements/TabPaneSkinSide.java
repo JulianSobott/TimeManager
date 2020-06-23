@@ -64,13 +64,15 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         tabPaneBehavior = new TabPaneBehavior(control);
 
         tabMenu = new TabMenu();
-        getChildren().add(tabMenu);
 
         tabContentRegions = FXCollections.observableArrayList();
 
         for(Tab t : control.getTabs()) {
-            addTabContent(t);
+            addTabs(t);
         }
+
+        // TabMenu always on top
+        getChildren().add(tabMenu);
     }
 
     /***************************************************************************
@@ -119,6 +121,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
     private void addTabs(Tab... tabs) {
         for (Tab tab: tabs) {
             addTabContent(tab);
+            tabMenu.addTab(tab);
         }
     }
 
@@ -138,27 +141,60 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
     static class TabMenu extends StackPane {
 
+        private final ObservableList<TabLabel> tabLabels;
+        private final VBox labelsContainer;
+
         public TabMenu() {
-            getStyleClass().setAll("debug");
-            getChildren().setAll(new Label("Hello"));
+            tabLabels = FXCollections.observableArrayList();
+            labelsContainer = new VBox();
+
+            labelsContainer.getStyleClass().setAll("debug");
+            getChildren().add(labelsContainer);
         }
 
         @Override
         protected void layoutChildren() {
-            Label lbl = new Label("World");
-            StackPane s = new StackPane() {
-                @Override
-                protected void layoutChildren() {
-                    lbl.relocate(0, 0);
-                    lbl.resize(lbl.prefWidth(-1), lbl.prefHeight(-1));
-                }
-            };
-            s.getChildren().add(lbl);
-
-            getChildren().add(s);
+            labelsContainer.relocate(0, 0);
+            labelsContainer.resize(labelsContainer.prefWidth(-1), labelsContainer.prefHeight(-1));
         }
+
+        public void addTab(Tab tab) {
+            TabLabel tabLabel = new TabLabel(tab);
+            tabLabels.add(tabLabel);
+            labelsContainer.getChildren().add(tabLabel);
+        }
+
+        public void removeTab(Tab tab) {
+            for (int i = 0; i < tabLabels.size(); i++) {
+                if(tabLabels.get(i).getTab() == tab) {
+                    tabLabels.remove(i);
+                    break;
+                }
+            }
+        }
+
     }
 
+    static class TabLabel extends StackPane {
+
+        private final Tab tab;
+        private Label label;
+
+        public TabLabel(Tab tab) {
+            this.tab = tab;
+            label = new Label(tab.getText(), tab.getGraphic());
+            getChildren().add(label);
+        }
+
+        public Tab getTab() {
+            return tab;
+        }
+
+        @Override
+        protected double computePrefWidth(double height) {
+            return label.prefWidth(height);
+        }
+    }
 
 
     static class TabContentRegion extends StackPane {
