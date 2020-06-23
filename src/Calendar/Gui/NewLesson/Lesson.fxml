@@ -10,7 +10,7 @@
       <Button fx:id="buttonSave" layoutX="58.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#AddSubjectToTimetable" prefHeight="27.0" prefWidth="84.0" text="erstellen" />
       <Button fx:id="buttonClose" layoutX="152.0" layoutY="456.0" mnemonicParsing="false" onMouseClicked="#closeSubjectWindow" prefHeight="27.0" prefWidth="84.0" text="Abrechen" />
       <Label layoutX="58.0" layoutY="46.0" style="-fx-font-weight: bold;" text="Unterrichstunde erstellen" />
-      <Separator layoutX="439.0" layoutY="53.0" orientation="VERTICAL" prefHeight="447.0" prefWidth="0.0" AnchorPane.bottomAnchor="35.0" AnchorPane.topAnchor="35.0" />
+      <Separator layoutX="439.0" layoutY="53.0" splitPaneOrientation="VERTICAL" prefHeight="447.0" prefWidth="0.0" AnchorPane.bottomAnchor="35.0" AnchorPane.topAnchor="35.0" />
       <Label layoutX="468.0" layoutY="46.0" style="-fx-font-weight: bold;" text="Neues Fach hinzufügen" />
       <VBox layoutX="468.0" layoutY="104.0" prefHeight="242.0" prefWidth="246.0" spacing="10.0">
          <children>
