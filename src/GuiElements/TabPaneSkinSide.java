@@ -25,12 +25,12 @@
 package GuiElements;
 
 import com.sun.javafx.scene.control.behavior.TabPaneBehavior;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.Label;
-import javafx.scene.control.SkinBase;
+import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class TabPaneSkinSide extends SkinBase<TabWindow> {
@@ -40,10 +40,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
      * Enums                                                                   *
      *                                                                         *
      **************************************************************************/
-    public enum ContentResizing {
-        OVERLAP, // Folded out menu overlaps tab content
-        RESIZE  // Folded out menu resizes tab content
-    }
+
 
     /***************************************************************************
      *                                                                         *
@@ -52,22 +49,42 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
      **************************************************************************/
 
     private final TabPaneBehavior tabPaneBehavior;
-    private Label lblTest;
+
+    private ObservableList<TabContentRegion> tabContentRegions;
+    private TabMenu tabMenu;
+
+    /***************************************************************************
+     *                                                                         *
+     * Constructors                                                            *
+     *                                                                         *
+     **************************************************************************/
 
     protected TabPaneSkinSide(TabWindow control) {
         super(control);
         tabPaneBehavior = new TabPaneBehavior(control);
 
-        lblTest = new Label("Test");
+        tabMenu = new TabMenu();
+        getChildren().add(tabMenu);
 
-        VBox vBox = new VBox();
-        getChildren().clear();
-        vBox.getChildren().addAll(lblTest, new Button("Click me"));
-        vBox.getStyleClass().setAll("debug");
-        vBox.setMinWidth(200);
-        layoutInArea(vBox, 200, 200, 200, 200, 0, HPos.CENTER, VPos.CENTER);
-        getChildren().setAll(vBox);
+        tabContentRegions = FXCollections.observableArrayList();
+
+        for(Tab t : control.getTabs()) {
+            addTabContent(t);
+        }
     }
+
+    /***************************************************************************
+     *                                                                         *
+     * Properties                                                              *
+     *                                                                         *
+     **************************************************************************/
+
+
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
 
     /** {@inheritDoc} */
     @Override public void dispose() {
@@ -79,8 +96,81 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
     }
 
     @Override
-    protected void layoutChildren(double contentX, double contentY, double contentWidth, double contentHeight) {
+    protected void layoutChildren(double x, double y, double w, double h) {
+        // Menu
+        double menuWidth = tabMenu.prefWidth(-1);
+        double menuHeight = h;
+
+        tabMenu.resize(menuWidth, menuHeight);
+        tabMenu.relocate(x, y);
+
+        // Content
+        double contentWidth = w - menuWidth;
+        double contentHeight = h;
+        double contentStartX = menuWidth;
+        double contentStartY = 0;
+
+        for(TabContentRegion tabContentRegion : tabContentRegions) {
+            tabContentRegion.relocate(contentStartX, contentStartY);
+            tabContentRegion.resize(contentWidth, contentHeight);
+        }
+    }
+
+    private void addTabs(Tab... tabs) {
+        for (Tab tab: tabs) {
+            addTabContent(tab);
+        }
+    }
+
+    private void addTabContent(Tab tab) {
+        TabContentRegion region = new TabContentRegion(tab);
+        tabContentRegions.add(region);
+        getChildren().add(region);
+    }
+
+
+    /***************************************************************************
+     *                                                                         *
+     * Support classes                                                         *
+     *                                                                         *
+     **************************************************************************/
+
+
+    static class TabMenu extends StackPane {
+
+        public TabMenu() {
+            getStyleClass().setAll("debug");
+            getChildren().setAll(new Label("Hello"));
+        }
+
+        @Override
+        protected void layoutChildren() {
+            Label lbl = new Label("World");
+            StackPane s = new StackPane() {
+                @Override
+                protected void layoutChildren() {
+                    lbl.relocate(0, 0);
+                    lbl.resize(lbl.prefWidth(-1), lbl.prefHeight(-1));
+                }
+            };
+            s.getChildren().add(lbl);
+
+            getChildren().add(s);
+        }
+    }
+
+
+
+    static class TabContentRegion extends StackPane {
+
+        private Tab tab;
+
+        public TabContentRegion(Tab tab) {
+            this.tab = tab;
+            getChildren().setAll(tab.getContent());
+        }
 
     }
+
 
 }

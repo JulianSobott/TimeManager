@@ -1,10 +1,7 @@
 package GuiElements;
 
 import javafx.beans.InvalidationListener;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Side;
@@ -62,4 +59,20 @@ public class TabWindow extends TabPane {
         return imageSize;
     }
 
+    public enum ContentResizing {
+        OVERLAP, // Folded out menu overlaps tab content
+        RESIZE  // Folded out menu resizes tab content
+    }
+    private ObjectProperty<ContentResizing> contentResizing;
+
+    public final void setContentResizing(ContentResizing value) {
+        this.contentResizingProperty().set(value);
+    }
+
+    private ObjectProperty<ContentResizing> contentResizingProperty() {
+        if(contentResizing == null) {
+            contentResizing = new SimpleObjectProperty<>(this, "contentResizing", ContentResizing.OVERLAP);
+        }
+        return contentResizing;
+    }
 }
