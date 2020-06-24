@@ -5,6 +5,7 @@ import Calendar.Logic.Position;
 import Calendar.Logic.Subject;
 import Calendar.Logic.Timetable;
 import entryPoint.SceneLoader;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.control.Button;
@@ -13,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -26,6 +28,8 @@ public class GuiLesson extends VBox {
     boolean tutorial;
 
     GridPane gridPaneCalendar;
+    HBox hBoxEditButtons;
+
     ControllerCalender controllerCalender;
     Timetable timetable;
 
@@ -40,7 +44,9 @@ public class GuiLesson extends VBox {
         this.subjectLocation = new Label(subjectLocation);
         this.color = subject.getColor();
 
-        this.getChildren().addAll(generateMenuButtons(),this.subjectName, this.lecturer, this.subjectLocation);
+        this.hBoxEditButtons = generateMenuButtons();
+        addEventOnMouseOver();
+        this.getChildren().addAll( this.subjectName, this.lecturer, this.subjectLocation);
 
         this.gridPaneCalendar = pane;
         this.controllerCalender = calender;
@@ -64,7 +70,7 @@ public class GuiLesson extends VBox {
         this.setAlignment(Pos.CENTER);
 
         updateDesign();
-        generateContextMenu();
+       // generateContextMenu();
     }
 
     private void updateDesign() {
@@ -127,7 +133,9 @@ public class GuiLesson extends VBox {
         hBox.setStyle("-fx-padding: 5,5,5,5");
         hBox.setAlignment(Pos.TOP_RIGHT);
         Button edit = createButton("/Icons/icons8-bearbeiten-64.png");
+        generateEditLessonEvent(edit);
         Button delete = createButton("/Icons/icons8-unwiederuflich-löschen-64.png");
+        generateDeleteLessonEvent(delete);
         hBox.getChildren().addAll(edit ,delete);
         return hBox;
     }
@@ -136,8 +144,8 @@ public class GuiLesson extends VBox {
 
         Image image = new Image(imagePath);
         ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(15);
-        imageView.setFitHeight(15);
+        imageView.setFitWidth(18);
+        imageView.setFitHeight(18);
 
         Button button = new Button();
         button.setGraphic(imageView);
@@ -146,6 +154,49 @@ public class GuiLesson extends VBox {
 
     }
 
+
+    /**
+     *   addEvent OnMouse Over
+     */
+
+
+    private void addEventOnMouseOver(){
+
+
+        this.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+
+                        addButtons();
+                    }
+                });
+
+        this.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+
+                        removeButtons();
+                    }
+                });
+    }
+
+
+    private void  addButtons(){
+
+        this.getChildren().add(0,hBoxEditButtons);
+    }
+
+
+    private void  removeButtons(){
+
+        this.getChildren().remove(hBoxEditButtons);
+    }
+
+
+
+ /**
 
     private void generateContextMenu() {
 
@@ -163,11 +214,11 @@ public class GuiLesson extends VBox {
         });
     }
 
+*/
 
+    private void generateEditLessonEvent(Button buttonEdit){
 
-    private void generateEditLesson(MenuItem menuItem){
-
-        menuItem.setOnAction(actionEvent -> {
+        buttonEdit.setOnAction(actionEvent -> {
 
             SceneLoader sceneLoader = SceneLoader.getInstance();
             ControllerLesson controllerLesson = new ControllerLesson(gridPaneCalendar, this.timetable, this.gridPaneCalendar, this, controllerCalender);
@@ -178,9 +229,9 @@ public class GuiLesson extends VBox {
 
 
 
-    private void generateDeleteLessonEvent(MenuItem menuItem) {
+    private void generateDeleteLessonEvent(Button buttonDelete) {
 
-        menuItem.setOnAction(actionEvent -> {
+        buttonDelete.setOnAction(actionEvent -> {
 
             Position position = new Position(GridPane.getRowIndex(this), GridPane.getColumnIndex(this));
 
