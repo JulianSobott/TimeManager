@@ -1,12 +1,17 @@
 package WebView.Gui;
 
+import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.web.WebView;
+
+import java.util.HashMap;
 
 
 /**
@@ -21,13 +26,8 @@ import javafx.scene.web.WebView;
 
 public class SplitWindow {
 
-    private boolean firstSplit = false;
-
     private SplitPane parentNode;
     private SplitPaneOrientation splitPaneOrientation;
-
-    private Pane left_Top_Child;
-    private Pane right_Below_Child;
 
 
     public SplitWindow(SplitPane parentNode, SplitPaneOrientation splitPaneOrientation) {
@@ -42,19 +42,20 @@ public class SplitWindow {
      */
 
 
+
     public void splitIntoTwoSubWindows() {
 
-        SplitPane splitPane = createBasicSplitPane();
+        SplitPaneWeb splitPane = createBasicSplitPane();
+
         this.parentNode.getItems().clear();
         this.parentNode.getItems().add(splitPane);
-
         this.parentNode = splitPane;
     }
 
 
-    private SplitPane createBasicSplitPane() {
+    private SplitPaneWeb createBasicSplitPane() {
 
-        SplitPane splitPane;
+        SplitPaneWeb splitPane;
 
         if (splitPaneOrientation == SplitPaneOrientation.horizontal)
             splitPane = generateSplitPaneHorizontal();
@@ -62,7 +63,6 @@ public class SplitWindow {
             splitPane = generateSplitPaneVertical();
 
         HBox h1 = createNewHBox("BoxWebViewLight");
-        this.left_Top_Child = h1;
 
         h1.getChildren().add(generateAddURL(h1));
         ContextMenu contextMenuH1 = createContextMenu(h1);
@@ -70,7 +70,6 @@ public class SplitWindow {
 
 
         HBox h2 = createNewHBox("BoxWebViewLight");
-        this.right_Below_Child = h2;
 
         h2.getChildren().add(generateAddURL(h2));
         ContextMenu contextMenuH2 = createContextMenu(h2);
@@ -87,20 +86,20 @@ public class SplitWindow {
      */
 
 
-    private SplitPane generateSplitPaneHorizontal() {
+    private SplitPaneWeb generateSplitPaneHorizontal() {
 
-        SplitPane splitPane = new SplitPane();
-        splitPane.setOrientation(Orientation.VERTICAL);
+        SplitPaneWeb splitPaneWeb = new SplitPaneWeb();
+        splitPaneWeb.setOrientation(Orientation.VERTICAL);
 
-        return splitPane;
+        return splitPaneWeb;
     }
 
-    private SplitPane generateSplitPaneVertical() {
+    private SplitPaneWeb generateSplitPaneVertical() {
 
-        SplitPane splitPane = new SplitPane();
-        splitPane.setOrientation(Orientation.HORIZONTAL);
+        SplitPaneWeb splitPaneWeb = new SplitPaneWeb();
+        splitPaneWeb.setOrientation(Orientation.HORIZONTAL);
 
-        return splitPane;
+        return splitPaneWeb;
     }
 
 
@@ -118,8 +117,10 @@ public class SplitWindow {
 
         TextField textField = new TextField();
         textField.setPromptText("http://www.google.de");
+        textField.setPrefWidth(300);
+        textField.setAlignment(Pos.CENTER);
 
-        Button button = new Button("URL anzeigen");
+        Button button = new Button("Webseite anzeigen");
         button.setOnMouseClicked(mouseEvent -> {
 
             // Create a WebView
@@ -127,6 +128,9 @@ public class SplitWindow {
             webView.getEngine().load(textField.getText());
             pane.getChildren().clear();
             pane.getChildren().add(webView);
+
+            // Property Bindings
+            webView.prefWidthProperty().bind(pane.widthProperty());
 
         });
 
@@ -185,31 +189,45 @@ public class SplitWindow {
             this.splitPaneOrientation = SplitPaneOrientation.horizontal;
             replaceElements(hBox);
 
-            //Zeiger noch Zuweißen ...
         });
 
 
         contextMenu.getItems().get(1).setOnAction(event -> {
 
             this.splitPaneOrientation = SplitPaneOrientation.vertical;
-           replaceElements(hBox);
+            replaceElements(hBox);
 
-            //Zeiger noch Zuweißen
+        });
+
+        contextMenu.getItems().get(3).setOnAction(event -> {
+
+            SplitPaneWeb splitPaneWeb = (SplitPaneWeb) hBox.getParent().getParent();
+
+            if (splitPaneWeb.getItems().size() == 1)
+            {
+                SplitPane parent = (SplitPane) splitPaneWeb.getParent().getParent();
+                parent.getItems().remove(splitPaneWeb);
+
+            }
+
+            splitPaneWeb.getItems().remove(hBox);
         });
 
     }
 
 
     /**
-     *      Hilfsmethode zum bestimmen des Index
+     * Hilfsmethode zum bestimmen des Index
      */
 
-    private void replaceElements(HBox hBox){
+    private void replaceElements(HBox hBox) {
 
         SplitPane splitPane = createBasicSplitPane();
 
+        SplitPane parentNode = (SplitPane) hBox.getParent().getParent();
+
         int index = -1;
-        for (int i = 0; i < parentNode.getItems().size() ; i++) {
+        for (int i = 0; i < parentNode.getItems().size(); i++) {
 
             if (hBox == parentNode.getItems().get(i))
                 index = i;
