@@ -118,8 +118,10 @@ public class SplitWindow {
 
         TextField textField = new TextField();
         textField.setPromptText("http://www.google.de");
+        textField.setPrefWidth(300);
+        textField.setAlignment(Pos.CENTER);
 
-        Button button = new Button("URL anzeigen");
+        Button button = new Button("Webseite anzeigen");
         button.setOnMouseClicked(mouseEvent -> {
 
             // Create a WebView
@@ -127,6 +129,9 @@ public class SplitWindow {
             webView.getEngine().load(textField.getText());
             pane.getChildren().clear();
             pane.getChildren().add(webView);
+
+            // Property Bindings
+            webView.prefWidthProperty().bind(pane.widthProperty());
 
         });
 

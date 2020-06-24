@@ -327,3 +327,19 @@
     -fx-background-radius: 12px;
     -fx-background-color: darkgrey;
 }
+
+.split-pane:horizontal > .split-pane-divider {
+    -fx-background-color: transparent;
+}
+.split-pane:vertical > .split-pane-divider {
+    -fx-background-color: transparent;
+}
+
+.split-pane{
+    -fx-background-color: grey;
+}
+
+.web-view{
+
+    -fx-background-radius: 12px;
+}
