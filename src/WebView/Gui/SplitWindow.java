@@ -7,10 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.web.WebView;
 
 import java.util.ArrayList;
@@ -32,7 +29,8 @@ public class SplitWindow {
 
     private SplitPane parentNode;
     private SplitPaneOrientation splitPaneOrientation;
-    private static List<HBox> buttons = new ArrayList<>();
+    private static List<VBox> buttons = new ArrayList<>();
+    private boolean buttonState;
 
 
     public SplitWindow(SplitPane parentNode, SplitPaneOrientation splitPaneOrientation) {
@@ -106,7 +104,7 @@ public class SplitWindow {
      */
 
 
-    private Pane generateAddURL(Pane pane) {
+    private HBox generateAddURL(Pane pane) {
 
         HBox hBox = new HBox();
 
@@ -124,8 +122,9 @@ public class SplitWindow {
             // Create a WebView
             WebView webView = new WebView();
             webView.getEngine().load(textField.getText());
-            pane.getChildren().clear();
-            pane.getChildren().add(webView);
+            StackPane stackPane = (StackPane) pane.getParent().getParent();
+            HBox urlHBox = (HBox) stackPane.getChildren().get(0);
+            urlHBox.getChildren().add(webView);
 
             // Property Bindings
             webView.prefWidthProperty().bind(pane.widthProperty());
@@ -155,60 +154,62 @@ public class SplitWindow {
         s.setPickOnBounds(false);
 
         HBox h = createNewHBox("BoxWebViewLight");
-        h.getChildren().add(generateAddURL(h));
+        //h.getChildren().add(generateAddURL(h));
 
-        HBox buttonHBox = createEditButtons();
-        buttons.add(buttonHBox);
-        //buttons.setVisible(false);
+        VBox buttonVBox = createEditButtons();
+        buttons.add(buttonVBox);
+        buttonVBox.setVisible(buttonState);
 
-        s.getChildren().addAll(h, buttonHBox);
+        s.getChildren().addAll(h, buttonVBox);
 
         return s;
     }
 
-    private HBox createEditButtons(){
-        HBox buttonBox = createNewHBox("BoxEditButtons");
+    private VBox createEditButtons(){
+        HBox urlTextBox = new HBox();
+        urlTextBox.getChildren().add(generateAddURL(urlTextBox));
+        urlTextBox.setAlignment(Pos.CENTER);
 
-        Pane spacer = new Pane();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-        spacer.setMinSize(10,1);
-
-        Button edit = new Button("edit");
-
+        HBox buttonBox = new HBox();
         Button close = new Button("close");
-
         Button horizontal = new Button("horizontal");
         Button vertical = new Button("vertical");
+        buttonBox.getChildren().addAll(horizontal, vertical, close);
+        buttonBox.setAlignment(Pos.CENTER);
 
-        buttonBox.getChildren().addAll(spacer, horizontal, vertical, edit, close);
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(urlTextBox, buttonBox);
+        vBox.setAlignment(Pos.CENTER);
+
         addButtonFunctions(buttonBox);
 
-        return buttonBox;
+        return vBox;
     }
 
     private void addButtonFunctions(HBox HBoxButtons){
 
-        HBoxButtons.getChildren().get(1).setOnMouseClicked(event -> { //split horizontal button
+        HBoxButtons.getChildren().get(0).setOnMouseClicked(event -> { //split horizontal button
             this.splitPaneOrientation = SplitPaneOrientation.horizontal;
-            replaceElements((StackPane) HBoxButtons.getParent());
+            replaceElements((StackPane) HBoxButtons.getParent().getParent());
         });
 
 
-        HBoxButtons.getChildren().get(2).setOnMouseClicked(event -> { //split vertical button
+        HBoxButtons.getChildren().get(1).setOnMouseClicked(event -> { //split vertical button
             this.splitPaneOrientation = SplitPaneOrientation.vertical;
-            replaceElements((StackPane) HBoxButtons.getParent());
+            replaceElements((StackPane) HBoxButtons.getParent().getParent());
         });
 
 
-        HBoxButtons.getChildren().get(3).setOnMouseClicked(event -> { //Edit button
-            StackPane stackPane = (StackPane) HBoxButtons.getParent();
-            HBox urlBox = (HBox) stackPane.getChildren().get(0);
-            generateAddURL(urlBox);
-        });
+//        HBoxButtons.getChildren().get(4).setOnMouseClicked(event -> { //Edit button
+//            StackPane stackPane = (StackPane) HBoxButtons.getParent();
+//            HBox urlBox = (HBox) stackPane.getChildren().get(0);
+//            urlBox.getChildren().clear();
+//            urlBox.getChildren().add(generateAddURL(urlBox));
+//        });
 
 
-        HBoxButtons.getChildren().get(4).setOnMouseClicked(event -> { //close button
-            StackPane stackPane = (StackPane) HBoxButtons.getParent();
+        HBoxButtons.getChildren().get(2).setOnMouseClicked(event -> { //close button
+            StackPane stackPane = (StackPane) HBoxButtons.getParent().getParent();
             buttons.remove(HBoxButtons);
 
             if (stackPane.getChildren().size() == 2)
@@ -227,8 +228,9 @@ public class SplitWindow {
      */
 
     public void showEditButtons(){
-        for (HBox h : buttons)
-            h.setVisible(!h.isVisible());
+        buttonState = !buttonState;
+        for (VBox v : buttons)
+            v.setVisible(buttonState);
     }
 
 
