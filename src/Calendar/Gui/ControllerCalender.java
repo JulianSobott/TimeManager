@@ -11,11 +11,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -253,11 +256,12 @@ public class ControllerCalender implements Initializable {
     public VBox generateEmptyVBox(int day, int block) {
 
         VBox vBoxLessonBasicLayout = new VBox();
+        vBoxLessonBasicLayout.setAlignment(Pos.CENTER);
         timetable.setEmptyLesson(new Position(block, day), vBoxLessonBasicLayout);
 
         vBoxLessonBasicLayout.setId("SettingsEmptyLesson");
         generateContextMenuEmptyLesson(vBoxLessonBasicLayout);
-        vBoxLessonBasicLayout.setBackground(new Background(new BackgroundFill(Color.rgb(135, block * 15, day *10),
+        vBoxLessonBasicLayout.setBackground(new Background(new BackgroundFill(Color.rgb(135, block * 15, day * 10),
                 new CornerRadii(13),
                 new Insets(0.0, 0.0, 0.0, 0.0))));
 
@@ -266,20 +270,24 @@ public class ControllerCalender implements Initializable {
 
     private void generateContextMenuEmptyLesson(VBox emptyVBox) {
 
-        ContextMenu contextMenuEmptyLesson = new ContextMenu();
-        MenuItem menuItemAddLesson = new MenuItem("Fach hinzufügen");
-        generateEventAddLesson(menuItemAddLesson, emptyVBox);
-        contextMenuEmptyLesson.getItems().addAll(menuItemAddLesson);
-        emptyVBox.setOnMouseClicked
-                (mouseEvent -> contextMenuEmptyLesson.show
-                        (emptyVBox, Side.BOTTOM, -emptyVBox.getHeight() * 0.35, -emptyVBox.getHeight() / 2));
+        Image image = new Image("/Icons/icons8-plus-64.png");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(40);
+        imageView.setFitHeight(40);
+
+        Button buttonAdd = new Button();
+        buttonAdd.setGraphic(imageView);
+        buttonAdd.setId("buttonAddLesson");
+
+        emptyVBox.getChildren().add(buttonAdd);
+        generateEventAddLesson(buttonAdd, emptyVBox);
 
     }
 
 
-    private void generateEventAddLesson(MenuItem menuItemAddLesson, VBox emptyVBox) {
+    private void generateEventAddLesson(Button buttonAddLesson, VBox emptyVBox) {
 
-        menuItemAddLesson.setOnAction(actionEvent -> {
+        buttonAddLesson.setOnAction(actionEvent -> {
 
             SceneLoader sceneLoader = SceneLoader.getInstance();
             ControllerLesson controllerLesson = new ControllerLesson(this.anchorPaneCalendar, this.timetable,
