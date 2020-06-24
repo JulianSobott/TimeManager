@@ -189,7 +189,6 @@ public class SplitWindow {
             this.splitPaneOrientation = SplitPaneOrientation.horizontal;
             replaceElements(hBox);
 
-            //Zeiger noch Zuweißen ...
         });
 
 
@@ -198,18 +197,17 @@ public class SplitWindow {
             this.splitPaneOrientation = SplitPaneOrientation.vertical;
             replaceElements(hBox);
 
-            //Zeiger noch Zuweißen
         });
 
         contextMenu.getItems().get(3).setOnAction(event -> {
 
             SplitPaneWeb splitPaneWeb = (SplitPaneWeb) hBox.getParent().getParent();
-            ObservableList s = splitPaneWeb.getItems();
 
             if (splitPaneWeb.getItems().size() == 1)
             {
                 SplitPane parent = (SplitPane) splitPaneWeb.getParent().getParent();
                 parent.getItems().remove(splitPaneWeb);
+
             }
 
             splitPaneWeb.getItems().remove(hBox);
@@ -225,6 +223,8 @@ public class SplitWindow {
     private void replaceElements(HBox hBox) {
 
         SplitPane splitPane = createBasicSplitPane();
+
+        SplitPane parentNode = (SplitPane) hBox.getParent().getParent();
 
         int index = -1;
         for (int i = 0; i < parentNode.getItems().size(); i++) {
