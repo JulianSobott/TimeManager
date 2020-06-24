@@ -15,65 +15,25 @@ public class ControllerWebView implements Initializable {
     @FXML
     private AnchorPane anchorPaneWebview;
 
-
     @FXML
     private SplitPane mainWebView;
+
+    private SplitWindow startView;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         mainWebView.setId("BoxWebView");
-        createContextMenuMainWindow();
-
+        startView = new SplitWindow(null, null);
+        startView.createStartView(mainWebView);
+        setButtonFunction();
     }
 
-    /**
-     * Create context Menu
-     */
-
-    private void createContextMenuMainWindow() {
-
-        ContextMenu contextMenu = generateContextMenu();
-
-        contextMenu.getItems().get(0).setOnAction( event -> {
-
-            SplitWindow splitWindow = new SplitWindow(mainWebView, SplitWindow.SplitPaneOrientation.horizontal);
-            splitWindow.splitIntoTwoSubWindows();
-
+    private void setButtonFunction(){
+        anchorPaneWebview.getChildren().get(1).setOnMouseClicked(event -> {
+            startView.showEditButtons();
         });
-
-        contextMenu.getItems().get(1).setOnAction( event -> {
-
-            SplitWindow splitWindow = new SplitWindow(mainWebView, SplitWindow.SplitPaneOrientation.vertical);
-            splitWindow.splitIntoTwoSubWindows();
-
-        });
-
-
-
-        this.mainWebView.setOnMouseClicked(actionEvent -> {
-
-            if (actionEvent.getButton() == MouseButton.SECONDARY)
-                contextMenu.show(mainWebView, actionEvent.getScreenX(), actionEvent.getScreenY());
-        });
-
-
-    }
-
-
-    private ContextMenu generateContextMenu() {
-
-
-        ContextMenu contextMenu = new ContextMenu();
-
-        MenuItem menuItemSplitHorizontal = new MenuItem("Horizontal teilen");
-        MenuItem menuItemSplitVertical = new MenuItem("Vertikal teilen");
-        MenuItem menuItemEditURL = new MenuItem("URL bearbeiten");
-        MenuItem menuItemDeleteEntry = new MenuItem("Eintrag löschen");
-
-        contextMenu.getItems().addAll(menuItemSplitHorizontal, menuItemSplitVertical, menuItemEditURL, menuItemDeleteEntry);
-        return contextMenu;
     }
 
 }
