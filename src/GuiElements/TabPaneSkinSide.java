@@ -24,6 +24,9 @@
  */
 package GuiElements;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.InvalidationListener;
 import javafx.beans.WeakInvalidationListener;
 import javafx.beans.property.DoubleProperty;
@@ -39,6 +42,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 
 public class TabPaneSkinSide extends SkinBase<TabWindow> {
@@ -108,17 +112,17 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
     @Override
     protected void layoutChildren(double x, double y, double w, double h) {
         // Menu
-        double menuWidth = tabMenu.getNonOverlapWidth();
+        double menuWidth = tabMenu.prefWidth(-1);
         double menuHeight = h;
 
         tabMenu.resize(menuWidth, menuHeight);
         tabMenu.relocate(x, y);
 
         // Content
-
-        double contentWidth = w - menuWidth;
+        double menuNonOverlapWidth = tabMenu.getNonOverlapWidth();
+        double contentWidth = w - menuNonOverlapWidth;
         double contentHeight = h;
-        double contentStartX = menuWidth;
+        double contentStartX = menuNonOverlapWidth;
         double contentStartY = 0;
 
         for(TabContentRegion tabContentRegion : tabContentRegions) {
@@ -134,6 +138,12 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         }
     }
 
+    /***************************************************************************
+     *                                                                         *
+     * Private Methods                                                              *
+     *                                                                         *
+     **************************************************************************/
+
     private void addTabs(Tab... tabs) {
         for (Tab tab: tabs) {
             addTabContent(tab);
@@ -145,6 +155,18 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         TabContentRegion region = new TabContentRegion(tab);
         tabContentRegions.add(region);
         getChildren().add(region);
+    }
+
+    private void showText(boolean isShowing) {
+        double width = tabMenu.computePrefWidth(-1);
+        tabMenu.resize(100, tabMenu.getHeight());
+
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(1);
+        KeyValue kv = new KeyValue(tabMenu.clip.widthProperty(), tabMenu.computePrefWidth(-1));
+        KeyFrame kf = new KeyFrame(Duration.millis(100), kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.play();
     }
 
 
@@ -208,16 +230,17 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             }
             getSkinnable().showingTextProperty().bind(btnToggleCollapse.selectedProperty());
             getSkinnable().showingTextProperty().addListener(l -> {
-                if (getSkinnable().isShowingText()) {
-                    clip.setWidth(computePrefWidth(-1));
-                } else {
-                    double insets = labelsContainer.snappedLeftInset() + labelsContainer.snappedRightInset()
-                            + snappedLeftInset() + snappedRightInset();
-                    clip.setWidth(getSkinnable().getImageSize() + insets);
-                }
-                if (getSkinnable().getContentResizing()  == TabWindow.ContentResizing.RESIZE) {
-                    nonOverlapProperty().set(clip.getWidth());
-                }
+                showText(true);
+//                if (getSkinnable().isShowingText()) {
+//                    clip.setWidth(computePrefWidth(-1));
+//                } else {
+//                    double insets = labelsContainer.snappedLeftInset() + labelsContainer.snappedRightInset()
+//                            + snappedLeftInset() + snappedRightInset();
+//                    clip.setWidth(getSkinnable().getImageSize() + insets);
+//                }
+//                if (getSkinnable().getContentResizing()  == TabWindow.ContentResizing.RESIZE) {
+//                    nonOverlapProperty().set(clip.getWidth());
+//                }
             });
 
             clip.setHeight(Double.MAX_VALUE);
