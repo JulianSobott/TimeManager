@@ -68,8 +68,11 @@ public class TabWindow extends TabPane {
     public final void setContentResizing(ContentResizing value) {
         this.contentResizingProperty().set(value);
     }
+    public final ContentResizing getContentResizing() {
+        return this.contentResizingProperty().get();
+    }
 
-    private ObjectProperty<ContentResizing> contentResizingProperty() {
+    public ObjectProperty<ContentResizing> contentResizingProperty() {
         if(contentResizing == null) {
             contentResizing = new SimpleObjectProperty<>(this, "contentResizing", ContentResizing.OVERLAP);
         }

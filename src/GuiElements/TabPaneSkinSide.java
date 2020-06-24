@@ -32,11 +32,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 
 
 public class TabPaneSkinSide extends SkinBase<TabWindow> {
@@ -155,7 +157,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             tabLabels = FXCollections.observableArrayList();
             labelsContainer = new VBox();
 
-
             btnToggleCollapse = new ToggleButton();
 
             Image img = new Image("/Icons/list-48dp.png");
@@ -172,17 +173,38 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
         @Override
         protected void layoutChildren() {
+            double startX = snappedLeftInset();
+            double startY = snappedTopInset();
             // Menu button
-            btnToggleCollapse.relocate(0, 0);
+            btnToggleCollapse.relocate(startX, startY);
             btnToggleCollapse.resize(btnToggleCollapse.prefWidth(-1), btnToggleCollapse.prefHeight(-1));
             // labels container
             double spacing = 20;
-            labelsContainer.relocate(0, btnToggleCollapse.prefHeight(-1) + spacing);
+            labelsContainer.relocate(startX, btnToggleCollapse.prefHeight(-1) + spacing + startY);
             labelsContainer.resize(labelsContainer.prefWidth(-1), labelsContainer.prefHeight(-1));
 
+            // bind menu width
             // TODO: maybe find solution that isn't binding it here, but in constructor
             // TODO: differentiate between overlap and not
-            nonOverlapProperty().bind(getSkinnable().imageSizeProperty().add(labelsContainer.snappedLeftInset()));
+            if(getSkinnable().getContentResizing()  == TabWindow.ContentResizing.OVERLAP) {
+                nonOverlapProperty().bind(getSkinnable().imageSizeProperty()
+                        .add(labelsContainer.snappedLeftInset())
+                        .add(snappedLeftInset())
+                        .add(snappedRightInset()));
+            } else { // Resize
+                double insets = labelsContainer.snappedLeftInset() + labelsContainer.snappedRightInset()
+                                + snappedLeftInset() + snappedRightInset();
+                nonOverlapProperty().set(prefWidth(-1) + insets);
+            }
+        }
+
+        @Override
+        protected double computePrefWidth(double height) {
+            if (getSkinnable().isShowingText()) {
+                return getSkinnable().imageSizeProperty().add(labelsContainer.snappedLeftInset()).get();
+            } else {
+                return labelsContainer.prefWidth(-1);
+            }
         }
 
         // Public API
