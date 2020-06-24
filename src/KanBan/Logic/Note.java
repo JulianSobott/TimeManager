@@ -44,6 +44,7 @@ public class Note {
         attachments.addAll(files);
     }
 
+    // TODO: move to done somewhere
     public boolean finishStep(int step){
         if(steps.get(step).isFinished())
             return false;
@@ -92,6 +93,5 @@ public class Note {
 
     private void finishNote(){
         noteStatus = true;
-        //TODO move note to done Notes
     }
 }
