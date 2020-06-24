@@ -159,6 +159,9 @@ public class SplitWindow {
         ContextMenu contextMenu = generateContextMenu();
         pane.setOnMouseClicked(event -> {
 
+            if (contextMenu.isShowing())
+                 contextMenu.hide();
+
             if (event.getButton() == MouseButton.SECONDARY)
                 contextMenu.show(pane, event.getScreenX(), event.getScreenY());
         });
