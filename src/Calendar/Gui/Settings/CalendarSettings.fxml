@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane id="SettingsPane" fx:id="anchorPaneSettings" prefHeight="700.0" prefWidth="331.0"
-            stylesheets="/entryPoint/MainDesign.css, /css/theme_dark.css, /css/color_classes.css" styleClass="background-default"
+            stylesheets="/entryPoint/MainDesign.css, /css/color_classes.css" styleClass="background-default"
             xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button layoutX="14.0" layoutY="659.0" mnemonicParsing="false" onMouseClicked="#saveButtons" prefHeight="27.0" prefWidth="99.0" text="Speichern" />

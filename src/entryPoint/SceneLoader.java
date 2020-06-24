@@ -6,8 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import utils.ThemeLoader;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 public class SceneLoader {
 
@@ -67,6 +69,7 @@ public class SceneLoader {
     private Popup createPopup(CalendarScene calendarScene, Object controller) {
 
         Parent window = instance.loadFxmlFile(calendarScene, controller);
+        ThemeLoader.get().addRootNode(window);
         Popup popup = new Popup();
         popup.getContent().add(window);
         return popup;
@@ -87,6 +90,8 @@ public class SceneLoader {
 
         popup.setX(x + width - 350);
         popup.setY(y + 90);
+
+
 
         popup.show(node.getScene().getWindow());
 
