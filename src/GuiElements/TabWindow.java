@@ -49,7 +49,7 @@ public class TabWindow extends TabPane {
     }
 
     public final double getImageSize() {
-        return this.imageSize != null ? this.imageSize.get() : 0;
+        return imageSizeProperty().get();
     }
 
     public final DoubleProperty imageSizeProperty() {
@@ -74,7 +74,7 @@ public class TabWindow extends TabPane {
 
     public ObjectProperty<ContentResizing> contentResizingProperty() {
         if(contentResizing == null) {
-            contentResizing = new SimpleObjectProperty<>(this, "contentResizing", ContentResizing.RESIZE);
+            contentResizing = new SimpleObjectProperty<>(this, "contentResizing", ContentResizing.OVERLAP);
         }
         return contentResizing;
     }

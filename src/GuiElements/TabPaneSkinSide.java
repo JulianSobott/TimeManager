@@ -115,6 +115,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         tabMenu.relocate(x, y);
 
         // Content
+
         double contentWidth = w - menuWidth;
         double contentHeight = h;
         double contentStartX = menuWidth;
@@ -123,6 +124,13 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         for(TabContentRegion tabContentRegion : tabContentRegions) {
             tabContentRegion.relocate(contentStartX, contentStartY);
             tabContentRegion.resize(contentWidth, contentHeight);
+
+            tabMenu.nonOverlapProperty().addListener(l -> {
+                double headerW = tabMenu.getNonOverlapWidth() + tabMenu.snappedLeftInset() + tabMenu.snappedRightInset();
+                double contentW = w - headerW;
+                tabContentRegion.relocate(headerW, y);
+                tabContentRegion.resize(contentW, contentHeight);
+            });
         }
     }
 
@@ -194,14 +202,21 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             if (getSkinnable().isShowingText()) {
                 clip.setWidth(prefWidth(-1));
             } else {
-                clip.setWidth(getNonOverlapWidth());
+                double insets = labelsContainer.snappedLeftInset() + labelsContainer.snappedRightInset()
+                        + snappedLeftInset() + snappedRightInset();
+                clip.setWidth(getSkinnable().getImageSize() + insets);
             }
             getSkinnable().showingTextProperty().bind(btnToggleCollapse.selectedProperty());
             getSkinnable().showingTextProperty().addListener(l -> {
                 if (getSkinnable().isShowingText()) {
                     clip.setWidth(computePrefWidth(-1));
                 } else {
-                    clip.setWidth(getNonOverlapWidth());
+                    double insets = labelsContainer.snappedLeftInset() + labelsContainer.snappedRightInset()
+                            + snappedLeftInset() + snappedRightInset();
+                    clip.setWidth(getSkinnable().getImageSize() + insets);
+                }
+                if (getSkinnable().getContentResizing()  == TabWindow.ContentResizing.RESIZE) {
+                    nonOverlapProperty().set(clip.getWidth());
                 }
             });
 
@@ -215,17 +230,14 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                         .add(snappedLeftInset())
                         .add(snappedRightInset()));
             } else { // Resize
-                double insets = labelsContainer.snappedLeftInset() + labelsContainer.snappedRightInset()
-                                + snappedLeftInset() + snappedRightInset();
-                // TODO: bind instead of set
-                nonOverlapProperty().set(prefWidth(-1) + insets);
+                nonOverlapProperty().set(clip.getWidth());
             }
         }
 
         @Override
         protected double computePrefWidth(double height) {
             if (getSkinnable().isShowingText()) {
-                return labelsContainer.prefWidth(-1);
+                return labelsContainer.prefWidth(-1) + snappedLeftInset() + snappedRightInset();
             } else {
                 return getSkinnable().imageSizeProperty().add(labelsContainer.snappedLeftInset()).get();
             }
