@@ -1,6 +1,4 @@
-package utils;
-
-import java.nio.file.Path;
+package themes;
 
 public class Theme {
 

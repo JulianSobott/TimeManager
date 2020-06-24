@@ -5,10 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import utils.Theme;
-import utils.ThemeLoader;
-
-import java.nio.file.Paths;
+import themes.Theme;
+import themes.ThemeLoader;
 
 public class Main extends Application {
 

@@ -6,10 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
-import utils.ThemeLoader;
+import themes.ThemeLoader;
 
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 
 public class SceneLoader {
 

@@ -1,9 +1,8 @@
-package utils;
+package themes;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 
 import java.lang.ref.WeakReference;
@@ -59,6 +58,10 @@ public class ThemeLoader {
 
     public ObservableList<Theme> getThemes() {
         return themes;
+    }
+
+    public Theme getCurrentTheme() {
+        return currentTheme;
     }
 
     public void loadFromPath(Path path) {
