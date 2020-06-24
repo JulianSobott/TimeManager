@@ -9,9 +9,13 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -28,6 +32,7 @@ public class SplitWindow {
 
     private SplitPane parentNode;
     private SplitPaneOrientation splitPaneOrientation;
+    private static List<HBox> buttons = new ArrayList<>();
 
 
     public SplitWindow(SplitPane parentNode, SplitPaneOrientation splitPaneOrientation) {
@@ -36,11 +41,14 @@ public class SplitWindow {
         this.splitPaneOrientation = splitPaneOrientation;
     }
 
+    public void createStartView(SplitPane splitPane){
+        StackPane stackPane = createStackPane();
+        splitPane.getItems().addAll(stackPane);
+    }
 
     /**
      * Method to split a window into two subwindows
      */
-
 
 
     public void splitIntoTwoSubWindows() {
@@ -62,20 +70,10 @@ public class SplitWindow {
         else
             splitPane = generateSplitPaneVertical();
 
-        HBox h1 = createNewHBox("BoxWebViewLight");
+        StackPane s1 = createStackPane();
+        StackPane s2 = createStackPane();
 
-        h1.getChildren().add(generateAddURL(h1));
-        ContextMenu contextMenuH1 = createContextMenu(h1);
-        addFunctionsToContextMenu(contextMenuH1, h1, Child.LEFT_TOP_CHILD);
-
-
-        HBox h2 = createNewHBox("BoxWebViewLight");
-
-        h2.getChildren().add(generateAddURL(h2));
-        ContextMenu contextMenuH2 = createContextMenu(h2);
-        addFunctionsToContextMenu(contextMenuH2, h2, Child.RIGHT_BELOW_CHILD);
-
-        splitPane.getItems().addAll(h1, h2);
+        splitPane.getItems().addAll(s1, s2);
 
         return splitPane;
     }
@@ -148,74 +146,89 @@ public class SplitWindow {
         return hBox;
     }
 
-
     /**
-     * ######################################### Generate ContextMenu ################################################
+     * ######################################### Generate Buttons ################################################
      */
 
+    private StackPane createStackPane(){
+        StackPane s = new StackPane();
+        s.setPickOnBounds(false);
 
-    private ContextMenu createContextMenu(Pane pane) {
+        HBox h = createNewHBox("BoxWebViewLight");
+        h.getChildren().add(generateAddURL(h));
 
-        ContextMenu contextMenu = generateContextMenu();
-        pane.setOnMouseClicked(event -> {
+        HBox buttonHBox = createEditButtons();
+        buttons.add(buttonHBox);
+        //buttons.setVisible(false);
 
-            if (contextMenu.isShowing())
-                 contextMenu.hide();
+        s.getChildren().addAll(h, buttonHBox);
 
-            if (event.getButton() == MouseButton.SECONDARY)
-                contextMenu.show(pane, event.getScreenX(), event.getScreenY());
-        });
-
-        return contextMenu;
+        return s;
     }
 
+    private HBox createEditButtons(){
+        HBox buttonBox = createNewHBox("BoxEditButtons");
 
-    private ContextMenu generateContextMenu() {
+        Pane spacer = new Pane();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        spacer.setMinSize(10,1);
 
+        Button edit = new Button("edit");
 
-        ContextMenu contextMenu = new ContextMenu();
+        Button close = new Button("close");
 
-        MenuItem menuItemSplitHorizontal = new MenuItem("Horizontal teilen");
-        MenuItem menuItemSplitVertical = new MenuItem("Vertikal teilen");
-        MenuItem menuItemEditURL = new MenuItem("URL bearbeiten");
-        MenuItem menuItemDeleteEntry = new MenuItem("Eintrag löschen");
+        Button horizontal = new Button("horizontal");
+        Button vertical = new Button("vertical");
 
-        contextMenu.getItems().addAll(menuItemSplitHorizontal, menuItemSplitVertical, menuItemEditURL, menuItemDeleteEntry);
-        return contextMenu;
+        buttonBox.getChildren().addAll(spacer, horizontal, vertical, edit, close);
+        addButtonFunctions(buttonBox);
+
+        return buttonBox;
     }
 
+    private void addButtonFunctions(HBox HBoxButtons){
 
-    private void addFunctionsToContextMenu(ContextMenu contextMenu, HBox hBox, Child child) {
-
-        contextMenu.getItems().get(0).setOnAction(event -> {
-
+        HBoxButtons.getChildren().get(1).setOnMouseClicked(event -> { //split horizontal button
             this.splitPaneOrientation = SplitPaneOrientation.horizontal;
-            replaceElements(hBox);
-
+            replaceElements((StackPane) HBoxButtons.getParent());
         });
 
 
-        contextMenu.getItems().get(1).setOnAction(event -> {
-
+        HBoxButtons.getChildren().get(2).setOnMouseClicked(event -> { //split vertical button
             this.splitPaneOrientation = SplitPaneOrientation.vertical;
-            replaceElements(hBox);
-
+            replaceElements((StackPane) HBoxButtons.getParent());
         });
 
-        contextMenu.getItems().get(3).setOnAction(event -> {
 
-            SplitPane splitPaneWeb = (SplitPane) hBox.getParent().getParent();
+        HBoxButtons.getChildren().get(3).setOnMouseClicked(event -> { //Edit button
+            StackPane stackPane = (StackPane) HBoxButtons.getParent();
+            HBox urlBox = (HBox) stackPane.getChildren().get(0);
+            generateAddURL(urlBox);
+        });
 
-            if (splitPaneWeb.getItems().size() == 1)
+
+        HBoxButtons.getChildren().get(4).setOnMouseClicked(event -> { //close button
+            StackPane stackPane = (StackPane) HBoxButtons.getParent();
+            buttons.remove(HBoxButtons);
+
+            if (stackPane.getChildren().size() == 2)
             {
-                SplitPane parent = (SplitPane) splitPaneWeb.getParent().getParent();
-                parent.getItems().remove(splitPaneWeb);
+                SplitPane parent = (SplitPane) stackPane.getParent().getParent();
+                parent.getItems().remove(stackPane);
 
             }
 
-            splitPaneWeb.getItems().remove(hBox);
+            stackPane.getChildren().remove(HBoxButtons);
         });
+    }
 
+    /**
+     * ######################################### Show Buttons ################################################
+     */
+
+    public void showEditButtons(){
+        for (HBox h : buttons)
+            h.setVisible(!h.isVisible());
     }
 
 
@@ -223,21 +236,21 @@ public class SplitWindow {
      * Hilfsmethode zum bestimmen des Index
      */
 
-    private void replaceElements(HBox hBox) {
+    private void replaceElements(StackPane sPane) {
 
         SplitPane splitPane = createBasicSplitPane();
 
-        SplitPane parentNode = (SplitPane) hBox.getParent().getParent();
+        SplitPane parentNode = (SplitPane) sPane.getParent().getParent();
 
         int index = -1;
         for (int i = 0; i < parentNode.getItems().size(); i++) {
 
-            if (hBox == parentNode.getItems().get(i))
+            if (sPane == parentNode.getItems().get(i))
                 index = i;
 
         }
 
-        parentNode.getItems().remove(hBox);
+        parentNode.getItems().remove(sPane);
         parentNode.getItems().add(index, splitPane);
     }
 
