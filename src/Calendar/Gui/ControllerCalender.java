@@ -272,8 +272,8 @@ public class ControllerCalender implements Initializable {
 
         Image image = new Image("/Icons/icons8-plus-64.png");
         ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(40);
-        imageView.setFitHeight(40);
+        imageView.setFitWidth(35);
+        imageView.setFitHeight(35);
 
         Button buttonAdd = new Button();
         buttonAdd.setGraphic(imageView);

@@ -7,10 +7,14 @@ import Calendar.Logic.Timetable;
 import entryPoint.SceneLoader;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class GuiLesson extends VBox {
@@ -35,7 +39,8 @@ public class GuiLesson extends VBox {
 
         this.subjectLocation = new Label(subjectLocation);
         this.color = subject.getColor();
-        this.getChildren().addAll(this.subjectName, this.lecturer, this.subjectLocation);
+
+        this.getChildren().addAll(generateMenuButtons(),this.subjectName, this.lecturer, this.subjectLocation);
 
         this.gridPaneCalendar = pane;
         this.controllerCalender = calender;
@@ -65,11 +70,11 @@ public class GuiLesson extends VBox {
     private void updateDesign() {
 
         this.setStyle("-fx-background-color: " + this.color);
-        subjectName.setStyle("-fx-font-size: 1.5em; -fx-padding: 5 5 5 5; " +
+        subjectName.setStyle("-fx-padding: 2 2 2 2; -fx-font-size: 1.5em; " +
                 "-fx-background-color:" + this.color);
 
-        this.lecturer.setStyle("-fx-padding: 5 5 5 5; -fx-background-color:" + this.color);
-        this.subjectLocation.setStyle("-fx-padding: 5 5 5 5; -fx-background-color: " + this.color);
+        this.lecturer.setStyle("-fx-padding: 3 5 3 5; -fx-background-color:" + this.color);
+        this.subjectLocation.setStyle("-fx-padding: 3 5 3 5; -fx-background-color: " + this.color);
     }
 
     public void setSubjectName(String subjectName) {
@@ -107,6 +112,40 @@ public class GuiLesson extends VBox {
         return position;
 
     }
+
+
+
+    /**
+     *
+     *  create delete and edit Buttons for Gui-Lesson
+     */
+
+    private HBox generateMenuButtons(){
+
+        HBox hBox = new HBox();
+        hBox.setSpacing(7);
+        hBox.setStyle("-fx-padding: 5,5,5,5");
+        hBox.setAlignment(Pos.TOP_RIGHT);
+        Button edit = createButton("/Icons/icons8-bearbeiten-64.png");
+        Button delete = createButton("/Icons/icons8-unwiederuflich-löschen-64.png");
+        hBox.getChildren().addAll(edit ,delete);
+        return hBox;
+    }
+
+    private Button createButton(String imagePath){
+
+        Image image = new Image(imagePath);
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(15);
+        imageView.setFitHeight(15);
+
+        Button button = new Button();
+        button.setGraphic(imageView);
+        button.setId("buttonAddLesson");
+        return button;
+
+    }
+
 
     private void generateContextMenu() {
 
