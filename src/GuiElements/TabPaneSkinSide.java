@@ -34,6 +34,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -234,6 +235,16 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             }
             label = new Label(tab.getText(), graphic);
             getChildren().add(label);
+
+            setOnMousePressed(e -> {
+                if (tab.isDisable()) {
+                    return;
+                }
+                if (e.getButton().equals(MouseButton.PRIMARY)) {
+                    tabPaneBehavior.selectTab(tab);
+                }
+                // TODO: context menu + close
+            });
         }
 
         public Tab getTab() {
@@ -244,6 +255,8 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         protected double computePrefWidth(double height) {
             return label.prefWidth(height);
         }
+
+
     }
 
 
