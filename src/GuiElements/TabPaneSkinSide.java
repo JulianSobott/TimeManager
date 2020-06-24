@@ -25,13 +25,19 @@
 package GuiElements;
 
 import com.sun.javafx.scene.control.behavior.TabPaneBehavior;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
 
 public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
@@ -48,7 +54,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
      *                                                                         *
      **************************************************************************/
 
-    private final TabPaneBehavior tabPaneBehavior;
+    private final TabWindowBehavior tabPaneBehavior;
 
     private ObservableList<TabContentRegion> tabContentRegions;
     private TabMenu tabMenu;
@@ -61,7 +67,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
     protected TabPaneSkinSide(TabWindow control) {
         super(control);
-        tabPaneBehavior = new TabPaneBehavior(control);
+        tabPaneBehavior = new TabWindowBehavior(control);
 
         tabMenu = new TabMenu();
 
@@ -100,7 +106,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
     @Override
     protected void layoutChildren(double x, double y, double w, double h) {
         // Menu
-        double menuWidth = tabMenu.prefWidth(-1);
+        double menuWidth = tabMenu.getNonOverlapWidth();
         double menuHeight = h;
 
         tabMenu.resize(menuWidth, menuHeight);
@@ -139,24 +145,47 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
      **************************************************************************/
 
 
-    static class TabMenu extends StackPane {
+    class TabMenu extends StackPane {
 
         private final ObservableList<TabLabel> tabLabels;
         private final VBox labelsContainer;
+        private final ToggleButton btnToggleCollapse;
 
         public TabMenu() {
             tabLabels = FXCollections.observableArrayList();
             labelsContainer = new VBox();
 
-            labelsContainer.getStyleClass().setAll("debug");
+
+            btnToggleCollapse = new ToggleButton();
+
+            Image img = new Image("/Icons/list-48dp.png");
+            ImageView imgView = new ImageView(img);
+            double size = getSkinnable().getImageSize(); // TODO: bind to property
+            imgView.setFitWidth(size);
+            imgView.setFitHeight(size);
+            btnToggleCollapse.setGraphic(imgView);
+            getChildren().add(btnToggleCollapse);
+            getStyleClass().setAll("debug");
+            btnToggleCollapse.getStyleClass().clear();
             getChildren().add(labelsContainer);
         }
 
         @Override
         protected void layoutChildren() {
-            labelsContainer.relocate(0, 0);
+            // Menu button
+            btnToggleCollapse.relocate(0, 0);
+            btnToggleCollapse.resize(btnToggleCollapse.prefWidth(-1), btnToggleCollapse.prefHeight(-1));
+            // labels container
+            double spacing = 20;
+            labelsContainer.relocate(0, btnToggleCollapse.prefHeight(-1) + spacing);
             labelsContainer.resize(labelsContainer.prefWidth(-1), labelsContainer.prefHeight(-1));
+
+            // TODO: maybe find solution that isn't binding it here, but in constructor
+            // TODO: differentiate between overlap and not
+            nonOverlapProperty().bind(getSkinnable().imageSizeProperty().add(labelsContainer.snappedLeftInset()));
         }
+
+        // Public API
 
         public void addTab(Tab tab) {
             TabLabel tabLabel = new TabLabel(tab);
@@ -173,16 +202,38 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             }
         }
 
+        // Properties
+
+        private DoubleProperty nonOverlapWidth;
+
+        public DoubleProperty nonOverlapProperty() {
+            if (nonOverlapWidth == null) {
+                nonOverlapWidth =  new SimpleDoubleProperty(this, "nonOverlapWidth", -1);
+            }
+            return nonOverlapWidth;
+        }
+
+        public double getNonOverlapWidth() {
+            return nonOverlapProperty().get();
+        }
     }
 
-    static class TabLabel extends StackPane {
+    class TabLabel extends StackPane {
 
         private final Tab tab;
         private Label label;
 
         public TabLabel(Tab tab) {
             this.tab = tab;
-            label = new Label(tab.getText(), tab.getGraphic());
+            double size = getSkinnable().getImageSize();
+            Node graphic = tab.getGraphic();
+            if (graphic != null) {
+                // TODO: handle other elements
+                ImageView img = (ImageView) graphic;
+                img.setFitWidth(size);
+                img.setFitHeight(size);
+            }
+            label = new Label(tab.getText(), graphic);
             getChildren().add(label);
         }
 
