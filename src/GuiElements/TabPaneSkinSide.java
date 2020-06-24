@@ -24,13 +24,12 @@
  */
 package GuiElements;
 
-import com.sun.javafx.scene.control.behavior.TabPaneBehavior;
+import javafx.beans.InvalidationListener;
+import javafx.beans.WeakInvalidationListener;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.HPos;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -250,14 +249,21 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
     static class TabContentRegion extends StackPane {
 
+        // TODO: TabContentListener
+
         private Tab tab;
+
+        private final InvalidationListener tabSelectedListener = v -> setVisible(tab.isSelected());
+
+        private final WeakInvalidationListener weakTabSelectedListener =
+                new WeakInvalidationListener(tabSelectedListener);
 
         public TabContentRegion(Tab tab) {
             this.tab = tab;
             getChildren().setAll(tab.getContent());
+
+            setVisible(tab.isSelected());
+            tab.selectedProperty().addListener(weakTabSelectedListener);
         }
-
     }
-
-
 }
