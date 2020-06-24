@@ -152,12 +152,17 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         private final ObservableList<TabLabel> tabLabels;
         private final VBox labelsContainer;
         private final ToggleButton btnToggleCollapse;
+        private final Rectangle clip;
 
         public TabMenu() {
             tabLabels = FXCollections.observableArrayList();
             labelsContainer = new VBox();
 
             btnToggleCollapse = new ToggleButton();
+
+            clip = new Rectangle();
+            setClip(clip);
+
 
             Image img = new Image("/Icons/list-48dp.png");
             ImageView imgView = new ImageView(img);
@@ -183,9 +188,27 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             labelsContainer.relocate(startX, btnToggleCollapse.prefHeight(-1) + spacing + startY);
             labelsContainer.resize(labelsContainer.prefWidth(-1), labelsContainer.prefHeight(-1));
 
+            // Clip
+            clip.setX(0);
+            clip.setY(0);
+            if (getSkinnable().isShowingText()) {
+                clip.setWidth(prefWidth(-1));
+            } else {
+                clip.setWidth(getNonOverlapWidth());
+            }
+            getSkinnable().showingTextProperty().bind(btnToggleCollapse.selectedProperty());
+            getSkinnable().showingTextProperty().addListener(l -> {
+                if (getSkinnable().isShowingText()) {
+                    clip.setWidth(computePrefWidth(-1));
+                } else {
+                    clip.setWidth(getNonOverlapWidth());
+                }
+            });
+
+            clip.setHeight(Double.MAX_VALUE);
+
             // bind menu width
             // TODO: maybe find solution that isn't binding it here, but in constructor
-            // TODO: differentiate between overlap and not
             if(getSkinnable().getContentResizing()  == TabWindow.ContentResizing.OVERLAP) {
                 nonOverlapProperty().bind(getSkinnable().imageSizeProperty()
                         .add(labelsContainer.snappedLeftInset())
@@ -194,6 +217,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             } else { // Resize
                 double insets = labelsContainer.snappedLeftInset() + labelsContainer.snappedRightInset()
                                 + snappedLeftInset() + snappedRightInset();
+                // TODO: bind instead of set
                 nonOverlapProperty().set(prefWidth(-1) + insets);
             }
         }
@@ -201,9 +225,9 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         @Override
         protected double computePrefWidth(double height) {
             if (getSkinnable().isShowingText()) {
-                return getSkinnable().imageSizeProperty().add(labelsContainer.snappedLeftInset()).get();
-            } else {
                 return labelsContainer.prefWidth(-1);
+            } else {
+                return getSkinnable().imageSizeProperty().add(labelsContainer.snappedLeftInset()).get();
             }
         }
 

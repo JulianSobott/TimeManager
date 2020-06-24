@@ -74,7 +74,7 @@ public class TabWindow extends TabPane {
 
     public ObjectProperty<ContentResizing> contentResizingProperty() {
         if(contentResizing == null) {
-            contentResizing = new SimpleObjectProperty<>(this, "contentResizing", ContentResizing.OVERLAP);
+            contentResizing = new SimpleObjectProperty<>(this, "contentResizing", ContentResizing.RESIZE);
         }
         return contentResizing;
     }
