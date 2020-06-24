@@ -17,13 +17,16 @@ public class Main extends Application {
         // Theme initiation
         ThemeLoader.get().addThemes(
                 new Theme("Dark", "/css/theme_dark.css", "dark"),
-                new Theme("Light", "/css/theme_light.css", "light")
+                new Theme("Light", "/css/theme_light.css", "light"),
+                new Theme("Material", "/css/theme_material.css", "material"),
+                new Theme("Reddish", "/css/theme_reddish.css", "reddish")
         );
+        ThemeLoader.get().setTheme("reddish");
 
         Parent root = FXMLLoader.load(getClass().getResource("mainPage/MainPage.fxml"));
 
         ThemeLoader.get().addRootNode(root);
-        ThemeLoader.get().setTheme("dark");
+
 
         primaryStage.setTitle("Time Manager");
         primaryStage.setScene(new Scene(root, 1200, 800));
