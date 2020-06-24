@@ -45,7 +45,7 @@ public class SplitWindow {
 
     public void splitIntoTwoSubWindows() {
 
-        SplitPaneWeb splitPane = createBasicSplitPane();
+        SplitPane splitPane = createBasicSplitPane();
 
         this.parentNode.getItems().clear();
         this.parentNode.getItems().add(splitPane);
@@ -53,9 +53,9 @@ public class SplitWindow {
     }
 
 
-    private SplitPaneWeb createBasicSplitPane() {
+    private SplitPane createBasicSplitPane() {
 
-        SplitPaneWeb splitPane;
+        SplitPane splitPane;
 
         if (splitPaneOrientation == SplitPaneOrientation.horizontal)
             splitPane = generateSplitPaneHorizontal();
@@ -86,17 +86,17 @@ public class SplitWindow {
      */
 
 
-    private SplitPaneWeb generateSplitPaneHorizontal() {
+    private SplitPane generateSplitPaneHorizontal() {
 
-        SplitPaneWeb splitPaneWeb = new SplitPaneWeb();
+        SplitPane splitPaneWeb = new SplitPane();
         splitPaneWeb.setOrientation(Orientation.VERTICAL);
 
         return splitPaneWeb;
     }
 
-    private SplitPaneWeb generateSplitPaneVertical() {
+    private SplitPane generateSplitPaneVertical() {
 
-        SplitPaneWeb splitPaneWeb = new SplitPaneWeb();
+        SplitPane splitPaneWeb = new SplitPane();
         splitPaneWeb.setOrientation(Orientation.HORIZONTAL);
 
         return splitPaneWeb;
@@ -204,7 +204,7 @@ public class SplitWindow {
 
         contextMenu.getItems().get(3).setOnAction(event -> {
 
-            SplitPaneWeb splitPaneWeb = (SplitPaneWeb) hBox.getParent().getParent();
+            SplitPane splitPaneWeb = (SplitPane) hBox.getParent().getParent();
 
             if (splitPaneWeb.getItems().size() == 1)
             {
