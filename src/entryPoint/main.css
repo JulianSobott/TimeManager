@@ -10,6 +10,7 @@
     -fx-border-width: 0 0 3 0, 0 0 0 4; /* Bottom as divider. Left as current tab marker */
     -fx-border-color: rgba(96, 98, 99, 0.26), rgba(85, 138, 236, 0.65);
     -fx-border-insets: 0 0 0 0, 0 0 3 0; /* Border same height as Icon */
+    -fx-padding: 0 10 0 0;
 }
 
 .tab-label:hover {

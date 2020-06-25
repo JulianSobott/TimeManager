@@ -80,7 +80,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
     private TabMenu tabMenu;
     private SettingsPane settingsPane;
 
-    private static final double ANIMATION_DURATION = 500; // millis
+    private static final double ANIMATION_DURATION = 150; // millis
 
     /***************************************************************************
      *                                                                         *

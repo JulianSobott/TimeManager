@@ -74,9 +74,7 @@ public class ControllerCalendarSettings implements Initializable {
     private ObservableList<Integer> durationOfLecturesObservableList = FXCollections.observableArrayList();
 
 
-    public ControllerCalendarSettings(ControllerCalender controllerCalender) {
-
-        this.controllerCalender = controllerCalender;
+    public ControllerCalendarSettings() {
         this.numberOfDays = instance_Calendar.getNumberOfDays();
         this.numberOfLessons = instance_Calendar.getNumberOfLessons();
         this.shortBreak = (int) instance_Calendar.getShortBreakMin();

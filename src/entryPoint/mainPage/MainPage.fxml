@@ -14,8 +14,8 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="entryPoint.mainPage.ControllerMainPage"
             stylesheets="/entryPoint/main.css">
-    <TabWindow tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="30.0"
-               AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" fx:id="window"
+    <TabWindow tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
                closeMenuAfterSelect="true" contentResizing="OVERLAP">
         <TabCustom text="Stundenplan" iconPath="/Icons/debug_background.png">
             <fx:include source="/Calendar/Gui/Calender.fxml"/>
@@ -27,5 +27,4 @@
             </settingsNode>
         </TabCustom>
     </TabWindow>
-    <Button text="Click" fx:id="debugButton"/>
 </AnchorPane>

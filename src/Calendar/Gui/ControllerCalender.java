@@ -67,7 +67,6 @@ public class ControllerCalender implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         updateValuesFromSettings();
         DateTimeFormatter f = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
         startOfLessons.format(f);
@@ -147,7 +146,6 @@ public class ControllerCalender implements Initializable {
 
         ContextMenu contextMenuCalendar = new ContextMenu();
         MenuItem menuItemSettings = new MenuItem("Einstellungen");
-        generateEventSettings(menuItemSettings);
         MenuItem menuItemSave = new MenuItem("Speichern");
         MenuItem menuItemDelete = new MenuItem("Löschen");
         MenuItem menuItemImport = new MenuItem("Importieren");
@@ -157,20 +155,6 @@ public class ControllerCalender implements Initializable {
         buttonSettings.setOnMouseClicked(event ->
                 contextMenuCalendar.show(buttonSettings, Side.BOTTOM, -40, 5));
     }
-
-
-    private void generateEventSettings(MenuItem menuItemSettings) {
-
-        menuItemSettings.setOnAction(actionEvent -> {
-
-            SceneLoader sceneLoader = SceneLoader.getInstance();
-            ControllerCalendarSettings controllerCalendarSettings = new ControllerCalendarSettings(this);
-            sceneLoader.loadSettingsSceneInBoarderLessNewWindow(SceneLoader.CalendarScene.SETTINGS_CALENDAR, controllerCalendarSettings, buttonSettings);
-
-        });
-
-    }
-
 
     private void generateGridPaneTimetable(GridPane gridPane) {
 

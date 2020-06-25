@@ -11,19 +11,6 @@ import javafx.scene.control.Tab;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ControllerMainPage implements Initializable {
+public class ControllerMainPage {
 
-    @FXML
-    TabWindow window;
-
-    @FXML
-    Button debugButton;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        debugButton.setOnMousePressed(e -> {
-            window.setImageSize(10);
-            window.getTabs().add(new TabCustom("Test", new Label("Hello in a new tab"), "", null));
-        });
-    }
 }
