@@ -24,6 +24,7 @@
  */
 package GuiElements;
 
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -33,6 +34,8 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
@@ -64,6 +67,9 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
     private ObservableList<TabContentRegion> tabContentRegions;
     private TabMenu tabMenu;
+    private Rectangle tabMenuClip;
+
+    private static final double ANIMATION_DURATION = 500; // millis
 
     /***************************************************************************
      *                                                                         *
@@ -76,6 +82,8 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         tabPaneBehavior = new TabWindowBehavior(control);
 
         tabMenu = new TabMenu();
+        tabMenuClip = new Rectangle();
+//        tabMenu.setClip(tabMenuClip);
 
         tabContentRegions = FXCollections.observableArrayList();
 
@@ -85,6 +93,11 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
         // TabMenu always on top
         getChildren().add(tabMenu);
+
+        // listeners
+        registerChangeListener(control.showingTextProperty(), e -> showText(control.isShowingText()));
+
+        showText(control.isShowingText(), false);
     }
 
     /***************************************************************************
@@ -117,9 +130,18 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
         tabMenu.resize(menuWidth, menuHeight);
         tabMenu.relocate(x, y);
+        tabMenuClip.setX(x);
+        tabMenuClip.setX(y);
+        tabMenuClip.setWidth(menuWidth);
+        tabMenuClip.setHeight(menuHeight);
 
         // Content
-        double menuNonOverlapWidth = tabMenu.getNonOverlapWidth();
+        double menuNonOverlapWidth;
+        if (getSkinnable().getContentResizing() == TabWindow.ContentResizing.RESIZE) {
+            menuNonOverlapWidth = menuWidth;
+        } else {
+            menuNonOverlapWidth = tabMenu.iconBarWidth();
+        }
         double contentWidth = w - menuNonOverlapWidth;
         double contentHeight = h;
         double contentStartX = menuNonOverlapWidth;
@@ -128,13 +150,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         for(TabContentRegion tabContentRegion : tabContentRegions) {
             tabContentRegion.relocate(contentStartX, contentStartY);
             tabContentRegion.resize(contentWidth, contentHeight);
-
-            tabMenu.nonOverlapProperty().addListener(l -> {
-                double headerW = tabMenu.getNonOverlapWidth() + tabMenu.snappedLeftInset() + tabMenu.snappedRightInset();
-                double contentW = w - headerW;
-                tabContentRegion.relocate(headerW, y);
-                tabContentRegion.resize(contentW, contentHeight);
-            });
+            tabContentRegion.getStyleClass().add("debug");
         }
     }
 
@@ -157,16 +173,39 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         getChildren().add(region);
     }
 
-    private void showText(boolean isShowing) {
+    private void showText(boolean isShowing, boolean animation) {
+        double start;
+        double end;
+        Duration duration = animation ? Duration.millis(ANIMATION_DURATION) : Duration.millis(1.0);
+        if(isShowing) {
+            start = 0.0;
+            end = 1.0;
+        } else {
+            start = 1.0;
+            end = 0.0;
+        }
         double width = tabMenu.computePrefWidth(-1);
-        tabMenu.resize(100, tabMenu.getHeight());
+        tabMenu.resize(width, tabMenu.getHeight());
+        tabMenu.animationTransition.set(start);
+        tabMenu.currentAnimation = createTimeline(tabMenu, duration, end, null);
+        tabMenu.currentAnimation.play();
+    }
 
+    private void showText(boolean isShowing) {
+        showText(isShowing, true);
+    }
+
+    private Timeline createTimeline(final TabMenu tabMenu, final Duration duration, final double endValue,
+                                    final EventHandler<ActionEvent> func) {
         Timeline timeline = new Timeline();
         timeline.setCycleCount(1);
-        KeyValue kv = new KeyValue(tabMenu.clip.widthProperty(), tabMenu.computePrefWidth(-1));
-        KeyFrame kf = new KeyFrame(Duration.millis(100), kv);
-        timeline.getKeyFrames().add(kf);
-        timeline.play();
+
+        KeyValue keyValue = new KeyValue(tabMenu.animationTransition, endValue, Interpolator.LINEAR);
+        timeline.getKeyFrames().clear();
+        timeline.getKeyFrames().add(new KeyFrame(duration, keyValue));
+
+        timeline.setOnFinished(func);
+        return timeline;
     }
 
 
@@ -182,7 +221,15 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         private final ObservableList<TabLabel> tabLabels;
         private final VBox labelsContainer;
         private final ToggleButton btnToggleCollapse;
-        private final Rectangle clip;
+        private final Rectangle clipLabels;
+
+        // animation
+        private final DoubleProperty animationTransition =
+                new SimpleDoubleProperty(this, "animationTransition", 1.0) {
+                    @Override protected void invalidated() { requestLayout(); }
+        };
+        private Timeline currentAnimation;
+
 
         public TabMenu() {
             tabLabels = FXCollections.observableArrayList();
@@ -190,9 +237,14 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
             btnToggleCollapse = new ToggleButton();
 
-            clip = new Rectangle();
-            setClip(clip);
+            clipLabels = new Rectangle();
+            labelsContainer.setClip(clipLabels);
 
+            // TODO: remove
+//            labelsContainer.getStyleClass().add("debug-bold");
+
+            getStyleClass().add("debug-bold-2");
+            setStyle("-fx-background-color: yellow");
 
             Image img = new Image("/Icons/list-48dp.png");
             ImageView imgView = new ImageView(img);
@@ -201,7 +253,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             imgView.setFitHeight(size);
             btnToggleCollapse.setGraphic(imgView);
             getChildren().add(btnToggleCollapse);
-            getStyleClass().setAll("debug");
             btnToggleCollapse.getStyleClass().clear();
             getChildren().add(labelsContainer);
         }
@@ -210,60 +261,42 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         protected void layoutChildren() {
             double startX = snappedLeftInset();
             double startY = snappedTopInset();
+            double w = snapSizeX(getWidth()  - snappedLeftInset() - snappedRightInset()) ;
+            double h = snapSizeX(getHeight() - snappedTopInset() - snappedBottomInset());
+
             // Menu button
             btnToggleCollapse.relocate(startX, startY);
             btnToggleCollapse.resize(btnToggleCollapse.prefWidth(-1), btnToggleCollapse.prefHeight(-1));
+
             // labels container
             double spacing = 20;
-            labelsContainer.relocate(startX, btnToggleCollapse.prefHeight(-1) + spacing + startY);
-            labelsContainer.resize(labelsContainer.prefWidth(-1), labelsContainer.prefHeight(-1));
+            double spaceTop = btnToggleCollapse.prefHeight(-1) + spacing + startY;
+            double labelsHeight = h - spaceTop + startY;
+            labelsContainer.relocate(startX, spaceTop);
+            labelsContainer.resize(labelsContainer.prefWidth(-1), labelsHeight);
 
-            // Clip
-            clip.setX(0);
-            clip.setY(0);
-            if (getSkinnable().isShowingText()) {
-                clip.setWidth(prefWidth(-1));
-            } else {
-                double insets = labelsContainer.snappedLeftInset() + labelsContainer.snappedRightInset()
-                        + snappedLeftInset() + snappedRightInset();
-                clip.setWidth(getSkinnable().getImageSize() + insets);
-            }
+            clipLabels.setX(0);
+            clipLabels.setY(0);
+            clipLabels.setWidth(computePrefWidth(-1) - snappedRightInset() - snappedLeftInset());
+            clipLabels.setHeight(Double.MAX_VALUE);
+
+
+            // Toggle menu on click
             getSkinnable().showingTextProperty().bind(btnToggleCollapse.selectedProperty());
-            getSkinnable().showingTextProperty().addListener(l -> {
-                showText(true);
-//                if (getSkinnable().isShowingText()) {
-//                    clip.setWidth(computePrefWidth(-1));
-//                } else {
-//                    double insets = labelsContainer.snappedLeftInset() + labelsContainer.snappedRightInset()
-//                            + snappedLeftInset() + snappedRightInset();
-//                    clip.setWidth(getSkinnable().getImageSize() + insets);
-//                }
-//                if (getSkinnable().getContentResizing()  == TabWindow.ContentResizing.RESIZE) {
-//                    nonOverlapProperty().set(clip.getWidth());
-//                }
-            });
 
-            clip.setHeight(Double.MAX_VALUE);
-
-            // bind menu width
-            // TODO: maybe find solution that isn't binding it here, but in constructor
-            if(getSkinnable().getContentResizing()  == TabWindow.ContentResizing.OVERLAP) {
-                nonOverlapProperty().bind(getSkinnable().imageSizeProperty()
-                        .add(labelsContainer.snappedLeftInset())
-                        .add(snappedLeftInset())
-                        .add(snappedRightInset()));
-            } else { // Resize
-                nonOverlapProperty().set(clip.getWidth());
-            }
+            nonOverlapProperty().set(iconBarWidth());
         }
 
         @Override
         protected double computePrefWidth(double height) {
-            if (getSkinnable().isShowingText()) {
-                return labelsContainer.prefWidth(-1) + snappedLeftInset() + snappedRightInset();
-            } else {
-                return getSkinnable().imageSizeProperty().add(labelsContainer.snappedLeftInset()).get();
-            }
+            return snapSizeX(iconBarWidth() +
+                    (labelsContainer.prefWidth(height) - iconBarWidth() + snappedLeftInset() + snappedRightInset())
+                            * animationTransition.getValue());
+        }
+
+        private double iconBarWidth() {
+            return btnToggleCollapse.prefWidth(-1) + snappedLeftInset() + snappedRightInset()
+                    + labelsContainer.snappedLeftInset() + labelsContainer.snappedRightInset();
         }
 
         // Public API

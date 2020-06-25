@@ -115,8 +115,17 @@ is being used to size a border should also be in pixels.
 */
 
 .debug {
-    -fx-border-color: orange;
+    -fx-border-color: red;
     -fx-border-width: 2px;
+}
+
+.debug-bold {
+    -fx-border-color: blue;
+    -fx-border-width: 8px;
+}
+.debug-bold-2 {
+    -fx-border-color: orange;
+    -fx-border-width: 8px;
 }
 
 
