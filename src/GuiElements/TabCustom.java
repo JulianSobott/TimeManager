@@ -51,7 +51,6 @@ public class TabCustom extends Tab {
             StackPane sp = new StackPane();
             Text text = new Text(textAlternative);
             text.setBoundsType(TextBoundsType.VISUAL);
-            sp.getStyleClass().setAll("debug-2");
             sp.getChildren().add(text);
 
             text.setStyle("-fx-font-size: " + size);

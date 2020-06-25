@@ -296,35 +296,32 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
 
         public TabMenu() {
-            tabLabels = FXCollections.observableArrayList();
-            labelsContainer = new VBox();
-
-            btnToggleCollapse = new ToggleButton();
-
-            clipLabels = new Rectangle();
-            labelsContainer.setClip(clipLabels);
-
             // TODO: remove
-//            labelsContainer.getStyleClass().add("debug-bold");
+            //            labelsContainer.getStyleClass().add("debug-bold");
             getStyleClass().add("debug-bold-2");
             setStyle("-fx-background-color: yellow");
 
             // tab labels
+            clipLabels = new Rectangle();
+            tabLabels = FXCollections.observableArrayList();
+            labelsContainer = new VBox();
+            labelsContainer.setClip(clipLabels);
             int i = 0;
             for (Tab tab : getSkinnable().getTabs()) {
                 addTab((TabCustom) tab, i++);
             }
+            getChildren().add(labelsContainer);
 
             // Menu button
+            btnToggleCollapse = new ToggleButton();
             Image img = new Image("/Icons/list-48dp.png");
             ImageView imgView = new ImageView(img);
             double size = getSkinnable().getImageSize(); // TODO: bind to property
-            imgView.setFitWidth(size);
-            imgView.setFitHeight(size);
+            imgView.fitWidthProperty().bind(getSkinnable().imageSizeProperty());
+            imgView.fitHeightProperty().bind(getSkinnable().imageSizeProperty());
             btnToggleCollapse.setGraphic(imgView);
             getChildren().add(btnToggleCollapse);
             btnToggleCollapse.getStyleClass().clear();
-            getChildren().add(labelsContainer);
         }
 
         @Override
@@ -412,7 +409,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             this.tab = tab;
             double size = getSkinnable().getImageSize();
             label = new Label(tab.getText(), tab.getGraphic());
-            label.getStyleClass().add("debug");
 
             label.setMaxWidth(Double.MAX_VALUE);
             getChildren().add(label);
