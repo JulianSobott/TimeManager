@@ -571,7 +571,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             getSkinnable().showingSettingsProperty().bindBidirectional(btnSettings.selectedProperty());
             getChildren().add(btnSettings);
 
-            getSkinnable().getSelectionModel().selectedItemProperty().addListener(l -> updateCurrentRegion());
+            getSkinnable().getSelectionModel().selectedItemProperty().addListener(l -> requestLayout());
             registerChangeListener(getSkinnable().showingSettingsProperty(),
                     e->showArea(this, getSkinnable().isShowingSettings(), true));
             showArea(this, getSkinnable().isShowingSettings(), false);
@@ -608,8 +608,8 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         protected double computePrefWidth(double height) {
             double padding = snappedLeftInset() + snappedRightInset();
             double settingsWidth = settingsRegion.snappedLeftInset() + settingsRegion.snappedRightInset();
-            if (currentRegionProperty().get() != null) {
-                settingsWidth += currentRegionProperty().get().prefWidth(height);
+            if (getCurrentRegion() != null) {
+                settingsWidth += getCurrentRegion().prefWidth(height);
             }
             return btnSettings.prefHeight(-1) + padding + (settingsWidth * animationTransition.get());
         }
@@ -618,7 +618,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             TabSettingsRegion region = new TabSettingsRegion(tab);
             tabSettingsRegions.add(region);
             settingsRegion.getChildren().add(region);
-            updateCurrentRegion();
         }
 
         public void removeTab(TabCustom tab) {
@@ -631,24 +630,13 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             }
         }
 
-        private void updateCurrentRegion() {
+        private TabSettingsRegion getCurrentRegion() {
             for (TabSettingsRegion tabSettingsRegion : tabSettingsRegions) {
-                if (tabSettingsRegion.tab.isSelected()) {
-                    setCurrentRegion(tabSettingsRegion);
-                    break;
+                if (tabSettingsRegion.isVisible()) {
+                    return tabSettingsRegion;
                 }
             }
-        }
-
-        private ObjectProperty<TabSettingsRegion> currentRegion;
-        public void setCurrentRegion(TabSettingsRegion value) { currentRegionProperty().set(value); }
-        public TabSettingsRegion getCurrentRegion() { return currentRegionProperty().get(); }
-
-        public ObjectProperty<TabSettingsRegion> currentRegionProperty() {
-            if (currentRegion == null) {
-                currentRegion = new SimpleObjectProperty<>(this, "currentRegion");
-            }
-            return currentRegion;
+            return null;
         }
     }
 
