@@ -376,9 +376,10 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         }
 
         public void removeTab(Tab tab) {
-            for (int i = 0; i < tabLabels.size(); i++) {
-                if(tabLabels.get(i).getTab() == tab) {
-                    tabLabels.remove(i);
+            for(TabLabel tabLabel : tabLabels) {
+                if (tabLabel.getTab() == tab) {
+                    labelsContainer.getChildren().remove(tabLabel);
+                    tabLabels.remove(tabLabel);
                     break;
                 }
             }
@@ -424,6 +425,9 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                 }
                 if (e.getButton().equals(MouseButton.PRIMARY)) {
                     tabPaneBehavior.selectTab(tab);
+                }
+                if (e.getButton().equals(MouseButton.MIDDLE)) {
+                    tabPaneBehavior.closeTab(tab);
                 }
                 // TODO: context menu + close
             });
