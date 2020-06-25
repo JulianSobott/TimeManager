@@ -48,6 +48,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -565,6 +567,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             getStyleClass().add("debug-bold");
 
             btnSettings = new ToggleButton("Settings"); // TODO: replace with icon
+
             getSkinnable().showingSettingsProperty().bindBidirectional(btnSettings.selectedProperty());
             getChildren().add(btnSettings);
 
@@ -578,10 +581,16 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         protected void layoutChildren() {
             double x = snappedLeftInset();
             double y = snappedTopInset();
+            double btnW = btnSettings.prefWidth(-1);
+            double btnH = btnSettings.prefHeight(-1);
+            btnSettings.getTransforms().clear();
+            btnSettings.getTransforms().add(new Translate(btnH, -btnW / 2));
+            btnSettings.getTransforms().add(new Rotate(90));
+
             btnSettings.resize(btnSettings.prefWidth(-1), btnSettings.prefHeight(-1));
             btnSettings.relocate(x, getHeight() / 2 + btnSettings.prefHeight(-1) / 2);
 
-            x = x + btnSettings.prefWidth(-1);
+            x = x + btnSettings.prefHeight(-1);
             TabSettingsRegion region = getCurrentRegion();
             double width =
                     region.prefWidth(-1) + settingsRegion.snappedLeftInset() + settingsRegion.snappedRightInset();
@@ -602,7 +611,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             if (currentRegionProperty().get() != null) {
                 settingsWidth += currentRegionProperty().get().prefWidth(height);
             }
-            return btnSettings.prefWidth(-1) + padding + (settingsWidth * animationTransition.get());
+            return btnSettings.prefHeight(-1) + padding + (settingsWidth * animationTransition.get());
         }
 
         public void addTab(TabCustom tab) {
