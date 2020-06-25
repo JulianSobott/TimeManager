@@ -257,7 +257,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
     private void showArea(AnimationArea area, boolean isShowing, boolean animation) {
         double start;
         double end;
-        Duration duration = animation ? Duration.millis(ANIMATION_DURATION) : Duration.millis(1.0);
+        Duration duration = animation ? Duration.millis(ANIMATION_DURATION) : Duration.millis(0.1);
         if(isShowing) {
             start = 0.0;
             end = 1.0;
@@ -571,7 +571,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             getSkinnable().getSelectionModel().selectedItemProperty().addListener(l -> updateCurrentRegion());
             registerChangeListener(getSkinnable().showingSettingsProperty(),
                     e->showArea(this, getSkinnable().isShowingSettings(), true));
-            showArea(this, getSkinnable().isShowingSettings(), true);
+            showArea(this, getSkinnable().isShowingSettings(), false);
         }
 
         @Override
@@ -625,7 +625,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         private void updateCurrentRegion() {
             for (TabSettingsRegion tabSettingsRegion : tabSettingsRegions) {
                 if (tabSettingsRegion.tab.isSelected()) {
-                    currentRegionProperty().set(tabSettingsRegion);
+                    setCurrentRegion(tabSettingsRegion);
                     break;
                 }
             }
