@@ -503,14 +503,22 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         public TabSettingsRegion(TabCustom tab) {
             super(tab);
             root = new VBox();
+            getStyleClass().setAll("tab-settings");
 
             // Control
             Pane paneControl  = new HBox();
+            paneControl.getStyleClass().setAll("control-pane");
             ToggleGroup toggleGroup = new ToggleGroup();
             ToggleButton btnCustom = new ToggleButton("Custom");
-            ToggleButton btnGeneral = new ToggleButton("General");
+            btnCustom.getStyleClass().setAll("btn-control");
+            btnCustom.prefWidthProperty().bind(widthProperty().divide(2));
             btnCustom.setToggleGroup(toggleGroup);
+
+            ToggleButton btnGeneral = new ToggleButton("General");
+            btnGeneral.getStyleClass().setAll("btn-control");
+            btnGeneral.prefWidthProperty().bind(widthProperty().divide(2));
             btnGeneral.setToggleGroup(toggleGroup);
+
             paneControl.getChildren().addAll(btnCustom, btnGeneral);
             root.getChildren().add(paneControl);
 
@@ -575,12 +583,14 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                     }
                 }
             };
+            settingsRegion.getStyleClass().setAll("tab-settings-pane");
             getChildren().add(settingsRegion);
 
             clip = new Rectangle();
             settingsRegion.setClip(clip);
 
             btnSettings = new ToggleButton("Settings"); // TODO: replace with icon
+            btnSettings.getStyleClass().setAll("btn-settings");
 
             getSkinnable().showingSettingsProperty().bindBidirectional(btnSettings.selectedProperty());
             getChildren().add(btnSettings);
