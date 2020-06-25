@@ -247,6 +247,14 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
     }
 
     private void showText(boolean isShowing, boolean animation) {
+        showArea(tabMenu, isShowing, animation);
+    }
+
+    private void showText(boolean isShowing) {
+        showText(isShowing, true);
+    }
+
+    private void showArea(AnimationArea area, boolean isShowing, boolean animation) {
         double start;
         double end;
         Duration duration = animation ? Duration.millis(ANIMATION_DURATION) : Duration.millis(1.0);
@@ -257,23 +265,21 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             start = 1.0;
             end = 0.0;
         }
-        double width = tabMenu.computePrefWidth(-1);
-        tabMenu.resize(width, tabMenu.getHeight());
-        tabMenu.animationTransition.set(start);
-        tabMenu.currentAnimation = createTimeline(tabMenu, duration, end, null);
-        tabMenu.currentAnimation.play();
+        double width = area.computePrefWidth(-1);
+        area.resize(width, area.getHeight());
+        area.animationTransition.set(start);
+        area.currentAnimation = createTimeline(area, duration, end, null);
+        area.currentAnimation.play();
     }
 
-    private void showText(boolean isShowing) {
-        showText(isShowing, true);
-    }
 
-    private Timeline createTimeline(final TabMenu tabMenu, final Duration duration, final double endValue,
+
+    private Timeline createTimeline(final AnimationArea area, final Duration duration, final double endValue,
                                     final EventHandler<ActionEvent> func) {
         Timeline timeline = new Timeline();
         timeline.setCycleCount(1);
 
-        KeyValue keyValue = new KeyValue(tabMenu.animationTransition, endValue, Interpolator.LINEAR);
+        KeyValue keyValue = new KeyValue(area.animationTransition, endValue, Interpolator.LINEAR);
         timeline.getKeyFrames().clear();
         timeline.getKeyFrames().add(new KeyFrame(duration, keyValue));
 
@@ -289,19 +295,12 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
      **************************************************************************/
 
 
-    class TabMenu extends StackPane {
+    class TabMenu extends AnimationArea {
 
         private final ObservableList<TabLabel> tabLabels;
         private final VBox labelsContainer;
         private final ToggleButton btnToggleCollapse;
         private final Rectangle clipLabels;
-
-        // animation
-        private final DoubleProperty animationTransition =
-                new SimpleDoubleProperty(this, "animationTransition", 1.0) {
-                    @Override protected void invalidated() { requestLayout(); }
-        };
-        private Timeline currentAnimation;
 
 
         public TabMenu() {
@@ -538,7 +537,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
     }
 
-    class SettingsPane extends StackPane {
+    class SettingsPane extends AnimationArea {
 
         private ObservableList<TabSettingsRegion> tabSettingsRegions;
         private ToggleButton btnSettings;
@@ -561,11 +560,13 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             getStyleClass().add("debug-bold");
 
             btnSettings = new ToggleButton("Settings"); // TODO: replace with icon
-
             getSkinnable().showingSettingsProperty().bindBidirectional(btnSettings.selectedProperty());
             getChildren().add(btnSettings);
 
             getSkinnable().getSelectionModel().selectedItemProperty().addListener(l -> updateCurrentRegion());
+            registerChangeListener(getSkinnable().showingSettingsProperty(),
+                    e->showArea(this, getSkinnable().isShowingSettings(), true));
+            showArea(this, getSkinnable().isShowingSettings(), true);
         }
 
         @Override
@@ -586,9 +587,12 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
         @Override
         protected double computePrefWidth(double height) {
-            double padding =
-                    snappedLeftInset() + snappedRightInset() + settingsRegion.snappedLeftInset() + settingsRegion.snappedRightInset();
-            return currentRegionProperty().get().prefWidth(height) + btnSettings.prefWidth(-1) + padding;
+            double padding = snappedLeftInset() + snappedRightInset();
+            double settingsWidth = settingsRegion.snappedLeftInset() + settingsRegion.snappedRightInset();
+            if (currentRegionProperty().get() != null) {
+                settingsWidth += currentRegionProperty().get().prefWidth(height);
+            }
+            return btnSettings.prefWidth(-1) + padding + (settingsWidth * animationTransition.get());
         }
 
         public void addTab(TabCustom tab) {
@@ -627,7 +631,18 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             }
             return currentRegion;
         }
+    }
 
+    class AnimationArea extends StackPane {
+        protected final DoubleProperty animationTransition =
+                new SimpleDoubleProperty(this, "animationTransition", 1.0) {
+                    @Override protected void invalidated() { requestLayout(); }
+                };
+        protected Timeline currentAnimation;
 
+        @Override
+        protected double computePrefWidth(double height) {
+            return super.computePrefWidth(height);
+        }
     }
 }
