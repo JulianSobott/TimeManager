@@ -363,6 +363,9 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
         @Override
         protected double computePrefWidth(double height) {
+            if (labelsContainer.getChildren().size() == 0) {
+                return iconBarWidth();
+            }
             return snapSize(iconBarWidth() +
                     (labelsContainer.prefWidth(height) - iconBarWidth() + snappedLeftInset() + snappedRightInset())
                             * animationTransition.getValue());
