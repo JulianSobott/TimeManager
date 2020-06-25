@@ -4,29 +4,69 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
+
+import java.util.concurrent.Callable;
 
 public class TabCustom extends Tab {
 
     public TabCustom() {
         super();
+        tabPaneProperty().addListener( l -> updateIcon());
     }
 
     public TabCustom(String name, Node content, String iconPath, Node settingsNode) {
         super(name, content);
-        iconPathProperty().set(iconPath);
-        settingsNodeProperty().set(settingsNode);
+        setIconPath(iconPath);
+        setSettingsNode(settingsNode);
+        tabPaneProperty().addListener( l -> updateIcon());
+    }
+
+    private void updateIcon() {
+        setIcon(getIconPath());
     }
 
     private void setIcon(String iconPath) {
-        Image img = new Image(iconPath);
-        ImageView imageView = new ImageView(img);
-        imageView.setFitWidth(getTabWindow().getImageSize());
-        imageView.setFitHeight(getTabWindow().getImageSize());
-        setGraphic(imageView);
+        Node graphic;
+        try {
+            Image img = new Image(iconPath);
+            ImageView imageView = new ImageView(img);
+            imageView.fitWidthProperty().bind(getTabWindow().imageSizeProperty());
+            imageView.fitHeightProperty().bind(getTabWindow().imageSizeProperty());
+            graphic = imageView;
+        } catch (IllegalArgumentException e) {
+            // Image not found
+            double size = getTabWindow().getImageSize();
+            String textAlternative = getText().substring(0, 1).toUpperCase();
+            StackPane sp = new StackPane();
+            Text text = new Text(textAlternative);
+            text.setBoundsType(TextBoundsType.VISUAL);
+            sp.getStyleClass().setAll("debug-2");
+            sp.getChildren().add(text);
+
+            text.setStyle("-fx-font-size: " + size);
+            sp.setPrefSize(size, size);
+
+
+            getTabWindow().imageSizeProperty().addListener(l -> {
+                double newSize = getTabWindow().getImageSize();
+                text.setStyle("-fx-font-size: " + newSize);
+                sp.setPrefSize(newSize, newSize);
+            });
+
+            graphic = sp;
+        }
+        setGraphic(graphic);
     }
 
     private TabWindow getTabWindow() {

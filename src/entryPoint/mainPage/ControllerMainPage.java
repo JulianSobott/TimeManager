@@ -1,5 +1,6 @@
 package entryPoint.mainPage;
 
+import GuiElements.TabCustom;
 import GuiElements.TabWindow;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,7 +22,8 @@ public class ControllerMainPage implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         debugButton.setOnMousePressed(e -> {
-            window.getTabs().add(new Tab("Test", new Label("Hello in a new tab")));
+            window.setImageSize(10);
+            window.getTabs().add(new TabCustom("Test", new Label("Hello in a new tab"), "", null));
         });
     }
 }

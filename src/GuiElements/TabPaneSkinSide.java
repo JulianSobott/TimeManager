@@ -202,11 +202,12 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         });
     }
 
-    private void addTabs(List<? extends TabCustom> addedList, int from) {
+    private void addTabs(List<? extends Tab> addedList, int from) {
         int i = from;
-        for (TabCustom tab: addedList) {
-            addTabContent(tab);
-            tabMenu.addTab(tab, i++);
+        for (Tab tab: addedList) {
+            TabCustom tabCustom = (TabCustom) tab;
+            addTabContent(tabCustom);
+            tabMenu.addTab(tabCustom, i++);
             // TODO: add animation
         }
     }
@@ -410,14 +411,10 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         public TabLabel(TabCustom tab) {
             this.tab = tab;
             double size = getSkinnable().getImageSize();
-            Node graphic = tab.getGraphic();
-            if (graphic != null) {
-                // TODO: handle other elements
-                ImageView img = (ImageView) graphic;
-                img.setFitWidth(size);
-                img.setFitHeight(size);
-            }
-            label = new Label(tab.getText(), graphic);
+            label = new Label(tab.getText(), tab.getGraphic());
+            label.getStyleClass().add("debug");
+
+            label.setMaxWidth(Double.MAX_VALUE);
             getChildren().add(label);
 
             setOnMousePressed(e -> {
