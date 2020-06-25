@@ -543,6 +543,8 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         private ToggleButton btnSettings;
         private StackPane settingsRegion;
 
+        private Rectangle clip;
+
         public SettingsPane() {
             tabSettingsRegions = FXCollections.observableArrayList();
             settingsRegion = new StackPane() {
@@ -556,6 +558,9 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             };
             settingsRegion.getStyleClass().add("debug-bold-2");
             getChildren().add(settingsRegion);
+
+            clip = new Rectangle();
+            settingsRegion.setClip(clip);
 
             getStyleClass().add("debug-bold");
 
@@ -583,6 +588,11 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             double height = getHeight() - snappedBottomInset() - snappedTopInset();
             settingsRegion.resize(width, height);
             settingsRegion.relocate(x, y);
+
+            clip.setX(0);
+            clip.setY(0);
+            clip.setWidth(width * animationTransition.get());
+            clip.setHeight(height);
         }
 
         @Override
