@@ -101,6 +101,10 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
         // listeners
         registerChangeListener(control.showingTextProperty(), e -> showText(control.isShowingText()));
+        if (control.isCloseMenuAfterSelect()) {
+            // TODO: handle changes of property
+            registerChangeListener(control.getSelectionModel().selectedItemProperty(), e -> control.setShowingText(false));
+        }
         initializeTabListener();
 
         // Init menu width
@@ -316,12 +320,13 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             btnToggleCollapse = new ToggleButton();
             Image img = new Image("/Icons/list-48dp.png");
             ImageView imgView = new ImageView(img);
-            double size = getSkinnable().getImageSize(); // TODO: bind to property
             imgView.fitWidthProperty().bind(getSkinnable().imageSizeProperty());
             imgView.fitHeightProperty().bind(getSkinnable().imageSizeProperty());
             btnToggleCollapse.setGraphic(imgView);
             getChildren().add(btnToggleCollapse);
             btnToggleCollapse.getStyleClass().clear();
+
+            getSkinnable().showingTextProperty().bindBidirectional(btnToggleCollapse.selectedProperty());
         }
 
         @Override
@@ -346,10 +351,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             clipLabels.setY(0);
             clipLabels.setWidth(computePrefWidth(-1) - snappedRightInset() - snappedLeftInset());
             clipLabels.setHeight(Double.MAX_VALUE);
-
-
-            // Toggle menu on click
-            getSkinnable().showingTextProperty().bind(btnToggleCollapse.selectedProperty());
 
             nonOverlapProperty().set(iconBarWidth());
         }

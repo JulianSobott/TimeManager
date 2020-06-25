@@ -14,6 +14,7 @@ public class TabWindow extends TabPane {
 
     private BooleanProperty showingText;
 
+
     public TabWindow() {
         this((Tab[])null);
     }
@@ -78,6 +79,18 @@ public class TabWindow extends TabPane {
             contentResizing = new SimpleObjectProperty<>(this, "contentResizing", ContentResizing.OVERLAP);
         }
         return contentResizing;
+    }
+
+    private BooleanProperty closeMenuAfterSelect;
+
+    public void setCloseMenuAfterSelect(boolean value) { closeMenuAfterSelectProperty().set(value);}
+    public boolean isCloseMenuAfterSelect() { return closeMenuAfterSelectProperty().get(); }
+
+    public BooleanProperty closeMenuAfterSelectProperty() {
+        if (closeMenuAfterSelect == null) {
+            closeMenuAfterSelect = new SimpleBooleanProperty(this, "closeMenuAfterClose", true);
+        }
+        return closeMenuAfterSelect;
     }
 
 }
