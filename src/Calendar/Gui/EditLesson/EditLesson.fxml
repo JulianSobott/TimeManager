@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="anchorPaneFrameless" fx:id="anchorPaneEditLesson" prefHeight="538.0" prefWidth="781.0" style="-fx-background-color: grey;" stylesheets="@../../../entryPoint/MainDesign.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" >
+   <children>
+      <Button fx:id="buttonSaveAndBack" layoutX="34.0" layoutY="485.0" mnemonicParsing="false" onAction="#loadEditLessonWindow" prefHeight="27.0" prefWidth="166.0" text="Speichern und zurück" />
+   </children>
+</AnchorPane>

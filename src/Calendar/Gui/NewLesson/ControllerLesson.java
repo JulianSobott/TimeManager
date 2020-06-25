@@ -1,23 +1,32 @@
 package Calendar.Gui.NewLesson;
 
 import Calendar.Gui.ControllerCalender;
+import Calendar.Gui.EditLesson.ControllerEditLesson;
 import Calendar.Gui.GuiLesson;
 import Calendar.Logic.*;
 import GuiElements.AutoCompleteTextField;
-import javafx.animation.FadeTransition;
+import entryPoint.SceneLoader;
+import javafx.animation.*;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.MotionBlur;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Popup;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -44,6 +53,9 @@ public class ControllerLesson implements Initializable {
 
     @FXML
     private TableColumn colLecturer;
+
+    @FXML
+    private Button buttonEditLesson; // Button to Change Scene
 
 
     @FXML
@@ -231,6 +243,16 @@ public class ControllerLesson implements Initializable {
     /**
      * ###################################### Windows Navigation #######################################################
      */
+
+    @FXML
+    private void loadEditLessonWindow() {
+
+        SceneLoader sceneLoader = SceneLoader.getInstance();
+        sceneLoader.loadAnimationPopupWindow(buttonEditLesson, anchorPaneLesson,
+                SceneLoader.CalendarScene.EDIT_LESSON, new ControllerEditLesson(nodeTabCalendar, timetable, gridPaneTimetable, vBoxLesson, controllerCalender));
+
+    }
+
 
     @FXML
     private void closeSubjectWindow() {
