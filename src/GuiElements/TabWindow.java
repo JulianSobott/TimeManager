@@ -6,6 +6,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.geometry.Side;
+import javafx.scene.Node;
 import javafx.scene.control.Skin;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -91,6 +92,18 @@ public class TabWindow extends TabPane {
             closeMenuAfterSelect = new SimpleBooleanProperty(this, "closeMenuAfterClose", true);
         }
         return closeMenuAfterSelect;
+    }
+
+    private ObjectProperty<Node> settings;
+
+    public void setSettings(Node value) { settingsProperty().set(value); }
+    public Node getSettings() { return settingsProperty().get(); }
+
+    public ObjectProperty<Node> settingsProperty() {
+        if (settings == null) {
+            settings = new SimpleObjectProperty<>(this, "settings");
+        }
+        return settings;
     }
 
 }

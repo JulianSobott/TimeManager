@@ -30,7 +30,9 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.InvalidationListener;
 import javafx.beans.WeakInvalidationListener;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -43,6 +45,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -72,7 +77,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
     private ObservableList<TabContentRegion> tabContentRegions;
     private TabMenu tabMenu;
-    private Rectangle tabMenuClip;
+    private ObservableList<TabSettingsRegion> tabSettingsRegions;
 
     private static final double ANIMATION_DURATION = 500; // millis
 
@@ -87,10 +92,9 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         tabPaneBehavior = new TabWindowBehavior(control);
 
         tabMenu = new TabMenu();
-        tabMenuClip = new Rectangle();
-//        tabMenu.setClip(tabMenuClip);
 
         tabContentRegions = FXCollections.observableArrayList();
+        tabSettingsRegions = FXCollections.observableArrayList();
 
         for(Tab t : control.getTabs()) {
             addTabContent((TabCustom) t);
@@ -141,10 +145,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
         tabMenu.resize(menuWidth, menuHeight);
         tabMenu.relocate(x, y);
-        tabMenuClip.setX(x);
-        tabMenuClip.setX(y);
-        tabMenuClip.setWidth(menuWidth);
-        tabMenuClip.setHeight(menuHeight);
 
         // Content
         double menuNonOverlapWidth;
@@ -156,12 +156,20 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         double contentWidth = w - menuNonOverlapWidth;
         double contentHeight = h;
         double contentStartX = menuNonOverlapWidth;
-        double contentStartY = 0;
+        double contentStartY = y;
 
         for(TabContentRegion tabContentRegion : tabContentRegions) {
             tabContentRegion.relocate(contentStartX, contentStartY);
             tabContentRegion.resize(contentWidth, contentHeight);
-            tabContentRegion.getStyleClass().add("debug");
+        }
+
+        for (TabSettingsRegion tabSettingsRegion : tabSettingsRegions) {
+            double settingsWidth = tabSettingsRegion.prefWidth(-1);
+            double settingsHeight = h;
+            double settingsStartX = w - settingsWidth;
+            tabSettingsRegion.resize(settingsWidth, settingsHeight);
+            tabSettingsRegion.relocate(settingsStartX, y);
+            tabSettingsRegion.setMaxWidth(contentWidth);
         }
     }
 
@@ -196,9 +204,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
             if (!tabsToAdd.isEmpty()) {
                 for (TabContentRegion tabContentRegion : tabContentRegions) {
-                    if (tabsToAdd.contains(tabContentRegion.tab)) {
-                        tabsToAdd.remove(tabContentRegion.tab);
-                    }
+                    tabsToAdd.remove(tabContentRegion.tab);
                 }
 
                 addTabs(tabsToAdd, insertPos == -1 ? tabContentRegions.size() : insertPos);
@@ -228,6 +234,10 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         TabContentRegion region = new TabContentRegion(tab);
         tabContentRegions.add(region);
         getChildren().add(region);
+
+        TabSettingsRegion settingsRegion = new TabSettingsRegion(tab);
+        tabSettingsRegions.add(settingsRegion);
+        getChildren().add(settingsRegion);
     }
 
     private void removeTabContent(Tab tab) {
@@ -235,6 +245,14 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             if(region.tab.equals(tab)) {
                 // TODO: remove listeners
                 tabContentRegions.remove(region);
+                getChildren().remove(region);
+                break;
+            }
+        }
+        for (TabSettingsRegion region : tabSettingsRegions) {
+            if(region.tab.equals(tab)) {
+                // TODO: remove listeners
+                tabSettingsRegions.remove(region);
                 getChildren().remove(region);
                 break;
             }
@@ -302,7 +320,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         public TabMenu() {
             // TODO: remove
             //            labelsContainer.getStyleClass().add("debug-bold");
-            getStyleClass().add("debug-bold-2");
             setStyle("-fx-background-color: yellow");
 
             // tab labels
@@ -403,8 +420,8 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
     class TabLabel extends StackPane {
 
-        private final TabCustom tab;
-        private Label label;
+        protected final TabCustom tab;
+        protected Label label;
 
         public TabLabel(TabCustom tab) {
             this.tab = tab;
@@ -440,24 +457,91 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
     }
 
-
-    static class TabContentRegion extends StackPane {
-
-        // TODO: TabContentListener
-
-        private TabCustom tab;
+    static class TabVisibleRegion extends StackPane {
+        protected TabCustom tab;
 
         private final InvalidationListener tabSelectedListener = v -> setVisible(tab.isSelected());
 
         private final WeakInvalidationListener weakTabSelectedListener =
                 new WeakInvalidationListener(tabSelectedListener);
 
-        public TabContentRegion(TabCustom tab) {
+        public TabVisibleRegion(TabCustom tab) {
             this.tab = tab;
-            getChildren().setAll(tab.getContent());
-
             setVisible(tab.isSelected());
             tab.selectedProperty().addListener(weakTabSelectedListener);
+        }
+    }
+
+    static class TabContentRegion extends TabVisibleRegion {
+
+        // TODO: TabContentListener
+
+
+        public TabContentRegion(TabCustom tab) {
+            super(tab);
+            getChildren().setAll(tab.getContent());
+        }
+    }
+
+    class TabSettingsRegion extends TabVisibleRegion {
+
+        private Node tabSettings;
+        private Node generalSettings;
+
+        public TabSettingsRegion(TabCustom tab) {
+            super(tab);
+            Pane root = new VBox();
+
+            // Control
+            Pane paneControl  = new HBox();
+            ToggleGroup toggleGroup = new ToggleGroup();
+            ToggleButton btnCustom = new ToggleButton("Custom");
+            ToggleButton btnGeneral = new ToggleButton("General");
+            btnCustom.setToggleGroup(toggleGroup);
+            btnGeneral.setToggleGroup(toggleGroup);
+            paneControl.getChildren().addAll(btnCustom, btnGeneral);
+            root.getChildren().add(paneControl);
+
+            // Settings
+            Pane paneSettings = new StackPane();
+            tabSettings = tab.getSettingsNode();
+            generalSettings = getSkinnable().getSettings();
+            if (tabSettings == null) {
+                tabSettings = new Label("No settings for this tab available.");
+            }
+            if (generalSettings == null) {
+                generalSettings = new Label("No general settings available.");
+            }
+            generalSettings.getStyleClass().setAll("debug");
+            tabSettings.getStyleClass().setAll("debug-2");
+            paneSettings.getChildren().addAll(generalSettings, tabSettings);
+            root.getChildren().add(paneSettings);
+
+            // Actions
+            isGeneralSelectedProperty().bind(toggleGroup.selectedToggleProperty().isEqualTo(btnGeneral));
+
+            isGeneralSelectedProperty().addListener(l -> {
+                if (isGeneralSelectedProperty().get()) {
+                    generalSettings.setVisible(false);
+                    tabSettings.setVisible(true);
+                } else {
+                    generalSettings.setVisible(true);
+                    tabSettings.setVisible(false);
+                }
+            });
+            toggleGroup.selectToggle(btnGeneral);
+
+            getChildren().add(root);
+            getStyleClass().add("debug");
+        }
+
+        private BooleanProperty isGeneralSelected;
+
+        private BooleanProperty isGeneralSelectedProperty() {
+            if (isGeneralSelected == null) {
+                isGeneralSelected = new SimpleBooleanProperty(this, "isGeneralSelected", false);
+            }
+            return isGeneralSelected;
         }
     }
 }
