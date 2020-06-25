@@ -2,6 +2,7 @@ package Calendar.Gui.Settings;
 
 import Calendar.Gui.ControllerCalender;
 import Calendar.Logic.SettingsCalendar;
+import GuiElements.SettingsController;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,7 +18,7 @@ import javafx.util.Duration;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ControllerCalendarSettings implements Initializable {
+public class ControllerCalendarSettings implements Initializable, SettingsController {
 
     @FXML
     private Label labelInformation;
@@ -192,7 +193,6 @@ public class ControllerCalendarSettings implements Initializable {
     }
 
     @FXML void saveButtons(){
-
         updateSettings();
         controllerCalender.updateCalendar(true);
         makeFadeInTransition(1,0);
@@ -200,6 +200,15 @@ public class ControllerCalendarSettings implements Initializable {
     }
 
 
+    @Override
+    public ControllerCalender getController() {
+        return this.controllerCalender;
+    }
+
+    @Override
+    public void setController(Object controller) {
+        this.controllerCalender = (ControllerCalender) controller;
+    }
 }
 
 

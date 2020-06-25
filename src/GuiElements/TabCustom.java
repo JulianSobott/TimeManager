@@ -22,18 +22,23 @@ public class TabCustom extends Tab {
 
     public TabCustom() {
         super();
-        tabPaneProperty().addListener( l -> {
-            if (getTabPane() != null) {
-                updateIcon();
-            }
-        });
+        init();
     }
 
     public TabCustom(String name, Node content, String iconPath, Node settingsNode) {
         super(name, content);
         setIconPath(iconPath);
         setSettingsNode(settingsNode);
-        tabPaneProperty().addListener( l -> updateIcon());
+        init();
+    }
+
+    private void init() {
+        tabPaneProperty().addListener( l -> {
+            if (getTabPane() != null) {
+                updateIcon();
+            }
+        });
+        // TODO: Connect Controller with controllerSettings
     }
 
     private void updateIcon() {
