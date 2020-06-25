@@ -22,7 +22,11 @@ public class TabCustom extends Tab {
 
     public TabCustom() {
         super();
-        tabPaneProperty().addListener( l -> updateIcon());
+        tabPaneProperty().addListener( l -> {
+            if (getTabPane() != null) {
+                updateIcon();
+            }
+        });
     }
 
     public TabCustom(String name, Node content, String iconPath, Node settingsNode) {

@@ -1,0 +1,30 @@
+.tab-menu {
+    -fx-background-color: #5ebeff;
+    -fx-border-width: 0 3 0 0;
+    -fx-border-color: #9a42c8;
+}
+
+.tab-label {
+    -fx-background-color: rgba(0, 123, 255, 0.26);
+    -fx-border-width: 0 0 3 0, 0 0 0 4; /* Bottom as divider. Left as current tab marker */
+    -fx-border-color: rgba(96, 98, 99, 0.26), rgba(85, 138, 236, 0.65);
+    -fx-border-insets: 0 0 0 0, 0 0 3 0; /* Border same height as Icon */
+}
+
+.tab-label:hover {
+    -fx-background-color: rgba(0, 123, 255, 0.5);
+}
+
+.tab-label:selected {
+    -fx-border-color: rgba(96, 98, 99, 0.26), blue;
+}
+
+.btn-menu {
+    -fx-border-width: 0 0 0 4; /* Same as tab-label */
+    -fx-border-color: transparent;
+}
+
+.btn-menu:hover {
+    -fx-background-color: rgba(38, 87, 85, 0.1);
+
+}

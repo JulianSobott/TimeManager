@@ -24,6 +24,7 @@
  */
 package GuiElements;
 
+import com.sun.javafx.scene.control.LambdaMultiplePropertyChangeListenerHandler;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -34,6 +35,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -107,7 +109,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         control.showingTextProperty().addListener(e -> showText(control.isShowingText()));
         if (control.isCloseMenuAfterSelect()) {
             // TODO: handle changes of property
-            control.getSelectionModel().selectedItemProperty().addListener(e -> control.setShowingText(false));
+            control.getSelectionModel().selectedIndexProperty().addListener(e ->  control.setShowingText(false) );
         }
         initializeTabListener();
 
@@ -306,9 +308,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
 
         public TabMenu() {
-            // TODO: remove
-            //            labelsContainer.getStyleClass().add("debug-bold");
-            setStyle("-fx-background-color: yellow");
+            getStyleClass().setAll("tab-menu");
 
             // tab labels
             clipLabels = new Rectangle();
@@ -329,7 +329,8 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             imgView.fitHeightProperty().bind(getSkinnable().imageSizeProperty());
             btnToggleCollapse.setGraphic(imgView);
             getChildren().add(btnToggleCollapse);
-            btnToggleCollapse.getStyleClass().clear();
+            btnToggleCollapse.getStyleClass().setAll("btn-menu");
+
 
             getSkinnable().showingTextProperty().bindBidirectional(btnToggleCollapse.selectedProperty());
         }
@@ -368,6 +369,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         }
 
         private double iconBarWidth() {
+            // btnToggleCollapse must have same left border width as icons. Otherwise add icon insets
             return btnToggleCollapse.prefWidth(-1) + snappedLeftInset() + snappedRightInset()
                     + labelsContainer.snappedLeftInset() + labelsContainer.snappedRightInset();
         }
@@ -411,8 +413,13 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         protected final TabCustom tab;
         protected Label label;
 
+        private LambdaMultiplePropertyChangeListenerHandler listener = new LambdaMultiplePropertyChangeListenerHandler();
+
+
         public TabLabel(TabCustom tab) {
             this.tab = tab;
+            getStyleClass().setAll("tab-label");
+
             double size = getSkinnable().getImageSize();
             label = new Label(tab.getText(), tab.getGraphic());
 
@@ -431,6 +438,12 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                 }
                 // TODO: context menu + close
             });
+
+            listener.registerChangeListener(tab.selectedProperty(), e -> {
+                pseudoClassStateChanged(SELECTED_PSEUDOCLASS_STATE, tab.isSelected());
+                requestLayout();
+            });
+            pseudoClassStateChanged(SELECTED_PSEUDOCLASS_STATE, tab.isSelected());
         }
 
         public Tab getTab() {
@@ -439,11 +452,14 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
         @Override
         protected double computePrefWidth(double height) {
-            return label.prefWidth(height);
+            return label.prefWidth(height) + snappedLeftInset() + snappedRightInset();
         }
 
 
     }
+
+    private static final PseudoClass SELECTED_PSEUDOCLASS_STATE =
+            PseudoClass.getPseudoClass("selected");
 
     static class TabVisibleRegion extends StackPane {
         protected TabCustom tab;
@@ -505,8 +521,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             if (generalSettings == null) {
                 generalSettings = new Label("No general settings available.");
             }
-            generalSettings.getStyleClass().setAll("debug");
-            tabSettings.getStyleClass().setAll("debug-2");
+
             paneSettings.getChildren().addAll(generalSettings, tabSettings);
             root.getChildren().add(paneSettings);
 
@@ -525,7 +540,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             toggleGroup.selectToggle(btnGeneral);
 
             getChildren().add(root);
-            getStyleClass().add("debug");
         }
 
         private BooleanProperty isGeneralSelected;
@@ -558,13 +572,10 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                     }
                 }
             };
-            settingsRegion.getStyleClass().add("debug-bold-2");
             getChildren().add(settingsRegion);
 
             clip = new Rectangle();
             settingsRegion.setClip(clip);
-
-            getStyleClass().add("debug-bold");
 
             btnSettings = new ToggleButton("Settings"); // TODO: replace with icon
 
@@ -592,16 +603,18 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
             x = x + btnSettings.prefHeight(-1);
             TabSettingsRegion region = getCurrentRegion();
-            double width =
-                    region.prefWidth(-1) + settingsRegion.snappedLeftInset() + settingsRegion.snappedRightInset();
-            double height = getHeight() - snappedBottomInset() - snappedTopInset();
-            settingsRegion.resize(width, height);
-            settingsRegion.relocate(x, y);
+            if (region != null) {
+                double width =
+                        region.prefWidth(-1) + settingsRegion.snappedLeftInset() + settingsRegion.snappedRightInset();
+                double height = getHeight() - snappedBottomInset() - snappedTopInset();
+                settingsRegion.resize(width, height);
+                settingsRegion.relocate(x, y);
+                clip.setX(0);
+                clip.setY(0);
+                clip.setWidth(width * animationTransition.get());
+                clip.setHeight(height);
+            }
 
-            clip.setX(0);
-            clip.setY(0);
-            clip.setWidth(width * animationTransition.get());
-            clip.setHeight(height);
         }
 
         @Override
