@@ -9,21 +9,17 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.control.Button?>
+<?import GuiElements.TabCustom?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="entryPoint.mainPage.ControllerMainPage">
     <TabWindow tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="30.0"
              AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" fx:id="window">
-        <Tab text="Stundenplan">
-            <graphic>
-                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="/Icons/debug_background.png"/>
-                </ImageView>
-            </graphic>
+        <TabCustom text="Stundenplan" iconPath="/Icons/debug_background.png">
             <fx:include source="/Calendar/Gui/Calender.fxml"/>
-        </Tab>
-        <Tab text="asd">
+        </TabCustom>
+        <TabCustom text="asd">
             <Label text="Hello World"/>
-        </Tab>
+        </TabCustom>
     </TabWindow>
     <Button text="Click" fx:id="debugButton"/>
 </AnchorPane>

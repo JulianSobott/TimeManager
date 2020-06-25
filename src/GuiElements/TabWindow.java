@@ -4,6 +4,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.geometry.Side;
 import javafx.scene.control.Skin;
 import javafx.scene.control.Tab;
@@ -78,4 +79,5 @@ public class TabWindow extends TabPane {
         }
         return contentResizing;
     }
+
 }

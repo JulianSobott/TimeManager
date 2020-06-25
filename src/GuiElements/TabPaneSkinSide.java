@@ -49,6 +49,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -92,7 +93,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         tabContentRegions = FXCollections.observableArrayList();
 
         for(Tab t : control.getTabs()) {
-            addTabContent(t);
+            addTabContent((TabCustom) t);
         }
 
         // TabMenu always on top
@@ -168,8 +169,8 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
     private void initializeTabListener() {
         getSkinnable().getTabs().addListener((ListChangeListener<Tab>) c -> {
-            List<Tab> tabsToRemove = new ArrayList<>();
-            List<Tab> tabsToAdd = new ArrayList<>();
+            List<TabCustom> tabsToRemove = new ArrayList<>();
+            List<TabCustom> tabsToAdd = new ArrayList<>();
 
             int insertPos = -1;
 
@@ -178,10 +179,10 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                     // TODO
                 }
                 if (c.wasRemoved()) {
-                    tabsToRemove.addAll(c.getRemoved());
+                    tabsToRemove.addAll((Collection<? extends TabCustom>) c.getRemoved());
                 }
                 if (c.wasAdded()) {
-                    tabsToAdd.addAll(c.getAddedSubList());
+                    tabsToAdd.addAll((Collection<? extends TabCustom>) c.getAddedSubList());
                     insertPos = c.getFrom();
                 }
             }
@@ -201,24 +202,24 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         });
     }
 
-    private void addTabs(List<? extends Tab> addedList, int from) {
+    private void addTabs(List<? extends TabCustom> addedList, int from) {
         int i = from;
-        for (Tab tab: addedList) {
+        for (TabCustom tab: addedList) {
             addTabContent(tab);
             tabMenu.addTab(tab, i++);
             // TODO: add animation
         }
     }
 
-    private void removeTabs(List<? extends Tab> tabs) {
-        for (final Tab tab : tabs) {
+    private void removeTabs(List<? extends TabCustom> tabs) {
+        for (final TabCustom tab : tabs) {
             // TODO: remove listeners
             removeTabContent(tab);
             tabMenu.removeTab(tab);
         }
     }
 
-    private void addTabContent(Tab tab) {
+    private void addTabContent(TabCustom tab) {
         TabContentRegion region = new TabContentRegion(tab);
         tabContentRegions.add(region);
         getChildren().add(region);
@@ -310,7 +311,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             // tab labels
             int i = 0;
             for (Tab tab : getSkinnable().getTabs()) {
-                addTab(tab, i++);
+                addTab((TabCustom) tab, i++);
             }
 
             // Menu button
@@ -369,13 +370,13 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
         // Public API
 
-        public void addTab(Tab tab, int addToIndex) {
+        public void addTab(TabCustom tab, int addToIndex) {
             TabLabel tabLabel = new TabLabel(tab);
             tabLabels.add(addToIndex, tabLabel);
             labelsContainer.getChildren().add(addToIndex, tabLabel);
         }
 
-        public void removeTab(Tab tab) {
+        public void removeTab(TabCustom tab) {
             for(TabLabel tabLabel : tabLabels) {
                 if (tabLabel.getTab() == tab) {
                     labelsContainer.getChildren().remove(tabLabel);
@@ -403,10 +404,10 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
     class TabLabel extends StackPane {
 
-        private final Tab tab;
+        private final TabCustom tab;
         private Label label;
 
-        public TabLabel(Tab tab) {
+        public TabLabel(TabCustom tab) {
             this.tab = tab;
             double size = getSkinnable().getImageSize();
             Node graphic = tab.getGraphic();
@@ -450,14 +451,14 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
         // TODO: TabContentListener
 
-        private Tab tab;
+        private TabCustom tab;
 
         private final InvalidationListener tabSelectedListener = v -> setVisible(tab.isSelected());
 
         private final WeakInvalidationListener weakTabSelectedListener =
                 new WeakInvalidationListener(tabSelectedListener);
 
-        public TabContentRegion(Tab tab) {
+        public TabContentRegion(TabCustom tab) {
             this.tab = tab;
             getChildren().setAll(tab.getContent());
 
