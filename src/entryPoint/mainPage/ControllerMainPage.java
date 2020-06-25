@@ -20,7 +20,6 @@ public class ControllerMainPage implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        debugButton.setVisible(false);
         debugButton.setOnMousePressed(e -> {
             window.getTabs().add(new Tab("Test", new Label("Hello in a new tab")));
         });

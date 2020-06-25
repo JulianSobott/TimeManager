@@ -33,6 +33,7 @@ import javafx.beans.WeakInvalidationListener;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -46,6 +47,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TabPaneSkinSide extends SkinBase<TabWindow> {
@@ -88,7 +92,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         tabContentRegions = FXCollections.observableArrayList();
 
         for(Tab t : control.getTabs()) {
-            addTabs(t);
+            addTabContent(t);
         }
 
         // TabMenu always on top
@@ -96,7 +100,9 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
         // listeners
         registerChangeListener(control.showingTextProperty(), e -> showText(control.isShowingText()));
+        initializeTabListener();
 
+        // Init menu width
         showText(control.isShowingText(), false);
     }
 
@@ -160,10 +166,55 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
      *                                                                         *
      **************************************************************************/
 
-    private void addTabs(Tab... tabs) {
-        for (Tab tab: tabs) {
+    private void initializeTabListener() {
+        getSkinnable().getTabs().addListener((ListChangeListener<Tab>) c -> {
+            List<Tab> tabsToRemove = new ArrayList<>();
+            List<Tab> tabsToAdd = new ArrayList<>();
+
+            int insertPos = -1;
+
+            while (c.next()) {
+                if (c.wasPermutated()) {
+                    // TODO
+                }
+                if (c.wasRemoved()) {
+                    tabsToRemove.addAll(c.getRemoved());
+                }
+                if (c.wasAdded()) {
+                    tabsToAdd.addAll(c.getAddedSubList());
+                    insertPos = c.getFrom();
+                }
+            }
+
+            tabsToRemove.removeAll(tabsToAdd);
+            removeTabs(tabsToRemove);
+
+            if (!tabsToAdd.isEmpty()) {
+                for (TabContentRegion tabContentRegion : tabContentRegions) {
+                    if (tabsToAdd.contains(tabContentRegion.tab)) {
+                        tabsToAdd.remove(tabContentRegion.tab);
+                    }
+                }
+
+                addTabs(tabsToAdd, insertPos == -1 ? tabContentRegions.size() : insertPos);
+            }
+        });
+    }
+
+    private void addTabs(List<? extends Tab> addedList, int from) {
+        int i = from;
+        for (Tab tab: addedList) {
             addTabContent(tab);
-            tabMenu.addTab(tab);
+            tabMenu.addTab(tab, i++);
+            // TODO: add animation
+        }
+    }
+
+    private void removeTabs(List<? extends Tab> tabs) {
+        for (final Tab tab : tabs) {
+            // TODO: remove listeners
+            removeTabContent(tab);
+            tabMenu.removeTab(tab);
         }
     }
 
@@ -171,6 +222,17 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         TabContentRegion region = new TabContentRegion(tab);
         tabContentRegions.add(region);
         getChildren().add(region);
+    }
+
+    private void removeTabContent(Tab tab) {
+        for (TabContentRegion region : tabContentRegions) {
+            if(region.tab.equals(tab)) {
+                // TODO: remove listeners
+                tabContentRegions.remove(region);
+                getChildren().remove(region);
+                break;
+            }
+        }
     }
 
     private void showText(boolean isShowing, boolean animation) {
@@ -242,10 +304,16 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
             // TODO: remove
 //            labelsContainer.getStyleClass().add("debug-bold");
-
             getStyleClass().add("debug-bold-2");
             setStyle("-fx-background-color: yellow");
 
+            // tab labels
+            int i = 0;
+            for (Tab tab : getSkinnable().getTabs()) {
+                addTab(tab, i++);
+            }
+
+            // Menu button
             Image img = new Image("/Icons/list-48dp.png");
             ImageView imgView = new ImageView(img);
             double size = getSkinnable().getImageSize(); // TODO: bind to property
@@ -301,10 +369,10 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
         // Public API
 
-        public void addTab(Tab tab) {
+        public void addTab(Tab tab, int addToIndex) {
             TabLabel tabLabel = new TabLabel(tab);
-            tabLabels.add(tabLabel);
-            labelsContainer.getChildren().add(tabLabel);
+            tabLabels.add(addToIndex, tabLabel);
+            labelsContainer.getChildren().add(addToIndex, tabLabel);
         }
 
         public void removeTab(Tab tab) {
