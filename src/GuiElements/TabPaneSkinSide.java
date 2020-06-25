@@ -104,10 +104,10 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         getChildren().add(settingsPane);
 
         // listeners
-        registerChangeListener(control.showingTextProperty(), e -> showText(control.isShowingText()));
+        control.showingTextProperty().addListener(e -> showText(control.isShowingText()));
         if (control.isCloseMenuAfterSelect()) {
             // TODO: handle changes of property
-            registerChangeListener(control.getSelectionModel().selectedItemProperty(), e -> control.setShowingText(false));
+            control.getSelectionModel().selectedItemProperty().addListener(e -> control.setShowingText(false));
         }
         initializeTabListener();
 
@@ -338,8 +338,8 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         protected void layoutChildren() {
             double startX = snappedLeftInset();
             double startY = snappedTopInset();
-            double w = snapSizeX(getWidth()  - snappedLeftInset() - snappedRightInset()) ;
-            double h = snapSizeX(getHeight() - snappedTopInset() - snappedBottomInset());
+            double w = snapSize(getWidth()  - snappedLeftInset() - snappedRightInset()) ;
+            double h = snapSize(getHeight() - snappedTopInset() - snappedBottomInset());
 
             // Menu button
             btnToggleCollapse.relocate(startX, startY);
@@ -362,7 +362,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
         @Override
         protected double computePrefWidth(double height) {
-            return snapSizeX(iconBarWidth() +
+            return snapSize(iconBarWidth() +
                     (labelsContainer.prefWidth(height) - iconBarWidth() + snappedLeftInset() + snappedRightInset())
                             * animationTransition.getValue());
         }
@@ -572,7 +572,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             getChildren().add(btnSettings);
 
             getSkinnable().getSelectionModel().selectedItemProperty().addListener(l -> requestLayout());
-            registerChangeListener(getSkinnable().showingSettingsProperty(),
+            getSkinnable().showingSettingsProperty().addListener(
                     e->showArea(this, getSkinnable().isShowingSettings(), true));
             showArea(this, getSkinnable().isShowingSettings(), false);
         }

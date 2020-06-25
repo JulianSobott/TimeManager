@@ -23,7 +23,6 @@ public class TabWindow extends TabPane {
     public TabWindow(Tab... tabs) {
         super(tabs);
         this.setSide(Side.LEFT);
-        this.setTabDragPolicy(TabDragPolicy.REORDER);
     }
 
     @Override protected Skin<?> createDefaultSkin() {
