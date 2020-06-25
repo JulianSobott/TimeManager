@@ -21,6 +21,9 @@
         </TabCustom>
         <TabCustom text="asd">
             <Label text="Hello World"/>
+            <settingsNode>
+                <fx:include source="/Calendar/Gui/Calender.fxml"/>
+            </settingsNode>
         </TabCustom>
     </TabWindow>
     <Button text="Click" fx:id="debugButton"/>

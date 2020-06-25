@@ -45,6 +45,17 @@ public class TabWindow extends TabPane {
         return this.showingText;
     }
 
+    private BooleanProperty showingSettings;
+    public void setShowingSettings(boolean value) { showingSettingsProperty().set(value); }
+    public boolean isShowingSettings() { return showingSettingsProperty().get(); }
+
+    public BooleanProperty showingSettingsProperty() {
+        if (showingSettings == null) {
+            showingSettings = new SimpleBooleanProperty(this, "showingSettings", false);
+        }
+        return showingSettings;
+    }
+
     private DoubleProperty imageSize;
 
     public final void setImageSize(double value) {
