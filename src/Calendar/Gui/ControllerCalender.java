@@ -236,22 +236,19 @@ public class ControllerCalender implements Initializable {
 
         Image image = new Image("/Icons/icons8-plus-48.png");
         ImageView imageView = new ImageView(image);
+        imageView.setStyle("-fx-cursor: hand");
         imageView.setFitWidth(35);
         imageView.setFitHeight(35);
 
-        Button buttonAdd = new Button();
-        buttonAdd.setGraphic(imageView);
-        buttonAdd.setId("buttonAddLesson");
-
-        emptyVBox.getChildren().add(buttonAdd);
-        generateEventAddLesson(buttonAdd, emptyVBox);
+        emptyVBox.getChildren().add(imageView);
+        generateEventAddLesson(imageView, emptyVBox);
 
     }
 
 
-    private void generateEventAddLesson(Button buttonAddLesson, VBox emptyVBox) {
+    private void generateEventAddLesson(ImageView imageView, VBox emptyVBox) {
 
-        buttonAddLesson.setOnAction(actionEvent -> {
+        imageView.setOnMouseClicked(actionEvent -> {
 
             SceneLoader sceneLoader = SceneLoader.getInstance();
             ControllerLesson controllerLesson = new ControllerLesson(this.anchorPaneCalendar, this.timetable,
