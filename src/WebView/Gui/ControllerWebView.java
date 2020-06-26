@@ -17,9 +17,6 @@ public class ControllerWebView implements Initializable {
     @FXML
     private AnchorPane anchorPaneWebview;
 
-    @FXML
-    private SplitPane mainWebView;
-
     @FXML private Button btnToggleEdit;
 
     private SplitWindow startView;
@@ -27,9 +24,12 @@ public class ControllerWebView implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        mainWebView.setId("BoxWebView");
-        startView = new SplitWindow(null, null);
-        startView.createStartView(mainWebView);
+        startView = new SplitWindow(editingProperty());
+        anchorPaneWebview.getChildren().add(0, startView);
+        AnchorPane.setTopAnchor(startView, 0.0);
+        AnchorPane.setBottomAnchor(startView, 0.0);
+        AnchorPane.setLeftAnchor(startView, 0.0);
+        AnchorPane.setRightAnchor(startView, 0.0);
 
         btnToggleEdit.setOnMousePressed(e -> {
             setEditing(!isEditing());

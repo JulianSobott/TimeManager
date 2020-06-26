@@ -11,18 +11,28 @@ import javafx.scene.image.ImageView;
 
 public class ButtonIcon extends Button {
 
+    private ImageView imageView;
+
+    public ButtonIcon(String url, double size) {
+        this();
+        setIcon(url);
+        setSize(size);
+    }
+
     public ButtonIcon() {
         super();
         getStyleClass().setAll("btn-icon-only");
 
+        imageView = new ImageView();
+        imageView.setPreserveRatio(false);
         iconProperty().addListener(e -> {
-            ImageView view = new ImageView(new Image(getIcon()));
-            view.fitHeightProperty().bind(sizeProperty());
-            view.fitWidthProperty().bind(sizeProperty());
-            setGraphic(view);
+            imageView.setImage(new Image(getIcon()));
         });
+        imageView.fitWidthProperty().bind(sizeProperty());
+        imageView.fitHeightProperty().bind(sizeProperty());
+        imageView.getStyleClass().setAll("debug-2");
 
-        setOnMousePressed(r -> System.out.println("Clicked"));
+        setGraphic(imageView);
     }
 
     private StringProperty icon;

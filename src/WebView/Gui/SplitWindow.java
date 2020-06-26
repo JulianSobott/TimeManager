@@ -1,6 +1,9 @@
 package WebView.Gui;
 
+import GuiElements.ButtonIcon;
+import javafx.beans.property.BooleanProperty;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -16,231 +19,156 @@ import java.util.List;
 
 
 /**
- * Idee: Eigene Klasse zu schreiben die entweder Splitpane mit Horizontaler oder Vertikaler
- * orientierung zurück liefert ..... mit den entsprechenden Referenz auf Parent SplitPane
- * um löschen zu ermöglichen
- * <p>
- * In dem neuen Splitpane sollen dann jeweils 2 bereits vorgebaute Boxen existieren.... mit
- * Button und Label für laden entsprechender Webseiten
+ * Tree of SplitWindows. A leaf is a SplitWindow with exactly one SplitSide.
+ *
  */
 
 
-public class SplitWindow {
+public class SplitWindow extends SplitPane {
 
-    private SplitPane parentNode;
-    private boolean buttonState;
-    private Orientation splitPaneOrientation;
-    private Button btnSplitVertically;
-    private Button btnSplitHorizontally;
-    private Button btnClose;
-    private Button btnEdit;
+    private final SplitSide startSide;
+    private final SplitWindow parent;
 
+    private BooleanProperty editing;
 
-    public SplitWindow(SplitPane parentNode, Orientation splitPaneOrientation) {
-        this.parentNode = parentNode;
-        this.splitPaneOrientation = splitPaneOrientation;
+    public SplitWindow(BooleanProperty editing) {
+        this.parent = null;
+        this.editing = editing;
+        this.startSide = new SplitSide(this);
+        init();
     }
 
-    public void createStartView(SplitPane splitPane){
-        StackPane stackPane = createStackPane();
-        splitPane.getItems().addAll(stackPane);
+    public SplitWindow(SplitWindow parent) {
+        this.parent = parent;
+        this.startSide = new SplitSide(this);
+        init();
     }
 
-    /**
-     * Method to split a window into two subwindows
-     */
-
-
-    public void splitIntoTwoSubWindows() {
-
-        SplitPane splitPane = createBasicSplitPane();
-
-        this.parentNode.getItems().clear();
-        this.parentNode.getItems().add(splitPane);
-        this.parentNode = splitPane;
+    public SplitWindow(SplitWindow parent, SplitSide splitSide) {
+        this.parent = parent;
+        splitSide.setParent(this);
+        startSide = splitSide;
+        init();
     }
 
-
-    private SplitPane createBasicSplitPane() {
-
-        SplitPane splitPane = new SplitPane();
-        splitPane.setOrientation(splitPaneOrientation);
-
-        StackPane s1 = createStackPane();
-        StackPane s2 = createStackPane();
-
-        splitPane.getItems().addAll(s1, s2);
-
-        return splitPane;
+    private void init() {
+        getItems().add(startSide);
     }
 
-
-    /**
-     * ##################################### Generate SplitPane ######################################################
-     */
-
-
-
-    /**
-     * Generates content for empty SplitPane
-     */
-
-
-    private HBox generateAddURL(Pane pane) {
-
-        HBox hBox = new HBox();
-
-        hBox.setAlignment(Pos.CENTER);
-        hBox.setSpacing(10);
-
-        TextField textField = new TextField();
-        textField.setPromptText("http://www.google.de");
-        textField.setPrefWidth(300);
-        textField.setAlignment(Pos.CENTER);
-
-        Button button = new Button("Webseite anzeigen");
-        button.setOnMouseClicked(mouseEvent -> {
-
-            // Create a WebView
-            WebView webView = new WebView();
-            webView.getEngine().load(textField.getText());
-            StackPane stackPane = (StackPane) pane.getParent().getParent();
-            HBox urlHBox = (HBox) stackPane.getChildren().get(0);
-            urlHBox.getChildren().add(webView);
-
-            // Property Bindings
-            webView.prefWidthProperty().bind(pane.widthProperty());
-
-        });
-
-        hBox.getChildren().addAll(textField, button);
-
-        return hBox;
+    private void split(Orientation orientation) {
+        setOrientation(orientation);
+        getItems().clear();
+        getItems().addAll(new SplitWindow(this), new SplitWindow(this, startSide));
     }
 
-
-    private HBox createNewHBox(String id) {
-
-        HBox hBox = new HBox();
-        hBox.setId(id);
-        hBox.setAlignment(Pos.CENTER);
-        return hBox;
-    }
-
-    /**
-     * ######################################### Generate Buttons ################################################
-     */
-
-    private StackPane createStackPane(){
-        StackPane s = new StackPane();
-        s.setPickOnBounds(false);
-
-        HBox h = createNewHBox("BoxWebViewLight");
-        //h.getChildren().add(generateAddURL(h));
-
-        VBox buttonVBox = createEditButtons();
-        buttonVBox.setVisible(buttonState);
-
-        s.getChildren().addAll(h, buttonVBox);
-
-        return s;
-    }
-
-    private VBox createEditButtons(){
-        HBox urlTextBox = new HBox();
-        urlTextBox.getChildren().add(generateAddURL(urlTextBox));
-        urlTextBox.setAlignment(Pos.CENTER);
-
-        HBox buttonBox = new HBox();
-        Button close = new Button("close");
-        Button horizontal = new Button("horizontal");
-        Button vertical = new Button("vertical");
-        buttonBox.getChildren().addAll(horizontal, vertical, close);
-        buttonBox.setAlignment(Pos.CENTER);
-
-        VBox vBox = new VBox();
-        vBox.getChildren().addAll(urlTextBox, buttonBox);
-        vBox.setAlignment(Pos.CENTER);
-
-        addButtonFunctions(buttonBox);
-
-        return vBox;
-    }
-
-    private void addButtonFunctions(HBox HBoxButtons){
-
-        HBoxButtons.getChildren().get(0).setOnMouseClicked(event -> { //split horizontal button
-            this.splitPaneOrientation = Orientation.HORIZONTAL;
-            replaceElements((StackPane) HBoxButtons.getParent().getParent());
-        });
-
-
-        HBoxButtons.getChildren().get(1).setOnMouseClicked(event -> { //split vertical button
-            this.splitPaneOrientation = Orientation.VERTICAL;
-            replaceElements((StackPane) HBoxButtons.getParent().getParent());
-        });
-
-
-//        HBoxButtons.getChildren().get(4).setOnMouseClicked(event -> { //Edit button
-//            StackPane stackPane = (StackPane) HBoxButtons.getParent();
-//            HBox urlBox = (HBox) stackPane.getChildren().get(0);
-//            urlBox.getChildren().clear();
-//            urlBox.getChildren().add(generateAddURL(urlBox));
-//        });
-
-
-        HBoxButtons.getChildren().get(2).setOnMouseClicked(event -> { //close button
-            StackPane stackPane = (StackPane) HBoxButtons.getParent().getParent();
-
-            if (stackPane.getChildren().size() == 2)
-            {
-                SplitPane parent = (SplitPane) stackPane.getParent().getParent();
-                parent.getItems().remove(stackPane);
-
+    private void close() {
+        if (this.parent != null) {
+            this.parent.getItems().remove(this);
+            if (this.parent.getItems().size() == 0) {
+                this.parent.close();
             }
-
-            stackPane.getChildren().remove(HBoxButtons);
-        });
+        }
     }
 
-    /**
-     * ######################################### Show Buttons ################################################
-     */
-
-    public void showEditButtons(){
-        // TODO
+    private BooleanProperty editingProperty() {
+        if (editing == null) {
+            return this.parent.editingProperty();
+        }
+        return editing;
     }
 
+    static class SplitSide extends StackPane {
+        private BooleanProperty editing;
+        private final HBox editButtons;
+        private final HBox urlContainer;
+        private final ButtonIcon btnApply;
+        private final TextField tfUrl;
+        private final StackPane content;
+        private final StackPane overlay;
 
-    /**
-     * Hilfsmethode zum bestimmen des Index
-     */
+        private SplitWindow parent;
 
-    private void replaceElements(StackPane sPane) {
 
-        SplitPane splitPane = createBasicSplitPane();
+        public SplitSide(SplitWindow parent) {
+            this.parent = parent;
+            double SPACE = 10.0;
 
-        SplitPane parentNode = (SplitPane) sPane.getParent().getParent();
+            editButtons = new HBox();
+            editButtons.setPadding(new Insets(SPACE, SPACE, 0, 0));
+            editButtons.setSpacing(SPACE);
+            double btnSize = 24;
+            Button btnSplitVertically = new ButtonIcon("/Icons/icons8-web-64.png", btnSize);
+            Button btnSplitHorizontally = new ButtonIcon("/Icons/icons8-bearbeiten-48.png", btnSize);
+            Button btnClose = new ButtonIcon("/Icons/icons8-löschen-48.png", btnSize);
+            btnSplitVertically.setOnMousePressed(e -> this.parent.split(Orientation.VERTICAL));
+            btnSplitHorizontally.setOnMousePressed(e -> this.parent.split(Orientation.HORIZONTAL));
+            btnClose.setOnMousePressed(e -> this.parent.close());
+            editButtons.getChildren().addAll(btnSplitVertically, btnSplitHorizontally, btnClose);
 
-        int index = -1;
-        for (int i = 0; i < parentNode.getItems().size(); i++) {
+            urlContainer = new HBox();
+            urlContainer.setPadding(new Insets(0, SPACE, 0, SPACE));
+            double urlHeight = 50;
+            tfUrl = new TextField();
+            tfUrl.setPromptText("https://google.de");
+            tfUrl.setPrefHeight(urlHeight);
+            tfUrl.setMinWidth(100);
+            tfUrl.setPrefWidth(700);
+            tfUrl.setAlignment(Pos.CENTER_LEFT);
+            btnApply = new ButtonIcon("/Icons/icons8-bearbeiten-48.png", urlHeight);
+            btnApply.setOnMousePressed(l -> {
+                loadWebsite();
+            });
+            urlContainer.getChildren().addAll(tfUrl, btnApply);
+            urlContainer.setSpacing(10);
+            overlay = new StackPane() {
+                @Override
+                protected void layoutChildren() {
+                    double buttonsWidth = editButtons.prefWidth(-1);
+                    double x = getWidth() - buttonsWidth - snappedRightInset();
+                    double y = snappedTopInset();
+                    editButtons.relocate(x, y);
+                    editButtons.resize(buttonsWidth, editButtons.prefHeight(-1));
 
-            if (sPane == parentNode.getItems().get(i))
-                index = i;
+                    double urlWidth = Math.min(urlContainer.prefWidth(-1), getWidth() - snappedRightInset() - snappedLeftInset());
+                    double urlHeight = tfUrl.prefHeight(-1);
+                    x = getWidth() / 2 - urlWidth / 2;
+                    y = getHeight() / 2 - urlHeight / 2;
+                    urlContainer.relocate(x, y);
+                    urlContainer.resize(urlWidth, urlHeight);
+
+                    double btnHeight = urlHeight - btnApply.snappedTopInset() - btnApply.snappedBottomInset();
+                    btnApply.setSize(btnHeight);
+                }
+            };
+            overlay.getChildren().addAll(editButtons, urlContainer);
+
+            content = new StackPane();
+            getChildren().addAll(content, overlay);
+        }
+
+        private void setContent(Node n) {
+            overlay.visibleProperty().bind(this.parent.editingProperty());
 
         }
 
-        parentNode.getItems().remove(sPane);
-        parentNode.getItems().add(index, splitPane);
-    }
+        private void loadWebsite() {
+            String url = tfUrl.getText();
 
-    /**
-     * ENUM Orientation SplitPane
-     */
+        }
 
-    private enum Child {
 
-        LEFT_TOP_CHILD, RIGHT_BELOW_CHILD
+        protected void layoutChildren() {
+            double paddingW = snappedLeftInset() + snappedRightInset();
+            double paddingH = snappedTopInset() + snappedBottomInset();
+            content.resize(getWidth() - paddingW, getHeight() - paddingH);
+            content.relocate(snappedLeftInset(), snappedRightInset());
+            overlay.resize(getWidth() - paddingW, getHeight() - paddingH);
+            overlay.relocate(snappedLeftInset(), snappedRightInset());
+        }
+
+        public void setParent(SplitWindow parent) {
+            this.parent = parent;
+        }
     }
 
 }
