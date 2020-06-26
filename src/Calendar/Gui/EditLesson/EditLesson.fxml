@@ -20,15 +20,15 @@
             <ColorPicker />
          </children>
       </VBox>
-      <Button mnemonicParsing="false" text="Button" />
-      <Button layoutX="494.0" layoutY="387.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="112.0" text="erstellen" />
-      <Button layoutX="34.0" layoutY="351.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="112.0" text="bearbeiten" />
-      <Button layoutX="166.0" layoutY="351.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="112.0" text="löschen" />
-      <Button layoutX="625.0" layoutY="387.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="112.0" text="speichern" />
-      <TableView layoutX="34.0" layoutY="45.0" prefHeight="286.0" prefWidth="406.0">
+      <Button layoutX="490.0" layoutY="374.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="112.0" text="erstellen" />
+      <Button layoutX="34.0" layoutY="414.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="112.0" text="bearbeiten" />
+      <Button layoutX="166.0" layoutY="414.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="112.0" text="löschen" />
+      <Button layoutX="613.0" layoutY="374.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="112.0" text="speichern" />
+      <TableView fx:id="tableViewSubjects" layoutX="34.0" layoutY="45.0" prefHeight="363.0" prefWidth="406.0" style="-fx-background-color: #9E9E9E; -fx-background-radius: 8px;">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn fx:id="colColor" prefWidth="75.0" text="Farbe" />
+          <TableColumn fx:id="colSubjectName" prefWidth="190.0" text="Vorlesung" />
+            <TableColumn fx:id="colLecturer" prefWidth="139.0" text="Dozent" />
         </columns>
       </TableView>
    </children>
