@@ -21,7 +21,7 @@
          </children>
       </VBox>
       <Button fx:id="buttonSave_Create" layoutX="490.0" layoutY="374.0" mnemonicParsing="false" onAction="#addNewSubject" prefHeight="27.0" prefWidth="112.0" text="erstellen" />
-      <Button fx:id="buttonEdit" layoutX="34.0" layoutY="414.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="112.0" text="bearbeiten" />
+      <Button fx:id="buttonEdit" layoutX="34.0" layoutY="414.0" mnemonicParsing="false" onAction="#editSubject" prefHeight="27.0" prefWidth="112.0" text="bearbeiten" />
       <Button fx:id="buttonDelete" layoutX="166.0" layoutY="414.0" mnemonicParsing="false" onAction="#deleteSubject" prefHeight="27.0" prefWidth="112.0" text="löschen" />
       <TableView fx:id="tableViewSubjects" layoutX="34.0" layoutY="45.0" prefHeight="363.0" prefWidth="406.0" style="-fx-background-color: #9E9E9E; -fx-background-radius: 8px;">
         <columns>

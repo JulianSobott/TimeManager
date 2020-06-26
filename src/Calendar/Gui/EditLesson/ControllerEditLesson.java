@@ -69,6 +69,8 @@ public class ControllerEditLesson implements Initializable {
     @FXML
     private Button buttonSaveAndBack;
 
+    private Subject selectedSubject;
+    private boolean buttonSave_Create_inEditMode = false;
 
     private ObservableList<Subject> subjectObservableList;
 
@@ -172,13 +174,23 @@ public class ControllerEditLesson implements Initializable {
     @FXML
     private void addNewSubject() {
 
-        String lessonColor = colorToHexCode(colorPickerSubjectColor.getValue());
+        if (!buttonSave_Create_inEditMode) {
+            String lessonColor = colorToHexCode(colorPickerSubjectColor.getValue());
+            Subject subject = new Subject(lessonColor, textFieldProfessor.getText(), textFieldSubject.getText());
+            clearFields();
 
-        Subject subject = new Subject(lessonColor, textFieldProfessor.getText(), textFieldSubject.getText());
-        clearFields();
+            subjectObservableList.add(subject);
+            timetable.addSubject(subject);
+        }
+        else {
 
-        subjectObservableList.add(subject);
-        timetable.addSubject(subject);
+            // Clear Fields.... Save Changes... Change Button
+            saveSubjectChanges();
+            buttonSave_Create_inEditMode = false;
+
+            buttonSave_Create.setText("erstellen");
+            buttonDesign("/Icons/icons8-plus-64.png", buttonSave_Create);
+        }
     }
 
     private String colorToHexCode(Color color) {
@@ -192,6 +204,44 @@ public class ControllerEditLesson implements Initializable {
         textFieldProfessor.clear();
         textFieldSubject.clear();
     }
+
+
+
+    @FXML
+    private void editSubject() {
+
+        this.selectedSubject = tableViewSubjects.getSelectionModel().getSelectedItem();
+
+        if (selectedSubject != null) {
+            textFieldSubject.setText(this.selectedSubject.getSubjectName());
+            textFieldProfessor.setText(this.selectedSubject.getProfessor());
+            colorPickerSubjectColor.setValue(Color.web(this.selectedSubject.getColor()));
+        }
+
+      buttonSave_Create_inEditMode = true;
+      buttonSave_Create.setText("Speichern");
+      buttonDesign("/Icons/icons8-speichern-64.png",buttonSave_Create);
+
+    }
+
+
+
+    @FXML
+    private void saveSubjectChanges() {
+
+        if (this.selectedSubject != null) {
+            this.selectedSubject.setSubjectName(textFieldSubject.getText());
+            this.selectedSubject.setProfessor(textFieldProfessor.getText());
+            this.selectedSubject.setColor(colorToHexCode(colorPickerSubjectColor.getValue()));
+
+            selectedSubject.notifyAllObservers();
+            this.selectedSubject = null;
+        }
+
+        tableViewSubjects.getSelectionModel().select(null);
+        clearFields();
+    }
+
 
 
 
