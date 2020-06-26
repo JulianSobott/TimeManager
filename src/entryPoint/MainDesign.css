@@ -401,3 +401,13 @@
     -fx-background-radius: 12px;
     -fx-background-color: darkgrey;
 }
+
+/* ########################################### General settings ##################################################### */
+
+#generalSettings {
+    -fx-padding: 20 0 0 0;
+}
+
+#generalSettings .label {
+    -fx-font-size: 1.1em;
+}

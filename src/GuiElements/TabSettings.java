@@ -39,4 +39,16 @@ public class TabSettings extends Control {
     public void closeSettings() {
         closeSettingsAction.accept(null);
     }
+
+    public TabWindow getTabWindow() {
+        Node n = this;
+        while (n.getParent() != null && !(n instanceof TabWindow)) {
+            n = n.getParent();
+        }
+        if (n instanceof TabWindow) {
+            return (TabWindow) n;
+        } else {
+            return null;
+        }
+    }
 }

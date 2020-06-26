@@ -56,6 +56,7 @@ public class SplitWindow extends SplitPane {
 
     private void init() {
         getItems().add(startSide);
+        getStyleClass().setAll("background-default");
     }
 
     private void split(Orientation splitOrientation) {
@@ -67,6 +68,7 @@ public class SplitWindow extends SplitPane {
     }
 
     private void close() {
+        // TODO: proper setting of parent and children
         if (this.parent != null) {
             this.parent.getItems().remove(this);
             if (this.parent.getItems().size() == 0) {
@@ -133,7 +135,7 @@ public class SplitWindow extends SplitPane {
                     });
             });
             tfUrl.setAlignment(Pos.CENTER_LEFT);
-            btnApply = new ButtonIcon("/Icons/icons8-bearbeiten-48.png", urlHeight);
+            btnApply = new ButtonIcon("/Icons/go-48.png", urlHeight);
             btnApply.setOnMousePressed(l -> {
                 loadWebsite();
             });
