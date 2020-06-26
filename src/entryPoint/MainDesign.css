@@ -20,6 +20,19 @@
     -fx-border-width: 8px;
 }
 
+/* #################################################### General ######################################################## */
+.btn-icon-only {
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
+    -fx-border-width: 3;
+    -fx-border-color: -color-button-default;
+    -fx-padding: 10;
+}
+
+.btn-icon-only:hover {
+    -fx-border-color: -color-button-accent;
+}
+
 /* #################################################### Tabs ######################################################## */
 
 /** menu */
@@ -27,7 +40,6 @@
     -fx-background-color: -color-elevation-10;
     -fx-border-width: 0 3 0 0;
     -fx-border-color: -color-border-accent;
-    -fx-border-radius: -size-border-radius;
 }
 
 .tab-label {
