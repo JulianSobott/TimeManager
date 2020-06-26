@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.effect.MotionBlur;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.web.WebView;
@@ -147,13 +148,24 @@ public class SplitWindow extends SplitPane {
         }
 
         private void setContent(Node n) {
+            this.parent.editingProperty().setValue(false);
             overlay.visibleProperty().bind(this.parent.editingProperty());
-
+            overlay.setStyle("-fx-background-color: rgba(100, 100, 100, 0.5)");
+            this.content.getChildren().setAll(n);
+            this.parent.editingProperty().addListener(l -> {
+                if (this.parent.editingProperty().get()) {
+                    content.setEffect(new MotionBlur());
+                } else {
+                    content.setEffect(null);
+                }
+            });
         }
 
         private void loadWebsite() {
             String url = tfUrl.getText();
-
+            WebView webView = new WebView();
+            webView.getEngine().load(url);
+            setContent(webView);
         }
 
 
