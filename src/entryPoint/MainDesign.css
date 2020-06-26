@@ -1,3 +1,25 @@
+
+/* #################################################### DEBUG ######################################################## */
+.debug {
+    -fx-border-color: red;
+    -fx-border-width: 2px;
+}
+
+.debug-2 {
+    -fx-border-color: indigo;
+    -fx-border-width: 2px;
+    -fx-background-color: white;
+}
+
+.debug-bold {
+    -fx-border-color: blue;
+    -fx-border-width: 8px;
+}
+.debug-bold-2 {
+    -fx-border-color: orange;
+    -fx-border-width: 8px;
+}
+
 /* #################################################### Tabs ######################################################## */
 
 /** menu */
@@ -5,14 +27,16 @@
     -fx-background-color: -color-elevation-10;
     -fx-border-width: 0 3 0 0;
     -fx-border-color: -color-border-accent;
+    -fx-border-radius: -size-border-radius;
 }
 
 .tab-label {
-    -fx-background-color: derive(-color-elevation-20, 80%);
+    -fx-border-color: -color-border-weaken, -color-border-default;
+    -fx-background-color: -color-elevation-20;
     -fx-border-width: 0 0 3 0, 0 0 0 4; /* Bottom as divider. Left as current tab marker */
-    -fx-border-color: -color-border-weaken, derive(-color-border-weaken, 80%);
     -fx-border-insets: 0 0 0 0, 0 0 3 0; /* Border same height as Icon */
     -fx-padding: 0 10 0 0;
+    -fx-font-size: 1.3em;
 }
 
 .tab-label:hover {
@@ -20,9 +44,8 @@
 }
 
 .tab-label:selected {
-    -fx-border-color: -color-border-weaken, -color-border-default;
-    -fx-background-color: -color-elevation-20;
-
+    -fx-background-color: derive(-color-elevation-20, 80%);
+    -fx-border-color: -color-border-weaken, derive(-color-border-weaken, 80%);
 }
 
 .btn-menu {
@@ -65,24 +88,23 @@
 }
 
 .control-pane {
-    -fx-border-color: -color-elevation-20;
-    -fx-border-width: 0 0 3 0;
+
 }
 
 .btn-control {
-    -fx-background-color: derive(-color-button-default, 20%);
     -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
     -fx-text-fill: -color-font-default;
     -fx-alignment: CENTER;
     -fx-content-display: LEFT;
     -fx-border-width: 0 0 3 0;
-    -fx-border-color: derive(-color-border-weaken, 40%);
+    -fx-border-color: -color-button-default;
+    -fx-background-color: -color-button-default;
+    -fx-font-size: 1.3em;
 }
 
 .btn-control:selected {
-    -fx-border-width: 0 0 3 0;
-    -fx-border-color: derive(-color-border-weaken, -40%);
-    -fx-background-color: -color-button-default;
+    -fx-background-color: derive(-color-button-default, 30%);
+    -fx-border-color: -color-border-weaken, derive(-color-border-weaken, 80%);
 }
 
 .btn-control:hover {
