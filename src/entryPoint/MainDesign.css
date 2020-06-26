@@ -155,16 +155,8 @@
 
 /* ################################################ TableView ####################################################### */
 
-.table-view {
-    -fx-background-color: transparent;
-}
+/* TODO: TableView Background radius. Same as tableView header */
 
-.table-view:focused {
-    -fx-background-color: transparent;
-}
-
-/* Spaltenköpfe
-    Struktur column-header-background -> column-header */
 
 .table-view .column-header-background {
     -fx-background-color: -color-elevation-20;
@@ -187,15 +179,15 @@
 }
 
 .table-row-cell:odd {
-    -fx-background-color: -fx-table-cell-border-color, #838383;
-    -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: 0.0em; /* 0 */
-    -fx-background-radius: 6px;
+    -fx-background-color: -fx-table-cell-border-color, derive(-color-elevation-10, 90%);
+}
+
+.table-row-cell:even {
+    -fx-background-color: -fx-table-cell-border-color, derive(-color-elevation-10, 80%);
 }
 
 .table-row-cell:selected {
-    -fx-background-color: orange;
-    -fx-background-radius: 6;
+    -fx-background-color: orange; /* TODO*/
 }
 
 .table-view > .virtual-flow > .scroll-bar:vertical,
