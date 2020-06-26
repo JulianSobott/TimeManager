@@ -15,4 +15,6 @@ public interface IKanBan {
     public Note getUrgentNote();
 
     public boolean moveNoteToDone(Note note);
+
+    public void deleteAllDoneNotes();
 }

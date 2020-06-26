@@ -1,9 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.layout.AnchorPane?>
-
 <?import GuiElements.TabWindow?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
@@ -11,6 +5,7 @@
 <?import javafx.scene.control.Button?>
 <?import GuiElements.TabCustom?>
 <?import GuiElements.TabSettings?>
+<?import javafx.scene.layout.AnchorPane?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="entryPoint.mainPage.ControllerMainPage"
@@ -24,8 +19,8 @@
                 <fx:include source="/Calendar/Gui/Settings/CalendarSettings.fxml"/>
             </settingsNode>
         </TabCustom>
-        <TabCustom text="asd">
-            <Label text="Hello World"/>
+        <TabCustom text="Hochschulnews">
+            <fx:include source="/WebView/Gui/WebView.fxml" />
         </TabCustom>
     </TabWindow>
 </AnchorPane>

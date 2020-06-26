@@ -1,11 +1,16 @@
 package entryPoint;
 
+import javafx.animation.*;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -108,6 +113,48 @@ public class SceneLoader {
     }
 
 
+
+
+
+    public void loadAnimationPopupWindow(Node node, AnchorPane anchorPaneRemove, CalendarScene calendarScene, Object controllerClass)  {
+
+        Parent root = loadFxmlFile(calendarScene, controllerClass );
+
+        Scene scene = node.getScene();
+
+        makeFadeInTransition(1,0,anchorPaneRemove);
+
+        root.translateXProperty().set(scene.getWidth());
+
+        Popup parentContainer = (Popup) node.getScene().getWindow();
+
+        parentContainer.getContent().add(root);
+
+        Timeline timeline = new Timeline();
+        KeyValue kv = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
+        KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.setOnFinished(t -> {
+            parentContainer.getContent().remove(anchorPaneRemove);
+        });
+        timeline.play();
+    }
+
+
+
+
+    private void makeFadeInTransition(int startValue, int targetValue, AnchorPane anchorPane) {
+
+        FadeTransition fadeTransition = new FadeTransition();
+        fadeTransition.setDuration(Duration.millis(1000));
+        fadeTransition.setNode(anchorPane);
+        fadeTransition.setFromValue(startValue);
+        fadeTransition.setToValue(targetValue);
+        fadeTransition.play();
+    }
+
+
+
     /**
      * ################################### Header and filepath to the different Scenes #################################
      */
@@ -115,7 +162,9 @@ public class SceneLoader {
 
     public enum CalendarScene {
         NEW_LESSON("NewLesson/Lesson"),
-        SETTINGS_CALENDAR("Settings/CalendarSettings");
+        SETTINGS_CALENDAR("Settings/CalendarSettings"),
+        EDIT_LESSON("EditLesson/EditLesson") ;
+
 
         private String fxmlPath;
 

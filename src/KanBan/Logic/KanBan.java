@@ -26,7 +26,12 @@ public class KanBan implements IKanBan{
 
     @Override
     public boolean deleteNote(Note note) {
-        return openNotes.remove(note);
+        return openNotes.remove(note) || doneNotes.remove(note);
+    }
+
+    @Override
+    public void deleteAllDoneNotes() {
+        doneNotes.clear();
     }
 
     @Override
