@@ -19,12 +19,12 @@
                closeMenuAfterSelect="true" contentResizing="OVERLAP">
         <TabCustom text="Stundenplan" iconPath="/Icons/debug_background.png">
             <fx:include source="/Calendar/Gui/Calender.fxml"/>
+            <settingsNode>
+                <fx:include source="/Calendar/Gui/Settings/CalendarSettings.fxml"/>
+            </settingsNode>
         </TabCustom>
         <TabCustom text="asd">
             <Label text="Hello World"/>
-            <settingsNode>
-                <fx:include source="/Calendar/Gui/Calender.fxml"/>
-            </settingsNode>
         </TabCustom>
     </TabWindow>
 </AnchorPane>

@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import settings.ControllerMapper;
 
 import java.net.URL;
 import java.time.LocalTime;
@@ -67,12 +68,20 @@ public class ControllerCalender implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println("Init Calendar");
+
+        ControllerMapper.get().registerController("calendar", this);
+
         updateValuesFromSettings();
         DateTimeFormatter f = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
         startOfLessons.format(f);
 
         getTimeAndDate();
         updateCalendar(false);
+    }
+
+    public void debug(String t) {
+        System.out.println("Hello from Calendar: " + t);
     }
 
     /**
