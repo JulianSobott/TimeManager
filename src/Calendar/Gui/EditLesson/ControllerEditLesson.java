@@ -7,7 +7,6 @@ import Calendar.Logic.Position;
 import Calendar.Logic.Subject;
 import Calendar.Logic.Timetable;
 import entryPoint.SceneLoader;
-import javafx.animation.FadeTransition;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,7 +19,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -146,9 +144,9 @@ public class ControllerEditLesson implements Initializable {
     private void setDesignButtons() {
 
 
-        buttonDesign("/Icons/icons8-bearbeiten-64.png", buttonEdit);
-        buttonDesign("/Icons/icons8-unwiederuflich-löschen-64.png", buttonDelete);
-        buttonDesign("/Icons/icons8-plus-64.png", buttonSave_Create);
+        buttonDesign("/Icons/icons8-bearbeiten-48.png", buttonEdit);
+        buttonDesign("/Icons/icons8-löschen-48.png", buttonDelete);
+        buttonDesign("/Icons/icons8-plus-48.png", buttonSave_Create);
         buttonDesign("/Icons/icons8-zurück-64.png", buttonSaveAndBack);
     }
 
@@ -157,8 +155,8 @@ public class ControllerEditLesson implements Initializable {
 
         Image image = new Image(path);
         ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(22);
-        imageView.setFitHeight(22);
+        imageView.setFitWidth(18);
+        imageView.setFitHeight(18);
 
         button.setGraphic(imageView);
         button.setId("buttonAddLesson");
@@ -189,7 +187,7 @@ public class ControllerEditLesson implements Initializable {
             buttonSave_Create_inEditMode = false;
 
             buttonSave_Create.setText("erstellen");
-            buttonDesign("/Icons/icons8-plus-64.png", buttonSave_Create);
+            buttonDesign("/Icons/icons8-plus-48.png", buttonSave_Create);
         }
     }
 
@@ -220,7 +218,7 @@ public class ControllerEditLesson implements Initializable {
 
       buttonSave_Create_inEditMode = true;
       buttonSave_Create.setText("Speichern");
-      buttonDesign("/Icons/icons8-speichern-64.png",buttonSave_Create);
+      buttonDesign("/Icons/icons8-speichern-48.png",buttonSave_Create);
 
     }
 

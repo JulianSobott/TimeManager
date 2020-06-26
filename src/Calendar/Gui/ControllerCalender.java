@@ -259,7 +259,7 @@ public class ControllerCalender implements Initializable {
 
     private void generateButtonAddLesson(VBox emptyVBox) {
 
-        Image image = new Image("/Icons/icons8-plus-64.png");
+        Image image = new Image("/Icons/icons8-plus-48.png");
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(35);
         imageView.setFitHeight(35);
