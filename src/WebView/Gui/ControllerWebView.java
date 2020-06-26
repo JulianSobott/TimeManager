@@ -1,5 +1,7 @@
 package WebView.Gui;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -18,8 +20,9 @@ public class ControllerWebView implements Initializable {
     @FXML
     private SplitPane mainWebView;
 
-    private SplitWindow startView;
+    @FXML private Button btnToggleEdit;
 
+    private SplitWindow startView;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -27,13 +30,22 @@ public class ControllerWebView implements Initializable {
         mainWebView.setId("BoxWebView");
         startView = new SplitWindow(null, null);
         startView.createStartView(mainWebView);
-        setButtonFunction();
-    }
 
-    private void setButtonFunction(){
-        anchorPaneWebview.getChildren().get(1).setOnMouseClicked(event -> {
-            startView.showEditButtons();
+        btnToggleEdit.setOnMousePressed(e -> {
+            setEditing(!isEditing());
         });
     }
+
+    private BooleanProperty editing;
+    public void setEditing(boolean value) { editingProperty().set(value); }
+    public boolean isEditing() { return editingProperty().get(); }
+
+    public BooleanProperty editingProperty() {
+        if (editing == null) {
+            editing = new SimpleBooleanProperty(this, "editing");
+        }
+        return editing;
+    }
+
 
 }

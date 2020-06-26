@@ -28,13 +28,15 @@ import java.util.List;
 public class SplitWindow {
 
     private SplitPane parentNode;
-    private SplitPaneOrientation splitPaneOrientation;
-    private static List<VBox> buttons = new ArrayList<>();
     private boolean buttonState;
+    private Orientation splitPaneOrientation;
+    private Button btnSplitVertically;
+    private Button btnSplitHorizontally;
+    private Button btnClose;
+    private Button btnEdit;
 
 
-    public SplitWindow(SplitPane parentNode, SplitPaneOrientation splitPaneOrientation) {
-
+    public SplitWindow(SplitPane parentNode, Orientation splitPaneOrientation) {
         this.parentNode = parentNode;
         this.splitPaneOrientation = splitPaneOrientation;
     }
@@ -61,12 +63,8 @@ public class SplitWindow {
 
     private SplitPane createBasicSplitPane() {
 
-        SplitPane splitPane;
-
-        if (splitPaneOrientation == SplitPaneOrientation.horizontal)
-            splitPane = generateSplitPaneHorizontal();
-        else
-            splitPane = generateSplitPaneVertical();
+        SplitPane splitPane = new SplitPane();
+        splitPane.setOrientation(splitPaneOrientation);
 
         StackPane s1 = createStackPane();
         StackPane s2 = createStackPane();
@@ -81,22 +79,6 @@ public class SplitWindow {
      * ##################################### Generate SplitPane ######################################################
      */
 
-
-    private SplitPane generateSplitPaneHorizontal() {
-
-        SplitPane splitPaneWeb = new SplitPane();
-        splitPaneWeb.setOrientation(Orientation.VERTICAL);
-
-        return splitPaneWeb;
-    }
-
-    private SplitPane generateSplitPaneVertical() {
-
-        SplitPane splitPaneWeb = new SplitPane();
-        splitPaneWeb.setOrientation(Orientation.HORIZONTAL);
-
-        return splitPaneWeb;
-    }
 
 
     /**
@@ -157,7 +139,6 @@ public class SplitWindow {
         //h.getChildren().add(generateAddURL(h));
 
         VBox buttonVBox = createEditButtons();
-        buttons.add(buttonVBox);
         buttonVBox.setVisible(buttonState);
 
         s.getChildren().addAll(h, buttonVBox);
@@ -189,13 +170,13 @@ public class SplitWindow {
     private void addButtonFunctions(HBox HBoxButtons){
 
         HBoxButtons.getChildren().get(0).setOnMouseClicked(event -> { //split horizontal button
-            this.splitPaneOrientation = SplitPaneOrientation.horizontal;
+            this.splitPaneOrientation = Orientation.HORIZONTAL;
             replaceElements((StackPane) HBoxButtons.getParent().getParent());
         });
 
 
         HBoxButtons.getChildren().get(1).setOnMouseClicked(event -> { //split vertical button
-            this.splitPaneOrientation = SplitPaneOrientation.vertical;
+            this.splitPaneOrientation = Orientation.VERTICAL;
             replaceElements((StackPane) HBoxButtons.getParent().getParent());
         });
 
@@ -210,7 +191,6 @@ public class SplitWindow {
 
         HBoxButtons.getChildren().get(2).setOnMouseClicked(event -> { //close button
             StackPane stackPane = (StackPane) HBoxButtons.getParent().getParent();
-            buttons.remove(HBoxButtons);
 
             if (stackPane.getChildren().size() == 2)
             {
@@ -228,9 +208,7 @@ public class SplitWindow {
      */
 
     public void showEditButtons(){
-        buttonState = !buttonState;
-        for (VBox v : buttons)
-            v.setVisible(buttonState);
+        // TODO
     }
 
 
@@ -259,11 +237,6 @@ public class SplitWindow {
     /**
      * ENUM Orientation SplitPane
      */
-
-    public enum SplitPaneOrientation {
-
-        horizontal, vertical
-    }
 
     private enum Child {
 

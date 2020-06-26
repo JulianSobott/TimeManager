@@ -14,6 +14,6 @@
                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                    AnchorPane.topAnchor="0.0"/>
         <ButtonIcon AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0"
-                    icon="/Icons/icons8-bearbeiten-48.png" size="36"/>
+                    icon="/Icons/icons8-bearbeiten-48.png" size="36" fx:id="btnToggleEdit"/>
     </children>
 </AnchorPane>
