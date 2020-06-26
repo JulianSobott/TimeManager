@@ -56,7 +56,9 @@ public class SplitWindow extends SplitPane {
         getItems().add(startSide);
     }
 
-    private void split(Orientation orientation) {
+    private void split(Orientation splitOrientation) {
+        Orientation orientation = splitOrientation == Orientation.HORIZONTAL ? Orientation.VERTICAL :
+                Orientation.HORIZONTAL;
         setOrientation(orientation);
         getItems().clear();
         getItems().addAll(new SplitWindow(this), new SplitWindow(this, startSide));
@@ -79,7 +81,6 @@ public class SplitWindow extends SplitPane {
     }
 
     static class SplitSide extends StackPane {
-        private BooleanProperty editing;
         private final HBox editButtons;
         private final HBox urlContainer;
         private final ButtonIcon btnApply;
@@ -98,9 +99,9 @@ public class SplitWindow extends SplitPane {
             editButtons.setPadding(new Insets(SPACE, SPACE, 0, 0));
             editButtons.setSpacing(SPACE);
             double btnSize = 24;
-            Button btnSplitVertically = new ButtonIcon("/Icons/icons8-web-64.png", btnSize);
-            Button btnSplitHorizontally = new ButtonIcon("/Icons/icons8-bearbeiten-48.png", btnSize);
-            Button btnClose = new ButtonIcon("/Icons/icons8-löschen-48.png", btnSize);
+            Button btnSplitVertically = new ButtonIcon("/Icons/split-vertically-48.png", btnSize);
+            Button btnSplitHorizontally = new ButtonIcon("/Icons/split-horizontally-48.png", btnSize);
+            Button btnClose = new ButtonIcon("/Icons/close-48.png", btnSize);
             btnSplitVertically.setOnMousePressed(e -> this.parent.split(Orientation.VERTICAL));
             btnSplitHorizontally.setOnMousePressed(e -> this.parent.split(Orientation.HORIZONTAL));
             btnClose.setOnMousePressed(e -> this.parent.close());
