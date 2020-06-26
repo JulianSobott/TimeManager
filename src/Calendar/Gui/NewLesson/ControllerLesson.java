@@ -155,7 +155,7 @@ public class ControllerLesson implements Initializable {
         }
 
         tableViewSubjects.getSelectionModel().select(index);
-        editSubject();
+        //editSubject();
     }
 
 

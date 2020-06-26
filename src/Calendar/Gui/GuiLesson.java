@@ -129,25 +129,22 @@ public class GuiLesson extends VBox {
         hBox.setSpacing(7);
         hBox.setStyle("-fx-padding: 5,5,5,5");
         hBox.setAlignment(Pos.TOP_RIGHT);
-        Button edit = createButton("/Icons/icons8-bearbeiten-48.png");
+        ImageView edit = createImageView("/Icons/icons8-bearbeiten-48.png");
         generateEditLessonEvent(edit);
-        Button delete = createButton("/Icons/icons8-löschen-48.png");
+        ImageView delete = createImageView("/Icons/icons8-löschen-48.png");
         generateDeleteLessonEvent(delete);
         hBox.getChildren().addAll(edit ,delete);
         return hBox;
     }
 
-    private Button createButton(String imagePath){
+    private ImageView createImageView(String imagePath){
 
         Image image = new Image(imagePath);
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(18);
         imageView.setFitHeight(18);
 
-        Button button = new Button();
-        button.setGraphic(imageView);
-        button.setId("buttonAddLesson");
-        return button;
+        return imageView;
 
     }
 
@@ -213,9 +210,9 @@ public class GuiLesson extends VBox {
 
 */
 
-    private void generateEditLessonEvent(Button buttonEdit){
+    private void generateEditLessonEvent(ImageView imageView){
 
-        buttonEdit.setOnAction(actionEvent -> {
+        imageView.setOnMouseClicked(actionEvent -> {
 
             SceneLoader sceneLoader = SceneLoader.getInstance();
             ControllerLesson controllerLesson = new ControllerLesson(gridPaneCalendar, this.timetable, this.gridPaneCalendar, this, controllerCalender);
@@ -226,9 +223,9 @@ public class GuiLesson extends VBox {
 
 
 
-    private void generateDeleteLessonEvent(Button buttonDelete) {
+    private void generateDeleteLessonEvent(ImageView imageViewDelete) {
 
-        buttonDelete.setOnAction(actionEvent -> {
+        imageViewDelete.setOnMouseClicked(actionEvent -> {
 
             Position position = new Position(GridPane.getRowIndex(this), GridPane.getColumnIndex(this));
 
