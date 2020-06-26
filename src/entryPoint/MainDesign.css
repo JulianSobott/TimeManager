@@ -2,26 +2,26 @@
 
 /** menu */
 .tab-menu {
-    -fx-background-color: #5ebeff;
+    -fx-background-color: -color-elevation-10;
     -fx-border-width: 0 3 0 0;
-    -fx-border-color: #9a42c8;
+    -fx-border-color: -color-border-accent;
 }
 
 .tab-label {
-    -fx-background-color: rgba(0, 123, 255, 0.26);
+    -fx-background-color: derive(-color-elevation-20, 80%);
     -fx-border-width: 0 0 3 0, 0 0 0 4; /* Bottom as divider. Left as current tab marker */
-    -fx-border-color: rgba(96, 98, 99, 0.26), rgba(85, 138, 236, 0.65);
+    -fx-border-color: -color-border-weaken, derive(-color-border-weaken, 80%);
     -fx-border-insets: 0 0 0 0, 0 0 3 0; /* Border same height as Icon */
     -fx-padding: 0 10 0 0;
 }
 
 .tab-label:hover {
-    -fx-background-color: rgba(0, 123, 255, 0.5);
+    -fx-background-color: derive(-color-elevation-20, 70%);
 }
 
 .tab-label:selected {
-    -fx-border-color: rgba(96, 98, 99, 0.26), blue;
-    -fx-background-color: rgba(8, 40, 75, 0.43);
+    -fx-border-color: -color-border-weaken, -color-border-default;
+    -fx-background-color: -color-elevation-20;
 
 }
 
@@ -31,7 +31,7 @@
 }
 
 .btn-menu:hover {
-    -fx-background-color: rgba(38, 87, 85, 0.1);
+    -fx-background-color: derive(-color-elevation-10, 5%);
 }
 
 /* Settings */
@@ -46,36 +46,48 @@
 }
 
 .btn-settings:hover {
-    -fx-color: green;
+    -fx-background-color: derive(-color-button-default, -10%);
 }
 
 .btn-settings:armed {
-    -fx-color: red;
+    -fx-background-color: derive(-color-button-default, -15%);
 }
 
 .btn-settings:focused {
-    -fx-color: blue;
+    -fx-background-color: derive(-color-button-default, -15%);
 }
 
 .tab-settings-pane {
-    -fx-background-color: red;
+    -fx-background-color: -color-elevation-10;
+    -fx-border-width: 0 0 0 3;
+    -fx-border-color: -color-border-accent;
     -fx-effect: dropshadow(two-pass-box , -fx-shadow-highlight-color, 1, 0.0 , 0, 1.4); /*Find way to display left dropshadow*/
 }
 
 .control-pane {
-    -fx-border-color: white;
+    -fx-border-color: -color-elevation-20;
     -fx-border-width: 0 0 3 0;
 }
+
 .btn-control {
-    -fx-background-color: blueviolet;
+    -fx-background-color: derive(-color-button-default, 20%);
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
+    -fx-text-fill: -color-font-default;
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: derive(-color-border-weaken, 40%);
 }
 
 .btn-control:selected {
-    -fx-background-color: green;
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: derive(-color-border-weaken, -40%);
+    -fx-background-color: -color-button-default;
 }
 
 .btn-control:hover {
-    -fx-background-color: red;
+    -fx-background-color: derive(-color-button-default, 50%);
+    -fx-border-color: derive(-color-border-weaken, 0%);
 }
 
 
@@ -314,11 +326,6 @@
 
 .combo-box-popup .list-cell:selected {
     -fx-background-color: #3D00E0;
-}
-
-#SettingsPane {
-    -fx-background-color: -color-background-alternative;
-    -fx-effect: -dropshadow-accent;
 }
 
 
