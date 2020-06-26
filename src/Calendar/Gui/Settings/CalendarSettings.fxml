@@ -7,7 +7,7 @@
 <?import GuiElements.TabSettings?>
 <TabSettings xmlns:fx="http://javafx.com/fxml/1" fx:controller="Calendar.Gui.Settings.ControllerCalendarSettings" fx:id="tabSettings">
     <AnchorPane id="SettingsPane" fx:id="anchorPaneSettings" prefHeight="700.0" prefWidth="331.0"
-                stylesheets="@../../../entryPoint/MainDesign.css" xmlns="http://javafx.com/javafx/10.0.2-internal"
+                stylesheets="/entryPoint/MainDesign.css, /css/theme_dark.css" xmlns="http://javafx.com/javafx/10.0.2-internal"
     >
         <children>
             <Button layoutX="14.0" layoutY="659.0" mnemonicParsing="false" onMouseClicked="#saveButtons"
