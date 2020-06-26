@@ -25,7 +25,7 @@ public class TabCustom extends Tab {
         init();
     }
 
-    public TabCustom(String name, Node content, String iconPath, Node settingsNode) {
+    public TabCustom(String name, Node content, String iconPath, TabSettings settingsNode) {
         super(name, content);
         setIconPath(iconPath);
         setSettingsNode(settingsNode);
@@ -104,19 +104,19 @@ public class TabCustom extends Tab {
         return iconPath;
     }
 
-    private ObjectProperty<Node> settingsNode;
+    private ObjectProperty<TabSettings> settingsNode;
 
-    public void setSettingsNode(Node value) {
+    public void setSettingsNode(TabSettings value) {
         settingsNodeProperty().set(value);
     }
 
-    public Node getSettingsNode() {
+    public TabSettings getSettingsNode() {
         return settingsNodeProperty().get();
     }
 
-    public ObjectProperty<Node> settingsNodeProperty() {
+    public ObjectProperty<TabSettings> settingsNodeProperty() {
         if (settingsNode == null) {
-            settingsNode = new SimpleObjectProperty<Node>(this, "icon", null);
+            settingsNode = new SimpleObjectProperty<>(this, "icon", null);
         }
         return settingsNode;
     }

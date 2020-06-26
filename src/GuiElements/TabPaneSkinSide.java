@@ -528,7 +528,12 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             generalSettings = getSkinnable().getSettings();
             if (tabSettings == null) {
                 tabSettings = new Label("No settings for this tab available.");
+            } else {
+                if (tabSettings instanceof  TabSettings) {
+                    ((TabSettings)tabSettings).setCloseSettingsAction(n -> getSkinnable().setShowingSettings(false));
+                }
             }
+
             if (generalSettings == null) {
                 generalSettings = new Label("No general settings available.");
             }

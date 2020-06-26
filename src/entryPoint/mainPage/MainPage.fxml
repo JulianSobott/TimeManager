@@ -10,6 +10,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.control.Button?>
 <?import GuiElements.TabCustom?>
+<?import GuiElements.TabSettings?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="entryPoint.mainPage.ControllerMainPage"

@@ -104,12 +104,12 @@ public class TabWindow extends TabPane {
         return closeMenuAfterSelect;
     }
 
-    private ObjectProperty<Node> settings;
+    private ObjectProperty<TabSettings> settings;
 
-    public void setSettings(Node value) { settingsProperty().set(value); }
-    public Node getSettings() { return settingsProperty().get(); }
+    public void setSettings(TabSettings value) { settingsProperty().set(value); }
+    public TabSettings getSettings() { return settingsProperty().get(); }
 
-    public ObjectProperty<Node> settingsProperty() {
+    public ObjectProperty<TabSettings> settingsProperty() {
         if (settings == null) {
             settings = new SimpleObjectProperty<>(this, "settings");
         }

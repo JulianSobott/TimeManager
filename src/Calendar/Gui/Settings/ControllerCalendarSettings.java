@@ -3,12 +3,14 @@ package Calendar.Gui.Settings;
 import Calendar.Gui.ControllerCalender;
 import Calendar.Logic.SettingsCalendar;
 import GuiElements.SettingsController;
+import GuiElements.TabSettings;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -26,6 +28,8 @@ public class ControllerCalendarSettings implements Initializable, SettingsContro
 
     @FXML
     private AnchorPane anchorPaneSettings;
+
+    @FXML private TabSettings tabSettings;
 
     @FXML
     private ComboBox<Integer> comboBoxCurrentSemester;
@@ -190,16 +194,13 @@ public class ControllerCalendarSettings implements Initializable, SettingsContro
 
     @FXML
     private void closeWindow() {
-
-        makeFadeInTransition(1, 0);
-
+        tabSettings.closeSettings();
     }
 
     @FXML void saveButtons(){
         updateSettings();
         controllerCalender.updateCalendar(true);
-        makeFadeInTransition(1,0);
-
+        closeWindow();
     }
 
 
