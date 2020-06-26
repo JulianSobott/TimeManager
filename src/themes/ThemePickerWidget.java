@@ -9,7 +9,7 @@ public class ThemePickerWidget extends ComboBox<Theme> {
 
     public ThemePickerWidget() {
         super(ThemeLoader.get().getThemes());
-        Callback<ListView<Theme>, ListCell<Theme>> cellFactory = f -> new ListCell<>() {
+        Callback<ListView<Theme>, ListCell<Theme>> cellFactory = f -> new ListCell<Theme>() {
             @Override
             protected void updateItem(Theme item, boolean empty) {
                 super.updateItem(item, empty);
