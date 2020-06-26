@@ -12,16 +12,18 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ControllerEditLesson implements Initializable {
@@ -45,9 +47,27 @@ public class ControllerEditLesson implements Initializable {
 
 
     @FXML
+    private TextField textFieldProfessor;
+
+    @FXML
+    private TextField textFieldSubject;
+
+    @FXML
+    private ColorPicker colorPickerSubjectColor;
+
+
+    @FXML
+    private Button buttonEdit;
+
+    @FXML
+    private Button buttonDelete;
+
+    @FXML
+    private Button buttonSave_Create;
+
+
+    @FXML
     private Button buttonSaveAndBack;
-
-
 
 
     private ObservableList<Subject> subjectObservableList;
@@ -59,8 +79,7 @@ public class ControllerEditLesson implements Initializable {
     private final ControllerCalender controllerCalender;
 
 
-
-    public ControllerEditLesson(Node node, Timetable timetable, GridPane gridPane, VBox vBoxLesson, ControllerCalender calender){
+    public ControllerEditLesson(Node node, Timetable timetable, GridPane gridPane, VBox vBoxLesson, ControllerCalender calender) {
 
         this.nodeTabCalendar = node;
         this.timetable = timetable;
@@ -77,13 +96,12 @@ public class ControllerEditLesson implements Initializable {
         tableViewSubjects.setItems(this.subjectObservableList);
         bindDataToTableView();
 
+        setDesignButtons();
     }
 
 
-
-
     /**
-     *  ########################## Table View ##########################################################################
+     * ########################## Table View ##########################################################################
      */
 
 
@@ -123,6 +141,78 @@ public class ControllerEditLesson implements Initializable {
     }
 
 
+    private void setDesignButtons() {
+
+
+        buttonDesign("/Icons/icons8-bearbeiten-64.png", buttonEdit);
+        buttonDesign("/Icons/icons8-unwiederuflich-löschen-64.png", buttonDelete);
+        buttonDesign("/Icons/icons8-plus-64.png", buttonSave_Create);
+        buttonDesign("/Icons/icons8-zurück-64.png", buttonSaveAndBack);
+    }
+
+
+    private void buttonDesign(String path, Button button) {
+
+        Image image = new Image(path);
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(22);
+        imageView.setFitHeight(22);
+
+        button.setGraphic(imageView);
+        button.setId("buttonAddLesson");
+
+    }
+
+
+    /**
+     * ###################################### TableView Events #######################################################
+     */
+
+
+    @FXML
+    private void addNewSubject() {
+
+        String lessonColor = colorToHexCode(colorPickerSubjectColor.getValue());
+
+        Subject subject = new Subject(lessonColor, textFieldProfessor.getText(), textFieldSubject.getText());
+        clearFields();
+
+        subjectObservableList.add(subject);
+        timetable.addSubject(subject);
+    }
+
+    private String colorToHexCode(Color color) {
+
+        return "#" + color.toString().substring(2, 8);
+    }
+
+
+    private void clearFields() {
+
+        textFieldProfessor.clear();
+        textFieldSubject.clear();
+    }
+
+
+
+    @FXML
+    private void deleteSubject() {
+
+        Subject subject = tableViewSubjects.getSelectionModel().getSelectedItem();
+        ArrayList<Position> positionArrayList;
+
+        if (subject != null) {
+            positionArrayList = subject.deleteAllObject();
+            subjectObservableList.remove(subject);
+            timetable.deleteSubject(subject);
+
+            for (Position p : positionArrayList) {
+
+                VBox vBox = controllerCalender.generateEmptyVBox(p.getCol(), p.getRow());
+                gridPaneTimetable.add(vBox, p.getCol(), p.getRow());
+            }
+        }
+    }
 
 
     /**
@@ -130,17 +220,14 @@ public class ControllerEditLesson implements Initializable {
      */
 
 
-
     @FXML
     private void loadEditLessonWindow() {
 
         SceneLoader sceneLoader = SceneLoader.getInstance();
         sceneLoader.loadAnimationPopupWindow(buttonSaveAndBack, anchorPaneEditLesson,
-                SceneLoader.CalendarScene.NEW_LESSON, new ControllerLesson(nodeTabCalendar,timetable, gridPaneTimetable,vBoxLesson,controllerCalender));
+                SceneLoader.CalendarScene.NEW_LESSON, new ControllerLesson(nodeTabCalendar, timetable, gridPaneTimetable, vBoxLesson, controllerCalender));
 
     }
-
-
 
 
 }
