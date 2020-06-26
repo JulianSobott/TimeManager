@@ -6,6 +6,7 @@
 <?import GuiElements.TabCustom?>
 <?import GuiElements.TabSettings?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import themes.ThemePickerWidget?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="entryPoint.mainPage.ControllerMainPage"
@@ -21,6 +22,17 @@
         </TabCustom>
         <TabCustom text="Hochschulnews">
             <fx:include source="/WebView/Gui/WebView.fxml" />
+            <settingsNode>
+                <TabSettings>
+                    <Label text="Some custom tab Settings Tab 2"/>
+                </TabSettings>
+            </settingsNode>
         </TabCustom>
+
+        <settings>
+            <TabSettings fx:id="generalSettings">
+                <ThemePickerWidget/>
+            </TabSettings>
+        </settings>
     </TabWindow>
 </AnchorPane>
