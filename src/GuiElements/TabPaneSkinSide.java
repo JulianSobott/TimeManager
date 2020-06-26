@@ -43,7 +43,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -77,7 +76,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
     private ObservableList<TabContentRegion> tabContentRegions;
     private TabMenu tabMenu;
-    private SettingsPane settingsPane;
+    private SettingsPane0 settingsPane;
 
     private static final double ANIMATION_DURATION = 150; // millis
 
@@ -92,7 +91,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         tabPaneBehavior = new TabWindowBehavior(control);
 
         tabMenu = new TabMenu();
-        settingsPane = new SettingsPane();
+        settingsPane = new SettingsPane0();
 
         tabContentRegions = FXCollections.observableArrayList();
 
@@ -491,70 +490,140 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         }
     }
 
-    class TabSettingsRegion extends TabVisibleRegion {
 
-        private Node tabSettings;
-        private Node generalSettings;
-        private Pane root;
+    class TabSettingsRegion extends TabVisibleRegion {
 
         public TabSettingsRegion(TabCustom tab) {
             super(tab);
-            root = new VBox();
-            getStyleClass().setAll("tab-settings");
 
-            // Control
-            Pane paneControl  = new HBox();
-            paneControl.getStyleClass().setAll("control-pane");
-            ToggleGroup toggleGroup = new ToggleGroup();
-            ToggleButton btnCustom = new ToggleButton("Custom");
-            btnCustom.getStyleClass().setAll("btn-control");
-            btnCustom.prefWidthProperty().bind(widthProperty().divide(2));
-            btnCustom.setToggleGroup(toggleGroup);
-
-            ToggleButton btnGeneral = new ToggleButton("General");
-            btnGeneral.getStyleClass().setAll("btn-control");
-            btnGeneral.prefWidthProperty().bind(widthProperty().divide(2));
-            btnGeneral.setToggleGroup(toggleGroup);
-
-            paneControl.getChildren().addAll(btnCustom, btnGeneral);
-            root.getChildren().add(paneControl);
-
-            // Settings
-            Pane paneSettings = new StackPane();
-            tabSettings = tab.getSettingsNode();
-            generalSettings = getSkinnable().getSettings();
+            Node tabSettings = tab.getSettingsNode();
             if (tabSettings == null) {
                 tabSettings = new Label("No settings for this tab available.");
             } else {
-                if (tabSettings instanceof  TabSettings) {
-                    ((TabSettings)tabSettings).setCloseSettingsAction(n -> getSkinnable().setShowingSettings(false));
+                ((TabSettings)tabSettings).setCloseSettingsAction(n -> getSkinnable().setShowingSettings(false));
+            }
+            getChildren().add(tabSettings);
+        }
+    }
+
+    class SettingsPane3 extends StackPane {
+        // Tabs
+        private ObservableList<TabSettingsRegion> tabSettingsRegions;
+
+        public SettingsPane3() {
+            tabSettingsRegions = FXCollections.observableArrayList();
+        }
+
+        public void addTab(TabCustom tab) {
+            TabSettingsRegion region = new TabSettingsRegion(tab);
+            tabSettingsRegions.add(region);
+            getChildren().add(region);
+        }
+
+        public void removeTab(TabCustom tab) {
+            for (TabSettingsRegion region : tabSettingsRegions) {
+                if (region.getTab().equals(tab)) {
+                    tabSettingsRegions.remove(region);
+                    getChildren().remove(region);
+                    break;
                 }
             }
+        }
+        private TabSettingsRegion getCurrentRegion() {
+            for (TabSettingsRegion tabSettingsRegion : tabSettingsRegions) {
+                if (tabSettingsRegion.isVisible()) {
+                    return tabSettingsRegion;
+                }
+            }
+            return null;
+        }
 
+    }
+
+    class SettingsPane2 extends StackPane {
+        // TabsContainer and General
+
+        private final SettingsPane3 tabsPane;
+        private final StackPane generalPane;
+
+        public SettingsPane2() {
+            // General
+            generalPane = new StackPane();
+            getChildren().add(generalPane);
+            Node generalSettings = getSkinnable().getSettings();
             if (generalSettings == null) {
                 generalSettings = new Label("No general settings available.");
+            } else {
+                ((TabSettings)generalSettings).setCloseSettingsAction(n -> getSkinnable().setShowingSettings(false));
             }
+            generalPane.getChildren().add(generalSettings);
 
-            paneSettings.getChildren().addAll(generalSettings, tabSettings);
-            root.getChildren().add(paneSettings);
+            // Tabs
+            tabsPane = new SettingsPane3();
+            getChildren().add(tabsPane);
+        }
+
+        public void showSettings(Settings settings) {
+            boolean showGeneral = settings == Settings.GENERAL;
+            generalPane.setVisible(showGeneral);
+            tabsPane.setVisible(!showGeneral);
+
+        }
+    }
+
+    public enum Settings {
+        CUSTOM, GENERAL
+    }
+
+    class SettingsPane1 extends VBox {
+        // Control + settings
+
+        private final SettingsPane2 settingsPane2;
+
+        public SettingsPane1() {
+            // Control
+            Pane paneControl = new HBox();
+            getChildren().add(paneControl);
+
+            ToggleGroup toggleGroup = new ToggleGroup();
+
+            ToggleButton btnCustom = new ToggleButton("Custom");
+            paneControl.getChildren().add(btnCustom);
+            btnCustom.setToggleGroup(toggleGroup);
+
+            ToggleButton btnGeneral = new ToggleButton("General");
+            paneControl.getChildren().add(btnGeneral);
+            btnGeneral.setToggleGroup(toggleGroup);
+
+            // SettingsPane2
+            settingsPane2 = new SettingsPane2();
+            getChildren().add(settingsPane2);
+
+            // bindings
+            btnCustom.prefWidthProperty().bind(widthProperty().divide(2));
+            btnGeneral.prefWidthProperty().bind(widthProperty().divide(2));
+
+            // Style classes
+            paneControl.getStyleClass().setAll("control-pane");
+            btnCustom.getStyleClass().setAll("btn-control");
+            btnGeneral.getStyleClass().setAll("btn-control");
 
             // Actions
             isGeneralSelectedProperty().bind(toggleGroup.selectedToggleProperty().isEqualTo(btnGeneral));
 
             isGeneralSelectedProperty().addListener(l -> {
+                // TODO: Always one selected
                 if (isGeneralSelectedProperty().get()) {
-                    generalSettings.setVisible(true);
-                    tabSettings.setVisible(false);
+                    settingsPane2.showSettings(Settings.GENERAL);
                 } else {
-                    generalSettings.setVisible(false);
-                    tabSettings.setVisible(true);
+                    settingsPane2.showSettings(Settings.CUSTOM);
                 }
             });
+
             // Default value
             toggleGroup.selectToggle(btnCustom);
-
-            getChildren().add(root);
         }
+
 
         private BooleanProperty isGeneralSelected;
 
@@ -567,41 +636,38 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
     }
 
-    class SettingsPane extends AnimationArea {
+    class SettingsPane0 extends AnimationArea {
+        // Settings button + content
 
-        private ObservableList<TabSettingsRegion> tabSettingsRegions;
         private ToggleButton btnSettings;
-        private StackPane settingsRegion;
+        private SettingsPane1 settingsPane1;
 
         private Rectangle clip;
 
-        public SettingsPane() {
-            tabSettingsRegions = FXCollections.observableArrayList();
-            settingsRegion = new StackPane() {
-                @Override
-                protected void layoutChildren() {
-                    for (Node node : getChildren()) {
-                        node.relocate(snappedLeftInset(), snappedTopInset());
-                        node.resize(node.prefWidth(-1), node.prefHeight(-1));
-                    }
-                }
-            };
-            settingsRegion.getStyleClass().setAll("tab-settings-pane");
-            getChildren().add(settingsRegion);
+        public SettingsPane0() {
+
+            // Content
+            settingsPane1 = new SettingsPane1();
+            getChildren().add(settingsPane1);
 
             clip = new Rectangle();
-            settingsRegion.setClip(clip);
+            settingsPane1.setClip(clip);
 
+            // Button
             btnSettings = new ToggleButton("Settings"); // TODO: replace with icon
             btnSettings.getStyleClass().setAll("btn-settings");
-
-            getSkinnable().showingSettingsProperty().bindBidirectional(btnSettings.selectedProperty());
             getChildren().add(btnSettings);
+
+            // Listeners
+            getSkinnable().showingSettingsProperty().bindBidirectional(btnSettings.selectedProperty());
 
             getSkinnable().getSelectionModel().selectedItemProperty().addListener(l -> requestLayout());
             getSkinnable().showingSettingsProperty().addListener(
                     e->showArea(this, getSkinnable().isShowingSettings(), true));
             showArea(this, getSkinnable().isShowingSettings(), false);
+
+            // Style classes
+            settingsPane1.getStyleClass().setAll("tab-settings-pane");
         }
 
         @Override
@@ -618,54 +684,30 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             btnSettings.relocate(x, getHeight() / 2 + btnSettings.prefHeight(-1) / 2);
 
             x = x + btnSettings.prefHeight(-1);
-            TabSettingsRegion region = getCurrentRegion();
-            if (region != null) {
-                double width =
-                        region.prefWidth(-1) + settingsRegion.snappedLeftInset() + settingsRegion.snappedRightInset();
-                double height = getHeight() - snappedBottomInset() - snappedTopInset();
-                settingsRegion.resize(width, height);
-                settingsRegion.relocate(x, y);
-                clip.setX(0);
-                clip.setY(0);
-                clip.setWidth(width * animationTransition.get());
-                clip.setHeight(height);
-            }
+            double width = settingsPane1.prefWidth(-1);
+            double height = getHeight() - snappedBottomInset() - snappedTopInset();
+            settingsPane1.resize(width, height);
+            settingsPane1.relocate(x, y);
+            clip.setX(0);
+            clip.setY(0);
+            clip.setWidth(width * animationTransition.get());
+            clip.setHeight(height);
 
         }
 
         @Override
         protected double computePrefWidth(double height) {
             double padding = snappedLeftInset() + snappedRightInset();
-            double settingsWidth = settingsRegion.snappedLeftInset() + settingsRegion.snappedRightInset();
-            if (getCurrentRegion() != null) {
-                settingsWidth += getCurrentRegion().prefWidth(height);
-            }
+            double settingsWidth = settingsPane1.prefWidth(height);
             return btnSettings.prefHeight(-1) + padding + (settingsWidth * animationTransition.get());
         }
 
         public void addTab(TabCustom tab) {
-            TabSettingsRegion region = new TabSettingsRegion(tab);
-            tabSettingsRegions.add(region);
-            settingsRegion.getChildren().add(region);
+            settingsPane1.settingsPane2.tabsPane.addTab(tab);
         }
 
         public void removeTab(TabCustom tab) {
-            for (TabSettingsRegion region : tabSettingsRegions) {
-                if (region.getTab().equals(tab)) {
-                    tabSettingsRegions.remove(region);
-                    settingsRegion.getChildren().remove(region);
-                    break;
-                }
-            }
-        }
-
-        private TabSettingsRegion getCurrentRegion() {
-            for (TabSettingsRegion tabSettingsRegion : tabSettingsRegions) {
-                if (tabSettingsRegion.isVisible()) {
-                    return tabSettingsRegion;
-                }
-            }
-            return null;
+            settingsPane1.settingsPane2.tabsPane.removeTab(tab);
         }
     }
 

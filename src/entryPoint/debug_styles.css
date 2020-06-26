@@ -122,6 +122,7 @@ is being used to size a border should also be in pixels.
 .debug-2 {
     -fx-border-color: indigo;
     -fx-border-width: 2px;
+    -fx-background-color: white;
 }
 
 .debug-bold {
