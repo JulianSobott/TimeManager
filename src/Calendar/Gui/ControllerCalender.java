@@ -44,9 +44,6 @@ public class ControllerCalender implements Initializable {
     private Label labelCurrentTimeAndDate;
 
     @FXML
-    private Button buttonSettings;
-
-    @FXML
     private GridPane gridPaneTimetable;
 
     private double cellPercentageWidth;
@@ -79,8 +76,6 @@ public class ControllerCalender implements Initializable {
 
         getTimeAndDate();
         updateCalendar(false);
-
-        anchorPaneCalendar.getChildren().add(new ThemePickerWidget());
     }
 
     /**
@@ -94,7 +89,6 @@ public class ControllerCalender implements Initializable {
             deleteRowsAndColumnsFromGridPane();
         updateValuesFromSettings();
         generateGridPaneTimetable(gridPaneTimetable);
-        generateContextMenuSettings();
         generateLabelsDays();
         generateLabelTimes();
         generateEmptyLessons();
@@ -143,25 +137,6 @@ public class ControllerCalender implements Initializable {
 
     private void getTimeAndDate() {
 
-    }
-
-
-    /**
-     * ###### GENERATE CONTEXT MENU WITH FUNCTIONALITY ############
-     */
-
-    private void generateContextMenuSettings() {
-
-        ContextMenu contextMenuCalendar = new ContextMenu();
-        MenuItem menuItemSettings = new MenuItem("Einstellungen");
-        MenuItem menuItemSave = new MenuItem("Speichern");
-        MenuItem menuItemDelete = new MenuItem("Löschen");
-        MenuItem menuItemImport = new MenuItem("Importieren");
-        MenuItem menuItemExport = new MenuItem("Exportieren");
-
-        contextMenuCalendar.getItems().addAll(menuItemSettings, menuItemSave, menuItemDelete, menuItemImport, menuItemExport);
-        buttonSettings.setOnMouseClicked(event ->
-                contextMenuCalendar.show(buttonSettings, Side.BOTTOM, -40, 5));
     }
 
     private void generateGridPaneTimetable(GridPane gridPane) {
@@ -281,8 +256,8 @@ public class ControllerCalender implements Initializable {
             SceneLoader sceneLoader = SceneLoader.getInstance();
             ControllerLesson controllerLesson = new ControllerLesson(this.anchorPaneCalendar, this.timetable,
                     this.gridPaneTimetable, emptyVBox, this);
-            sceneLoader.loadSceneInNewWindowWithoutButtons(SceneLoader.CalendarScene.NEW_LESSON, controllerLesson, buttonSettings, 0.2, 0.2);
-
+            sceneLoader.loadSceneInNewWindowWithoutButtons(SceneLoader.CalendarScene.NEW_LESSON, controllerLesson,
+                    anchorPaneCalendar,0.2, 0.2);
         });
 
     }
