@@ -72,22 +72,18 @@ public class TabWindow extends TabPane {
         return imageSize;
     }
 
-    public enum ContentResizing {
-        OVERLAP, // Folded out menu overlaps tab content
-        RESIZE  // Folded out menu resizes tab content
-    }
-    private ObjectProperty<ContentResizing> contentResizing;
+    private BooleanProperty contentResizing;
 
-    public final void setContentResizing(ContentResizing value) {
+    public final void setContentResizing(boolean value) {
         this.contentResizingProperty().set(value);
     }
-    public final ContentResizing getContentResizing() {
+    public final boolean isContentResizing() {
         return this.contentResizingProperty().get();
     }
 
-    public ObjectProperty<ContentResizing> contentResizingProperty() {
+    public BooleanProperty contentResizingProperty() {
         if(contentResizing == null) {
-            contentResizing = new SimpleObjectProperty<>(this, "contentResizing", ContentResizing.OVERLAP);
+            contentResizing = new SimpleBooleanProperty(this, "contentResizing", false);
         }
         return contentResizing;
     }

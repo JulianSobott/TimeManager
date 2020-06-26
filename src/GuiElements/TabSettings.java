@@ -14,6 +14,8 @@ import java.util.function.Consumer;
 @DefaultProperty("content")
 public class TabSettings extends Control {
 
+    private TabWindow tabWindow;
+
     @Override
     protected Skin<?> createDefaultSkin() {
         return new TabSettingsSkin(this);
@@ -40,15 +42,11 @@ public class TabSettings extends Control {
         closeSettingsAction.accept(null);
     }
 
+    public void setTabWindow(TabWindow tabWindow) {
+        this.tabWindow = tabWindow;
+    }
+
     public TabWindow getTabWindow() {
-        Node n = this;
-        while (n.getParent() != null && !(n instanceof TabWindow)) {
-            n = n.getParent();
-        }
-        if (n instanceof TabWindow) {
-            return (TabWindow) n;
-        } else {
-            return null;
-        }
+        return tabWindow;
     }
 }

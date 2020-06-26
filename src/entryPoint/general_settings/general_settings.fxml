@@ -14,7 +14,7 @@
         </HBox>
         <HBox spacing="40">
             <Label text="Close Menu on select: "/>
-            <CheckBox fx:id="cbCloseMenu"/>
+            <CheckBox fx:id="cbCloseOnSelect"/>
         </HBox>
         <HBox spacing="40">
             <Label text="Resize content: "/>

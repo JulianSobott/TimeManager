@@ -44,7 +44,7 @@
 
 .tab-label {
     -fx-border-color: -color-border-weaken, -color-border-default;
-    -fx-background-color: -color-elevation-20;
+    -fx-background-color: derive(-color-elevation-20, -20%);
     -fx-border-width: 0 0 3 0, 0 0 0 4; /* Bottom as divider. Left as current tab marker */
     -fx-border-insets: 0 0 0 0, 0 0 3 0; /* Border same height as Icon */
     -fx-padding: 0 10 0 0;
@@ -52,11 +52,11 @@
 }
 
 .tab-label:hover {
-    -fx-background-color: derive(-color-elevation-20, 70%);
+    -fx-background-color: derive(-color-elevation-20, -10%);
 }
 
 .tab-label:selected {
-    -fx-background-color: derive(-color-elevation-20, 80%);
+    -fx-background-color: derive(-color-elevation-20, 30%);
     -fx-border-color: -color-border-weaken, derive(-color-border-weaken, 80%);
 }
 

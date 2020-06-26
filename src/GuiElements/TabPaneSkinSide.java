@@ -105,10 +105,12 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
         // listeners
         control.showingTextProperty().addListener(e -> showText(control.isShowingText()));
-        if (control.isCloseMenuAfterSelect()) {
-            // TODO: handle changes of property
-            control.getSelectionModel().selectedIndexProperty().addListener(e ->  control.setShowingText(false) );
-        }
+        control.getSelectionModel().selectedIndexProperty().addListener(e -> {
+            if (control.isCloseMenuAfterSelect()) {
+                control.setShowingText(false);
+            }
+        } );
+
         initializeTabListener();
 
         // Init menu width
@@ -148,7 +150,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
         // Content
         double menuNonOverlapWidth;
-        if (getSkinnable().getContentResizing() == TabWindow.ContentResizing.RESIZE) {
+        if (getSkinnable().isContentResizing()) {
             menuNonOverlapWidth = menuWidth;
         } else {
             menuNonOverlapWidth = tabMenu.iconBarWidth();
@@ -502,6 +504,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                 tabSettings = new Label("No settings for this tab available.");
             } else {
                 ((TabSettings)tabSettings).setCloseSettingsAction(n -> getSkinnable().setShowingSettings(false));
+                ((TabSettings)tabSettings).setTabWindow(getSkinnable());
             }
             getChildren().add(tabSettings);
         }
@@ -556,6 +559,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                 generalSettings = new Label("No general settings available.");
             } else {
                 ((TabSettings)generalSettings).setCloseSettingsAction(n -> getSkinnable().setShowingSettings(false));
+                ((TabSettings)generalSettings).setTabWindow(getSkinnable());
             }
             generalPane.getChildren().add(generalSettings);
 
