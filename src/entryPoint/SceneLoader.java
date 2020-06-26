@@ -121,6 +121,8 @@ public class SceneLoader {
     public void loadAnimationPopupWindow(Node node, AnchorPane anchorPaneRemove, CalendarScene calendarScene, Object controllerClass)  {
 
         Parent root = loadFxmlFile(calendarScene, controllerClass );
+        ThemeLoader.get().addRootNode(root);
+
 
         Scene scene = node.getScene();
 
