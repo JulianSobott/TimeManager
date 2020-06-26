@@ -1,6 +1,7 @@
 package WebView.Gui;
 
 import GuiElements.ButtonIcon;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -10,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.effect.MotionBlur;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.web.WebView;
@@ -115,6 +117,21 @@ public class SplitWindow extends SplitPane {
             tfUrl.setPrefHeight(urlHeight);
             tfUrl.setMinWidth(100);
             tfUrl.setPrefWidth(700);
+            tfUrl.setOnKeyPressed(e -> {
+                if (e.getCode() == KeyCode.ENTER) {
+                    loadWebsite();
+                }
+            });
+            tfUrl.focusedProperty().addListener(l -> {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (tfUrl.isFocused() && !tfUrl.getText().isEmpty()) {
+                                tfUrl.selectAll();
+                            }
+                        }
+                    });
+            });
             tfUrl.setAlignment(Pos.CENTER_LEFT);
             btnApply = new ButtonIcon("/Icons/icons8-bearbeiten-48.png", urlHeight);
             btnApply.setOnMousePressed(l -> {
