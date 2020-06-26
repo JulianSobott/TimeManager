@@ -553,7 +553,8 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                     tabSettings.setVisible(true);
                 }
             });
-            toggleGroup.selectToggle(btnGeneral);
+            // Default value
+            toggleGroup.selectToggle(btnCustom);
 
             getChildren().add(root);
         }

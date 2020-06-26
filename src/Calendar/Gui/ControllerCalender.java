@@ -68,8 +68,6 @@ public class ControllerCalender implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("Init Calendar");
-
         ControllerMapper.get().registerController("calendar", this);
 
         updateValuesFromSettings();
@@ -78,10 +76,6 @@ public class ControllerCalender implements Initializable {
 
         getTimeAndDate();
         updateCalendar(false);
-    }
-
-    public void debug(String t) {
-        System.out.println("Hello from Calendar: " + t);
     }
 
     /**
