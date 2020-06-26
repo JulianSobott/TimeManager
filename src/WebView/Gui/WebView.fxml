@@ -4,9 +4,13 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchorPaneWebview" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: grey;" stylesheets="@../../entryPoint/MainDesign.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="WebView.Gui.ControllerWebView">
-   <children>
-      <SplitPane fx:id="mainWebView" layoutX="101.0" layoutY="157.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Button layoutX="735.0" layoutY="36.0" mnemonicParsing="false" styleClass="buttonSettings" text="editAll" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
-   </children>
+<AnchorPane fx:id="anchorPaneWebview" prefHeight="800.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/11.0.1" fx:controller="WebView.Gui.ControllerWebView">
+    <children>
+        <SplitPane fx:id="mainWebView" layoutX="101.0" layoutY="157.0" prefHeight="200.0" prefWidth="200.0"
+                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                   AnchorPane.topAnchor="0.0"/>
+        <Button layoutX="735.0" layoutY="36.0" mnemonicParsing="false" styleClass="buttonSettings" text="editAll"
+                AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0"/>
+    </children>
 </AnchorPane>

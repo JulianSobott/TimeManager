@@ -1,5 +1,6 @@
 package themes;
 
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -14,6 +15,7 @@ public class ThemeLoader {
     private final ObservableList<WeakReference<Parent>> rootNodes = FXCollections.observableArrayList();
     private final ObservableList<Theme> themes = FXCollections.observableArrayList();
     private Theme currentTheme;
+    private String[] defaultStylesheets;
 
     private ThemeLoader() {
         rootNodes.addListener((ListChangeListener<? super WeakReference<Parent>>) l -> {
@@ -24,6 +26,7 @@ public class ThemeLoader {
                 for(WeakReference<Parent> p : l.getAddedSubList()) {
                     Parent parent = p.get();
                     if(parent!= null) {
+                        parent.getStylesheets().addAll(defaultStylesheets);
                         parent.getStylesheets().add(currentTheme.getStylesheet());
                     }
                 }
@@ -87,5 +90,9 @@ public class ThemeLoader {
                 break;
             }
         }
+    }
+
+    public void setPermanentStylesheets(String... stylesheets) {
+        this.defaultStylesheets = stylesheets;
     }
 }

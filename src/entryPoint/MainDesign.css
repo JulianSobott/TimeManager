@@ -1,18 +1,83 @@
 /* #################################################### Tabs ######################################################## */
 
-.tab-pane .tab:selected {
-    -fx-background-color: linear-gradient(#3D00E0 0%, #0080FF 100%);
+/** menu */
+.tab-menu {
+    -fx-background-color: #5ebeff;
+    -fx-border-width: 0 3 0 0;
+    -fx-border-color: #9a42c8;
 }
 
-.tab-pane .tab {
-    -fx-background-color: #939393;
+.tab-label {
+    -fx-background-color: rgba(0, 123, 255, 0.26);
+    -fx-border-width: 0 0 3 0, 0 0 0 4; /* Bottom as divider. Left as current tab marker */
+    -fx-border-color: rgba(96, 98, 99, 0.26), rgba(85, 138, 236, 0.65);
+    -fx-border-insets: 0 0 0 0, 0 0 3 0; /* Border same height as Icon */
+    -fx-padding: 0 10 0 0;
 }
 
-.tab .tab-label {
+.tab-label:hover {
+    -fx-background-color: rgba(0, 123, 255, 0.5);
+}
+
+.tab-label:selected {
+    -fx-border-color: rgba(96, 98, 99, 0.26), blue;
+    -fx-background-color: rgba(8, 40, 75, 0.43);
+
+}
+
+.btn-menu {
+    -fx-border-width: 0 0 0 4; /* Same as tab-label */
+    -fx-border-color: transparent;
+}
+
+.btn-menu:hover {
+    -fx-background-color: rgba(38, 87, 85, 0.1);
+}
+
+/* Settings */
+.btn-settings {
+    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-background-radius: 3px, 3px, 2px, 1px;
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
+    -fx-text-fill: -fx-text-base-color;
     -fx-alignment: CENTER;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
+    -fx-content-display: LEFT;
 }
+
+.btn-settings:hover {
+    -fx-color: green;
+}
+
+.btn-settings:armed {
+    -fx-color: red;
+}
+
+.btn-settings:focused {
+    -fx-color: blue;
+}
+
+.tab-settings-pane {
+    -fx-background-color: red;
+    -fx-effect: dropshadow(two-pass-box , -fx-shadow-highlight-color, 1, 0.0 , 0, 1.4); /*Find way to display left dropshadow*/
+}
+
+.control-pane {
+    -fx-border-color: white;
+    -fx-border-width: 0 0 3 0;
+}
+.btn-control {
+    -fx-background-color: blueviolet;
+}
+
+.btn-control:selected {
+    -fx-background-color: green;
+}
+
+.btn-control:hover {
+    -fx-background-color: red;
+}
+
 
 
 /* ############################################# Context Menu ####################################################### */
