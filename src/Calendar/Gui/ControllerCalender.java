@@ -21,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import themes.ThemePickerWidget;
 import settings.ControllerMapper;
 
 import java.net.URL;
@@ -79,6 +80,8 @@ public class ControllerCalender implements Initializable {
 
         getTimeAndDate();
         updateCalendar(false);
+
+        anchorPaneCalendar.getChildren().add(new ThemePickerWidget());
     }
 
     /**

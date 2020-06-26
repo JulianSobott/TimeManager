@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import themes.ThemeLoader;
 
 import java.io.IOException;
 
@@ -72,6 +73,7 @@ public class SceneLoader {
     private Popup createPopup(CalendarScene calendarScene, Object controller) {
 
         Parent window = instance.loadFxmlFile(calendarScene, controller);
+        ThemeLoader.get().addRootNode(window);
         Popup popup = new Popup();
         popup.getContent().add(window);
         return popup;
