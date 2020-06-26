@@ -1,9 +1,6 @@
 package entryPoint;
 
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -125,6 +122,8 @@ public class SceneLoader {
 
         Scene scene = node.getScene();
 
+        makeFadeInTransition(1,0,anchorPaneRemove);
+
         root.translateXProperty().set(scene.getWidth());
 
         Popup parentContainer = (Popup) node.getScene().getWindow();
@@ -140,6 +139,20 @@ public class SceneLoader {
         });
         timeline.play();
     }
+
+
+
+
+    private void makeFadeInTransition(int startValue, int targetValue, AnchorPane anchorPane) {
+
+        FadeTransition fadeTransition = new FadeTransition();
+        fadeTransition.setDuration(Duration.millis(1000));
+        fadeTransition.setNode(anchorPane);
+        fadeTransition.setFromValue(startValue);
+        fadeTransition.setToValue(targetValue);
+        fadeTransition.play();
+    }
+
 
 
     /**

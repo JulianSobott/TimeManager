@@ -4,6 +4,7 @@ import Calendar.Gui.ControllerCalender;
 import Calendar.Gui.NewLesson.ControllerLesson;
 import Calendar.Logic.Timetable;
 import entryPoint.SceneLoader;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -11,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -45,6 +47,7 @@ public class ControllerEditLesson implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
 
+
     }
 
 
@@ -52,6 +55,8 @@ public class ControllerEditLesson implements Initializable {
     /**
      * ###################################### Windows Navigation #######################################################
      */
+
+
 
     @FXML
     private void loadEditLessonWindow() {
@@ -61,6 +66,8 @@ public class ControllerEditLesson implements Initializable {
                 SceneLoader.CalendarScene.NEW_LESSON, new ControllerLesson(nodeTabCalendar,timetable, gridPaneTimetable,vBoxLesson,controllerCalender));
 
     }
+
+
 
 
 }
