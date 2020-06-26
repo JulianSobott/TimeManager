@@ -22,11 +22,11 @@
     -color-background-alternative: #fce8ba;
 
     // Borders
-    -color-border-default: #afaeae;
+    -color-border-default: #0d0e0e;
     -color-border-weaken: #e0f7fa;
     -color-border-accent: #03a9f4;
 
-// DropShadow
--dropshadow-default: dropshadow(gaussian, rgba(10, 10, 10, 0.4), 0, 10, 2, 2);
+    // DropShadow
+    -dropshadow-default: dropshadow(gaussian, rgba(10, 10, 10, 0.4), 0, 10, 2, 2);
     -dropshadow-accent: dropshadow(gaussian, rgba(10, 10, 10, 0.6), 0, 10, 4, 4);
 }
