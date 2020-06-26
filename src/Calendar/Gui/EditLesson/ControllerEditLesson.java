@@ -147,7 +147,7 @@ public class ControllerEditLesson implements Initializable {
         buttonDesign("/Icons/icons8-bearbeiten-48.png", buttonEdit);
         buttonDesign("/Icons/icons8-löschen-48.png", buttonDelete);
         buttonDesign("/Icons/icons8-plus-48.png", buttonSave_Create);
-        buttonDesign("/Icons/icons8-zurück-64.png", buttonSaveAndBack);
+        buttonDesign("/Icons/icons8-zurück-48.png", buttonSaveAndBack);
     }
 
 
