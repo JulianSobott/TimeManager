@@ -1,7 +1,6 @@
 package Calendar.Gui;
 
 import Calendar.Gui.NewLesson.ControllerLesson;
-import Calendar.Gui.Settings.ControllerCalendarSettings;
 import Calendar.Logic.Position;
 import Calendar.Logic.SettingsCalendar;
 import Calendar.Logic.Timetable;
@@ -250,7 +249,7 @@ public class ControllerCalender implements Initializable {
         timetable.setEmptyLesson(new Position(block, day), vBoxLessonBasicLayout);
 
         vBoxLessonBasicLayout.setId("SettingsEmptyLesson");
-        generateContextMenuEmptyLesson(vBoxLessonBasicLayout);
+        generateButtonAddLesson(vBoxLessonBasicLayout);
         vBoxLessonBasicLayout.setBackground(new Background(new BackgroundFill(Color.rgb(135, block * 15, day * 10),
                 new CornerRadii(13),
                 new Insets(0.0, 0.0, 0.0, 0.0))));
@@ -258,7 +257,7 @@ public class ControllerCalender implements Initializable {
         return vBoxLessonBasicLayout;
     }
 
-    private void generateContextMenuEmptyLesson(VBox emptyVBox) {
+    private void generateButtonAddLesson(VBox emptyVBox) {
 
         Image image = new Image("/Icons/icons8-plus-64.png");
         ImageView imageView = new ImageView(image);
