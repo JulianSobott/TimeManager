@@ -24,7 +24,6 @@
  */
 package GuiElements;
 
-import com.sun.javafx.scene.control.LambdaMultiplePropertyChangeListenerHandler;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -416,8 +415,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         protected final TabCustom tab;
         protected Label label;
 
-        private LambdaMultiplePropertyChangeListenerHandler listener = new LambdaMultiplePropertyChangeListenerHandler();
-
 
         public TabLabel(TabCustom tab) {
             this.tab = tab;
@@ -442,7 +439,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                 // TODO: context menu + close
             });
 
-            listener.registerChangeListener(tab.selectedProperty(), e -> {
+            tab.selectedProperty().addListener(e -> {
                 pseudoClassStateChanged(SELECTED_PSEUDOCLASS_STATE, tab.isSelected());
                 requestLayout();
             });
