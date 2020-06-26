@@ -601,8 +601,8 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             getChildren().add(settingsPane2);
 
             // bindings
-            btnCustom.prefWidthProperty().bind(widthProperty().divide(2));
-            btnGeneral.prefWidthProperty().bind(widthProperty().divide(2));
+            btnCustom.prefWidthProperty().bind(settingsPane2.widthProperty().divide(2));
+            btnGeneral.prefWidthProperty().bind(settingsPane2.widthProperty().divide(2));
 
             // Style classes
             paneControl.getStyleClass().setAll("control-pane");
