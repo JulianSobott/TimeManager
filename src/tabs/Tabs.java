@@ -143,7 +143,6 @@ public class Tabs {
                     .thenAccept(s -> {
                         Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
                         AllPluginsData allPluginsData = gson.fromJson(s, AllPluginsData.class);
-                        System.out.println(allPluginsData);
                         availableTabs.addAll(allPluginsData.plugins.values());
                     })
                     .join();

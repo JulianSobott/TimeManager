@@ -57,11 +57,15 @@ public class ControllerMainPage implements Initializable{
     }
 
     private void addTabs(List<? extends Tabs.TabWrapper> tabs) {
+        int i = tabWindow.getTabs().size() - 1;
         for(Tabs.TabWrapper tab : tabs) {
             // TODO: Allow reorder tabs
             // append before + (add) tab
-            tabWindow.getTabs().add(tabWindow.getTabs().size() - 1, newTab(tab));
+            if (tab != null) {
+                tabWindow.getTabs().add(i++, newTab(tab));
+            }
         }
+        tabWindow.getSelectionModel().select(i - 1);
     }
 
     private Tab newTab(Tabs.TabWrapper tab) {
