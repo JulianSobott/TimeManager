@@ -6,6 +6,8 @@ import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 public class FileSerialization<T> {
     protected T data;
@@ -20,6 +22,7 @@ public class FileSerialization<T> {
     public void save() {
         Gson gson = new Gson();
         String json = gson.toJson(data);
+        System.out.println(filePath);
         try {
             Files.write(filePath, json.getBytes());
             System.out.println("Saved config");
@@ -30,17 +33,18 @@ public class FileSerialization<T> {
 
     public LoadResult load() {
         Gson gson = new Gson();
-        try {
-            String json = Files.readString(filePath);
-            try {
-                data = (T) gson.fromJson(json, data.getClass());
-            }catch (JsonSyntaxException e) {
-                e.printStackTrace();
-                return LoadResult.FORMAT_ERROR;
-            }
+        StringBuilder jsonBuilder = new StringBuilder();
+        try (Stream<String> stream = Files.lines(filePath)) {
+            stream.forEach(jsonBuilder::append);
         } catch (IOException e) {
-            // TODO: logger no such file
-            return LoadResult.NO_SUCH_FILE;
+            //
+        }
+        String json = jsonBuilder.toString();
+        try {
+            data = (T) gson.fromJson(json, data.getClass());
+        }catch (JsonSyntaxException e) {
+            e.printStackTrace();
+            return LoadResult.FORMAT_ERROR;
         }
         return LoadResult.LOADED;
     }

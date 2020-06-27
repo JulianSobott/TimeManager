@@ -61,7 +61,7 @@ public class AddTabPage implements Initializable {
 
     private void loadAvailableTabs() {
 
-        Task<List<TabData>> task = new Task<>() {
+        Task<List<TabData>> task = new Task<List<TabData>>() {
             @Override
             protected List<TabData> call() throws Exception {
                 return Tabs.getAvailableTabs();

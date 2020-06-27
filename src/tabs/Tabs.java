@@ -1,10 +1,7 @@
 package tabs;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.FieldNamingStrategy;
+
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.SerializedName;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 
@@ -16,9 +13,6 @@ import java.net.ConnectException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.CompletionException;
@@ -59,18 +53,18 @@ public class Tabs {
         TabsDataStore.get().save();
         Config.data().getTabs().add(tabData.name);
         Config.get().save();
-
+        return null;
         // get jar from server
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://127.0.0.1:8080/plugins/download/" + tabData.name))
-                .build();
-        Path jarPath = new File(tabsFolder.toURI().getPath() + tabData.name + ".jar").toPath();
-        client.sendAsync(request, HttpResponse.BodyHandlers.ofFile(jarPath))
-                .join();
-
-        // load
-        return loadJar(new File(jarPath.toUri()), tabData);
+//        HttpClient client = HttpClient.newHttpClient();
+//        HttpRequest request = HttpRequest.newBuilder()
+//                .uri(URI.create("http://127.0.0.1:8080/plugins/download/" + tabData.name))
+//                .build();
+//        Path jarPath = new File(tabsFolder.toURI().getPath() + tabData.name + ".jar").toPath();
+//        client.sendAsync(request, HttpResponse.BodyHandlers.ofFile(jarPath))
+//                .join();
+//
+//        // load
+//        return loadJar(new File(jarPath.toUri()), tabData);
     }
 
     private List<TabWrapper> _loadInstalledTabs() {
@@ -134,23 +128,23 @@ public class Tabs {
 
     private List<TabData> _getAvailableTabs() throws ConnectException {
         List<TabData> availableTabs = new ArrayList<>();
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://127.0.0.1:8080/plugins/list/"))
-                .header("Content-Type", "application/json")
-                .build();
-        try {
-            client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                    .thenApply(HttpResponse::body)
-                    .thenAccept(s -> {
-                        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
-                        AllPluginsData allPluginsData = gson.fromJson(s, AllPluginsData.class);
-                        availableTabs.addAll(allPluginsData.plugins.values());
-                    })
-                    .join();
-        }catch (CompletionException e) {
-            throw new ConnectException(e.getMessage());
-        }
+//        HttpClient client = HttpClient.newHttpClient();
+//        HttpRequest request = HttpRequest.newBuilder()
+//                .uri(URI.create("http://127.0.0.1:8080/plugins/list/"))
+//                .header("Content-Type", "application/json")
+//                .build();
+//        try {
+//            client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+//                    .thenApply(HttpResponse::body)
+//                    .thenAccept(s -> {
+//                        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
+//                        AllPluginsData allPluginsData = gson.fromJson(s, AllPluginsData.class);
+//                        availableTabs.addAll(allPluginsData.plugins.values());
+//                    })
+//                    .join();
+//        }catch (CompletionException e) {
+//            throw new ConnectException(e.getMessage());
+//        }
         return availableTabs;
     }
 

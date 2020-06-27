@@ -38,7 +38,7 @@ public class Main extends Application {
         }
 
 
-        setUserAgentStylesheet(getClass().getResource("debug_styles.css").toString());
+//        setUserAgentStylesheet(getClass().getResource("/entryPoint/debug_styles.css").toString());
         Parent root = FXMLLoader.load(getClass().getResource("mainPage/MainPage.fxml"));
 
         ThemeLoader.get().addRootNode(root);

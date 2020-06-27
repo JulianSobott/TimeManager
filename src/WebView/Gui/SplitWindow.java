@@ -135,7 +135,7 @@ public class SplitWindow extends SplitPane {
                     });
             });
             tfUrl.setAlignment(Pos.CENTER_LEFT);
-            btnApply = new ButtonIcon("/Icons/go-48.png", urlHeight);
+            btnApply = new ButtonIcon("/Icons/close-48.png", urlHeight);
             btnApply.setOnMousePressed(l -> {
                 loadWebsite();
             });
