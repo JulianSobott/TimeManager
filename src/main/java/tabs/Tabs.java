@@ -31,8 +31,8 @@ public class Tabs {
     private final File tabsFolder;
 
     public Tabs() {
-        String rootDir = getClass().getResource("/").getPath();
-        tabsFolder = new File(rootDir + "/tabs/");
+        String rootDir = System.getProperty("user.dir");
+        tabsFolder = new File(rootDir + "/installed_tabs/");
         if (!tabsFolder.exists()) {
             boolean created = tabsFolder.mkdir();
             if (!created) {
