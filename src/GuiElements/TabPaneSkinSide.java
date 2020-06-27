@@ -24,10 +24,7 @@
  */
 package GuiElements;
 
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.beans.InvalidationListener;
 import javafx.beans.WeakInvalidationListener;
 import javafx.beans.property.*;
@@ -218,7 +215,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             TabCustom tabCustom = (TabCustom) tab;
             addTabContent(tabCustom);
             tabMenu.addTab(tabCustom, i++);
-            // TODO: add animation
         }
     }
 
@@ -382,7 +378,10 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         public void addTab(TabCustom tab, int addToIndex) {
             TabLabel tabLabel = new TabLabel(tab);
             tabLabels.add(addToIndex, tabLabel);
+            tabLabel.animationTransition.set(0.0);
+            tabLabel.currentAnimation = createTimeline(tabLabel, Duration.millis(ANIMATION_DURATION), 1.0, null);
             labelsContainer.getChildren().add(addToIndex, tabLabel);
+            tabLabel.currentAnimation.play();
         }
 
         public void removeTab(TabCustom tab) {
@@ -411,7 +410,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         }
     }
 
-    class TabLabel extends StackPane {
+    class TabLabel extends AnimationArea {
 
         protected final TabCustom tab;
         protected Label label;
@@ -436,7 +435,9 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                     tabPaneBehavior.selectTab(tab);
                 }
                 if (e.getButton().equals(MouseButton.MIDDLE)) {
-                    tabPaneBehavior.closeTab(tab);
+                    if (tab.isClosable()) {
+                        tabPaneBehavior.closeTab(tab);
+                    }
                 }
                 // TODO: context menu + close
             });
@@ -448,13 +449,20 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             pseudoClassStateChanged(SELECTED_PSEUDOCLASS_STATE, tab.isSelected());
         }
 
+        @Override
+        protected void layoutChildren() {
+            super.layoutChildren();
+            Rectangle clip = new Rectangle(0 ,0, getWidth() * this.animationTransition.get(), prefHeight(-1));
+            setClip(clip);
+        }
+
         public Tab getTab() {
             return tab;
         }
 
         @Override
         protected double computePrefWidth(double height) {
-            return label.prefWidth(height) + snappedLeftInset() + snappedRightInset();
+            return (label.prefWidth(height) + snappedLeftInset() + snappedRightInset());
         }
 
 

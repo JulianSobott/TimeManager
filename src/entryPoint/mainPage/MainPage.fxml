@@ -30,7 +30,7 @@
                 </TabSettings>
             </settingsNode>
         </TabCustom>
-        <TabCustom text="+">
+        <TabCustom text="+" closable="false">
             <fx:include source="/tabs/page_add_tab/add_tab.fxml"/>
         </TabCustom>
 
