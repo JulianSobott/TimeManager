@@ -10,8 +10,12 @@ import themes.ThemeLoader;
 
 public class Main extends Application {
 
+    public static Main application;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
+        application = this;
+
         // Theme initiation
         ThemeLoader.get().addThemes(
                 new Theme("Dark", "/css/theme_dark.css", "dark"),

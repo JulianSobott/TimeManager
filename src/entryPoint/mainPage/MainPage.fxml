@@ -9,6 +9,7 @@
 <?import themes.ThemePickerWidget?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
+<?import tabs.page_add_tab.AddTabPage?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="entryPoint.mainPage.ControllerMainPage">
@@ -28,6 +29,9 @@
                     <Label text="Some custom tab Settings Tab 2"/>
                 </TabSettings>
             </settingsNode>
+        </TabCustom>
+        <TabCustom text="+">
+            <fx:include source="/tabs/page_add_tab/add_tab.fxml"/>
         </TabCustom>
 
         <settings>
