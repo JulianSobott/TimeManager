@@ -233,7 +233,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
     private void addTabContent(TabCustom tab) {
         TabContentRegion region = new TabContentRegion(tab);
         tabContentRegions.add(region);
-        getChildren().add(region);
+        getChildren().add(0, region);
 
         settingsPane.addTab(tab);
     }
