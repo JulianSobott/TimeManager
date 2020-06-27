@@ -15,7 +15,7 @@
             fx:controller="entryPoint.mainPage.ControllerMainPage">
     <TabWindow tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
-               closeMenuAfterSelect="true" contentResizing="OVERLAP">
+               closeMenuAfterSelect="true" contentResizing="OVERLAP" fx:id="tabWindow">
         <TabCustom text="Stundenplan" iconPath="/Icons/debug_background.png">
             <fx:include source="/Calendar/Gui/Calender.fxml"/>
             <settingsNode>
