@@ -22,7 +22,6 @@ public class GeneralSettingsController implements Initializable {
             TabWindow tabWindow = tabSettings.getTabWindow();
             tabWindow.contentResizingProperty().bind(cbResizeContent.selectedProperty());
             tabWindow.closeMenuAfterSelectProperty().bind(cbCloseOnSelect.selectedProperty());
-            tabWindow.closeMenuAfterSelectProperty().addListener(c -> System.out.println(tabWindow.isCloseMenuAfterSelect()));
         });
     }
 }

@@ -56,7 +56,7 @@ public class SplitWindow extends SplitPane {
 
     private void init() {
         getItems().add(startSide);
-        getStyleClass().setAll("background-default");
+        getStyleClass().setAll("elevation-10", "split-pane");
     }
 
     private void split(Orientation splitOrientation) {

@@ -176,27 +176,25 @@
 
 /* ################################################ Check Box ####################################################### */
 
-.check-box{
-
-    -fx-font-size: 1.0em;
-    -fx-text-fill: -color-font-default;
-    -fx-background-color: -color-elevation-20;
-    -fx-background-radius: 6px;
-    -fx-padding: 6 6 6 6;
-}
-
 .check-box .box {
-    -fx-background-color: white;
-    -fx-border-color: white;
-    -fx-border-radius: 3px;
+    -fx-background-color: -color-input-background;
+    -fx-text-fill: -color-font-default;
+    -fx-border-color: -color-border-default;
+    -fx-border-width: 1;
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-border-insets: 0;
+    -fx-padding: 2;
 }
 
 .check-box:selected .mark {
-    -fx-background-color: white;
+    -fx-background-color: -color-font-accent;
 }
 
 .check-box:selected .box {
-    -fx-background-color: #3D00E0;
+    -fx-background-color: derive(-color-input-background, 20%);
 }
 
 /* ################################################ TableView ####################################################### */
@@ -400,6 +398,10 @@
 
     -fx-background-radius: 12px;
     -fx-background-color: darkgrey;
+}
+
+.split-pane-divider {
+    -fx-background-color: -color-background-default;
 }
 
 /* ########################################### General settings ##################################################### */
