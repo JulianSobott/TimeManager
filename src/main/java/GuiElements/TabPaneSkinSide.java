@@ -24,6 +24,7 @@
  */
 package GuiElements;
 
+import com.sun.javafx.scene.control.behavior.TabPaneBehavior;
 import javafx.animation.*;
 import javafx.beans.InvalidationListener;
 import javafx.beans.WeakInvalidationListener;
@@ -69,7 +70,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
      *                                                                         *
      **************************************************************************/
 
-    private final TabWindowBehavior tabPaneBehavior;
+    private final TabPaneBehavior tabPaneBehavior;
 
     private ObservableList<TabContentRegion> tabContentRegions;
     private TabMenu tabMenu;
@@ -85,7 +86,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
     protected TabPaneSkinSide(TabWindow control) {
         super(control);
-        tabPaneBehavior = new TabWindowBehavior(control);
+        tabPaneBehavior = new TabPaneBehavior(control);
 
         tabMenu = new TabMenu();
         settingsPane = new SettingsPane0();

@@ -29,7 +29,7 @@ public class Main extends Application {
                 new Theme("Material", "/css/theme_material.css", "material"),
                 new Theme("Reddish", "/css/theme_reddish.css", "reddish")
         );
-        ThemeLoader.get().setPermanentStylesheets("/entryPoint/MainDesign.css", "/css/color_classes.css");
+        ThemeLoader.get().setPermanentStylesheets("/css/MainDesign.css", "/css/color_classes.css");
         String theme = Config.data().getUi().getTheme();
         if (theme != null && theme.length() > 0) {
             ThemeLoader.get().setTheme(theme);

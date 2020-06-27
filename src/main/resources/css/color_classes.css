@@ -1,0 +1,28 @@
+.background-default {
+    -fx-background-color: -color-background-default;
+}
+
+.background-alternative {
+    -fx-background-color: -color-background-alternative;
+}
+
+.elevation-10 {
+    -fx-background-color: -color-elevation-10;
+}
+.elevation-20 {
+    -fx-background-color: -color-elevation-20;
+}
+.elevation-30 {
+    -fx-background-color: -color-elevation-30;
+}
+
+.button-default {
+    -fx-background-color: -color-button-default;
+    -fx-text-fill: -color-font-default;
+}
+.button-weaken {
+    -fx-background-color: -color-button-weaken;
+}
+.button-accent {
+    -fx-background-color: -color-button-accent;
+}
