@@ -80,7 +80,9 @@ public class Tabs {
             // Filename must be {tabName}.jar
             File jarFile = new File(tabsFolder, tabName + ".jar");
             TabWrapper tab = loadJar(jarFile, TabsDataStore.data().get(tabName));
-            tabsList.add(tab);
+            if (tab != null) {
+                tabsList.add(tab);
+            }
         }
         return tabsList;
     }
