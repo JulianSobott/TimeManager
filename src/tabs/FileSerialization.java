@@ -22,6 +22,7 @@ public class FileSerialization<T> {
         String json = gson.toJson(data);
         try {
             Files.write(filePath, json.getBytes());
+            System.out.println("Saved config");
         } catch (IOException e) {
             e.printStackTrace();
         }

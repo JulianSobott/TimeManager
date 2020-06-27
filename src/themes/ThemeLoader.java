@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
+import tabs.Config;
 
 import java.lang.ref.WeakReference;
 import java.nio.file.Path;
@@ -72,6 +73,7 @@ public class ThemeLoader {
     }
 
     public void setTheme(Theme theme) {
+        Config.data().getUi().setTheme(theme.getId());
         String old = currentTheme.getStylesheet();
         currentTheme = theme;
         for(WeakReference<Parent> n : rootNodes) {

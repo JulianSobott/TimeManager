@@ -27,17 +27,14 @@ public class Config extends FileSerialization<Config.ConfigData> {
         private List<String> tabs = new ArrayList<>();
 
         public static class UI {
-            private Theme theme = Theme.DARK;
+            private String theme;
 
-            enum Theme {
-                DARK, LIGHT
-            }
 
-            public Theme getTheme() {
+            public String getTheme() {
                 return theme;
             }
 
-            public void setTheme(Theme theme) {
+            public void setTheme(String theme) {
                 this.theme = theme;
             }
         }

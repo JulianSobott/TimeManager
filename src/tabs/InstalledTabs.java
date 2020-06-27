@@ -11,7 +11,6 @@ public class InstalledTabs {
 
     // TODO: move to async function (don't block at start)
     private final ObservableList<Tabs.TabWrapper> tabs;
-            ;
 
     private List<String> tabNames = new ArrayList<>();
 
