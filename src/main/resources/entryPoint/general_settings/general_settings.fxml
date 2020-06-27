@@ -7,18 +7,14 @@
 <?import themes.ThemePickerWidget?>
 <TabSettings id="generalSettings" xmlns:fx="http://javafx.com/fxml/1" fx:id="tabSettings"
              fx:controller="entryPoint.general_settings.GeneralSettingsController">
-    <VBox>
-        <HBox spacing="40">
-            <Label text="Theme: "/>
-            <ThemePickerWidget/>
-        </HBox>
-        <HBox spacing="40">
-            <Label text="Close Menu on select: "/>
-            <CheckBox fx:id="cbCloseOnSelect"/>
-        </HBox>
-        <HBox spacing="40">
-            <Label text="Resize content: "/>
-            <CheckBox fx:id="cbResizeContent"/>
-        </HBox>
-    </VBox>
+    <GridPane>
+        <Label text="Theme: " GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <ThemePickerWidget GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Close Menu on select: " GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <CheckBox fx:id="cbCloseOnSelect" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="Resize content: " GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <CheckBox fx:id="cbResizeContent" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    </GridPane>
 </TabSettings>

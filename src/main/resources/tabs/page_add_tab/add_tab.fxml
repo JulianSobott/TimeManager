@@ -5,9 +5,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane prefHeight="800.0" prefWidth="800.0" styleClass="background-default"
-            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-            AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+<AnchorPane styleClass="background-default, debug"
+            xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="tabs.page_add_tab.AddTabPage" fx:id="root">
     <ScrollPane fitToHeight="true" AnchorPane.bottomAnchor="0.0" styleClass="background-default"
                 AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" hbarPolicy="NEVER">
