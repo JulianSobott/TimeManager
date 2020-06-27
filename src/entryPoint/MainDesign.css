@@ -71,7 +71,6 @@
 
 /* Settings */
 .btn-settings {
-    -fx-background-color: -color-button-default;
     -fx-background-insets: 0 0 -1 0, 0, 1, 2;
     -fx-background-radius: 3px, 3px, 2px, 1px;
     -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
@@ -80,17 +79,10 @@
     -fx-content-display: LEFT;
 }
 
-.btn-settings:hover {
-    -fx-background-color: derive(-color-button-default, -10%);
+.btn-settings:hover .image-view {
+    -fx-rotate: 10;
 }
 
-.btn-settings:armed {
-    -fx-background-color: derive(-color-button-default, -15%);
-}
-
-.btn-settings:focused {
-    -fx-background-color: derive(-color-button-default, -15%);
-}
 
 .tab-settings-pane {
     -fx-background-color: -color-elevation-10;

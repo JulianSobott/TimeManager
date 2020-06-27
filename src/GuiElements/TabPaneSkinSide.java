@@ -652,7 +652,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
     class SettingsPane0 extends AnimationArea {
         // Settings button + content
 
-        private ToggleButton btnSettings;
+        private final ToggleButton btnSettings;
         private SettingsPane1 settingsPane1;
 
         private Rectangle clip;
@@ -667,7 +667,10 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             settingsPane1.setClip(clip);
 
             // Button
-            btnSettings = new ToggleButton("Settings"); // TODO: replace with icon
+            ImageView imageView = new ImageView(new Image("/Icons/settings.png"));
+            imageView.setFitWidth(30);
+            imageView.setFitHeight(30);
+            btnSettings = new ToggleButton("", imageView); // TODO: replace with icon
             btnSettings.getStyleClass().setAll("btn-settings");
             getChildren().add(btnSettings);
 

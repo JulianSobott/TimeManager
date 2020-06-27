@@ -20,6 +20,8 @@ public class GeneralSettingsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tabSettings.parentProperty().addListener(l -> {
             TabWindow tabWindow = tabSettings.getTabWindow();
+            cbResizeContent.setSelected(tabWindow.isContentResizing());
+            cbCloseOnSelect.setSelected(tabWindow.isCloseMenuAfterSelect());
             tabWindow.contentResizingProperty().bind(cbResizeContent.selectedProperty());
             tabWindow.closeMenuAfterSelectProperty().bind(cbCloseOnSelect.selectedProperty());
         });
