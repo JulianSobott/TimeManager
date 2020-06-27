@@ -668,20 +668,32 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             settingsPane1.setClip(clip);
 
             // Button
-            ImageView imageView = new ImageView(new Image("/Icons/settings.png"));
-            imageView.setFitWidth(30);
-            imageView.setFitHeight(30);
+            Image imgOpen = new Image("/Icons/settings.png");
+            Image imgClose = new Image("/Icons/close_settings_2-48.png");
+            ImageView imageView = new ImageView();
+            imageView.setFitWidth(36);
+            imageView.setFitHeight(36);
             btnSettings = new ToggleButton("", imageView); // TODO: replace with icon
             btnSettings.getStyleClass().setAll("btn-settings");
+
             getChildren().add(btnSettings);
 
             // Listeners
             getSkinnable().showingSettingsProperty().bindBidirectional(btnSettings.selectedProperty());
 
             getSkinnable().getSelectionModel().selectedItemProperty().addListener(l -> requestLayout());
-            getSkinnable().showingSettingsProperty().addListener(
-                    e->showArea(this, getSkinnable().isShowingSettings(), true));
-            showArea(this, getSkinnable().isShowingSettings(), false);
+            InvalidationListener showingSettingsListener = e -> {
+                boolean isShowing = getSkinnable().isShowingSettings();
+                showArea(this, isShowing, true);
+                if (isShowing) {
+                    imageView.setImage(imgClose);
+                } else {
+                    imageView.setImage(imgOpen);
+                }
+            };
+            getSkinnable().showingSettingsProperty().addListener(showingSettingsListener);
+            showingSettingsListener.invalidated(null);
+
 
             // Style classes
             settingsPane1.getStyleClass().setAll("tab-settings-pane");
@@ -691,14 +703,9 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         protected void layoutChildren() {
             double x = snappedLeftInset();
             double y = snappedTopInset();
-            double btnW = btnSettings.prefWidth(-1);
-            double btnH = btnSettings.prefHeight(-1);
-            btnSettings.getTransforms().clear();
-            btnSettings.getTransforms().add(new Translate(btnH, -btnW / 2));
-            btnSettings.getTransforms().add(new Rotate(90));
 
             btnSettings.resize(btnSettings.prefWidth(-1), btnSettings.prefHeight(-1));
-            btnSettings.relocate(x, getHeight() / 2 + btnSettings.prefHeight(-1) / 2);
+            btnSettings.relocate(x, getHeight() / 2 - btnSettings.prefHeight(-1) / 2);
 
             x = x + btnSettings.prefHeight(-1);
             double width = settingsPane1.prefWidth(-1);
