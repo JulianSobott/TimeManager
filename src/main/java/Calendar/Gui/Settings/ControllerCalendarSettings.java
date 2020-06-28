@@ -29,7 +29,7 @@ public class ControllerCalendarSettings implements Initializable, SettingsContro
     @FXML
     private AnchorPane anchorPaneSettings;
 
-    @FXML private TabSettings tabSettings;
+    private TabSettings tabSettings;
 
     @FXML
     private ComboBox<Integer> comboBoxCurrentSemester;
@@ -92,6 +92,7 @@ public class ControllerCalendarSettings implements Initializable, SettingsContro
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.tabSettings = (TabSettings) anchorPaneSettings.getParent();
         this.controllerCalender = (ControllerCalender) ControllerMapper.get().getController("calendar");
 
 

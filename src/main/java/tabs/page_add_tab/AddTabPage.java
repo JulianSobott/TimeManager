@@ -54,7 +54,7 @@ public class AddTabPage extends StackPane implements Initializable {
                 "Dein komplett individualisierbarer Vorlesungsplan. Schnelles erstellen, bearbeiten und anzeigen" +
                         " des Vorlesungsplans mit allen nötigen Informationen");
         TabInfo tabInfoCalendar = new TabInfoBuiltin(tabDataCalendar, tabInfoPane,
-                "/WebView/Gui/WebView.fxml", "/Calendar/Gui/Settings/CalendarSettings.fxml");
+                "/Calendar/Gui/Calender.fxml", "/Calendar/Gui/Settings/CalendarSettings.fxml");
         containerStandardPlugins.add(tabInfoCalendar, 1, 0);
 
     }

@@ -16,7 +16,7 @@
     <TabWindow tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
                closeMenuAfterSelect="true" contentResizing="OVERLAP" fx:id="tabWindow">
-        <TabCustom text="+" closable="false">
+        <TabCustom text="Plugins hinzufügen" closable="false" iconPath="/Icons/icons8-plus-48.png">
             <fx:include source="/tabs/page_add_tab/add_tab.fxml"/>
         </TabCustom>
 
