@@ -7,6 +7,7 @@ import Calendar.Logic.Position;
 import Calendar.Logic.Subject;
 import Calendar.Logic.Timetable;
 import entryPoint.SceneLoader;
+import javafx.animation.FadeTransition;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,6 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -97,7 +99,19 @@ public class ControllerEditLesson implements Initializable {
         bindDataToTableView();
 
         setDesignButtons();
+        makeFadeInTransition(0,1, anchorPaneEditLesson);
     }
+
+    private void makeFadeInTransition(int startValue, int targetValue, AnchorPane anchorPane) {
+
+        FadeTransition fadeTransition = new FadeTransition();
+        fadeTransition.setDuration(Duration.millis(1000));
+        fadeTransition.setNode(anchorPane);
+        fadeTransition.setFromValue(startValue);
+        fadeTransition.setToValue(targetValue);
+        fadeTransition.play();
+    }
+
 
 
     /**

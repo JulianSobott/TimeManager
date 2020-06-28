@@ -1,6 +1,7 @@
 package entryPoint;
 
 import javafx.animation.*;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -123,25 +124,12 @@ public class SceneLoader {
         Parent root = loadFxmlFile(calendarScene, controllerClass );
         ThemeLoader.get().addRootNode(root);
 
-
-        Scene scene = node.getScene();
-
         makeFadeInTransition(1,0,anchorPaneRemove);
 
-        root.translateXProperty().set(scene.getWidth());
-
         Popup parentContainer = (Popup) node.getScene().getWindow();
-
         parentContainer.getContent().add(root);
+        parentContainer.getContent().remove(anchorPaneRemove);
 
-        Timeline timeline = new Timeline();
-        KeyValue kv = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
-        KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
-        timeline.getKeyFrames().add(kf);
-        timeline.setOnFinished(t -> {
-            parentContainer.getContent().remove(anchorPaneRemove);
-        });
-        timeline.play();
     }
 
 
