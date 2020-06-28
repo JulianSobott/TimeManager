@@ -292,4 +292,23 @@ public class ControllerEditLesson implements Initializable {
     }
 
 
+
+    @FXML
+    private void closeSubjectWindow() {
+
+        nodeTabCalendar.setEffect(null);
+        makeFadeInTransition(1, 0);
+    }
+
+    private void makeFadeInTransition(int startValue, int targetValue) {
+
+        FadeTransition fadeTransition = new FadeTransition();
+        fadeTransition.setDuration(Duration.millis(700));
+        fadeTransition.setNode(anchorPaneEditLesson);
+        fadeTransition.setFromValue(startValue);
+        fadeTransition.setToValue(targetValue);
+        fadeTransition.play();
+    }
+
+
 }
