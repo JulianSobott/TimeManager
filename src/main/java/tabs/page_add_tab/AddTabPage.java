@@ -9,9 +9,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import tabs.*;
-
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -48,16 +50,16 @@ public class AddTabPage extends StackPane implements Initializable {
                 "Ein Fenster in das Webseiten geladen werden. Diese können beliebig angeordnet werden.");
         TabInfo tabInfoWebsite = new TabInfoBuiltin(tabDataWebsite, tabInfoPane,
                 "/WebView/Gui/WebView.fxml", "/WebView/Gui/settings.fxml",
-                "/Icons/icons8-web-64.png");
+                "/Icons/icons8-web-64.png", "/images/website-plugin-preview.png");
         containerStandardPlugins.add(tabInfoWebsite, 0, 0);
 
         TabData tabDataCalendar= new TabData("Vorlesungsplan", new String[]{},
                 "Dein komplett individualisierbarer Vorlesungsplan.",
-                "Dein komplett individualisierbarer Vorlesungsplan. Schnelles erstellen, bearbeiten und anzeigen" +
-                        " des Vorlesungsplans mit allen nötigen Informationen");
+                "Dein komplett individualisierbarer Vorlesungsplan. Schnelles " +
+                        "erstellen, bearbeiten und anzeigen des Vorlesungsplans mit allen nötigen Informationen.");
         TabInfo tabInfoCalendar = new TabInfoBuiltin(tabDataCalendar, tabInfoPane,
                 "/Calendar/Gui/Calender.fxml", "/Calendar/Gui/Settings/CalendarSettings.fxml",
-                "/Icons/icons8-zeitplan-64.png");
+                "/Icons/icons8-zeitplan-64.png", "/images/calendar-plugin-preview.png");
         containerStandardPlugins.add(tabInfoCalendar, 1, 0);
 
     }
