@@ -30,7 +30,6 @@ public class ButtonIcon extends Button {
         });
         imageView.fitWidthProperty().bind(sizeProperty());
         imageView.fitHeightProperty().bind(sizeProperty());
-        imageView.getStyleClass().setAll("debug-2");
 
         setGraphic(imageView);
     }
