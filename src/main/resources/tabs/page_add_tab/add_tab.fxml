@@ -5,11 +5,33 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
+<?import tabs.page_add_tab.TabInfo?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.ProgressIndicator?>
 <AnchorPane styleClass="background-default, debug"
             xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="tabs.page_add_tab.AddTabPage" fx:id="root">
-    <ScrollPane fitToHeight="true" AnchorPane.bottomAnchor="0.0" styleClass="background-default"
-                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" hbarPolicy="NEVER">
-        <VBox fx:id="mainContainer" styleClass="background-default"/>
-    </ScrollPane>
+    <SplitPane AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+          styleClass="background-default">
+        <VBox>
+            <VBox>
+                <Label text="Standard Plugins"/>
+                <GridPane fx:id="containerStandardPlugins"/>
+            </VBox>
+            <VBox>
+                <Label text="Nutzer Plugins"/>
+                <StackPane>
+                    <GridPane fx:id="containerUserPlugins"/>
+                    <ProgressIndicator fx:id="progressIndicator"/>
+                    <VBox fx:id="containerError"/>
+                </StackPane>
+            </VBox>
+        </VBox>
+        <VBox fx:id="containerTabInfo"/>
+    </SplitPane>
+
 </AnchorPane>

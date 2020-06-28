@@ -1,6 +1,8 @@
 package tabs.page_add_tab;
 
 import GuiElements.CustomWidget;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -8,7 +10,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import tabs.*;
 
-public class TabInfo extends CustomWidget {
+public abstract class TabInfo extends CustomWidget {
 
     @FXML
     private VBox container;
@@ -19,16 +21,14 @@ public class TabInfo extends CustomWidget {
     @FXML
     private Label lblShortDescription;
 
-    private final TabData tab;
-    private final SingleChildLayout paneTabInfo;
-    private final AddTabPage.ReloadList parentReload;
+    protected TabData tab;
+    protected SingleChildLayout paneTabInfo;
 
 
-    public TabInfo(TabData tab, SingleChildLayout paneTabInfo, AddTabPage.ReloadList reloadList) {
+    public TabInfo(TabData tab, SingleChildLayout paneTabInfo) {
         super("tabInfo.fxml");
         this.tab = tab;
         this.paneTabInfo = paneTabInfo;
-        this.parentReload = reloadList;
 
         lblName.setText(tab.name);
         lblShortDescription.setText(tab.shortDescription);
@@ -36,22 +36,25 @@ public class TabInfo extends CustomWidget {
     }
 
 
-    public void openDescription() {
-        WebView browser = new WebView();
-        WebEngine engine = browser.getEngine();
-        engine.load("http://127.0.0.1:8080/plugins/info/" + tab.name + "/html");
-        paneTabInfo.set(browser);
-        browser.setStyle("-fx-border-color: red; -fx-border-width: 2px");
+    public abstract void openDescription();
 
-        Sizing.setHeight(browser.prefHeightProperty(), paneTabInfo, 1);
-        Sizing.setWidth(browser.prefWidthProperty(), paneTabInfo, 1);
+    public abstract void installTab();
+
+    private StringProperty name;
+    public void setName(String value) { nameProperty().set(value); }
+    public String getName() { return nameProperty().get(); }
+
+    public StringProperty nameProperty() {
+        return lblName.textProperty();
     }
 
-    public void installTab() {
-        Tabs.TabWrapper tab = Tabs.installTab(this.tab);
-        InstalledTabs.get().addTab(tab);
-        // TODO: Select tab
+    private StringProperty shortDescription;
+    public void setShortDescription(String value) { shortDescriptionProperty().set(value); }
+    public String getShortDescription() { return shortDescriptionProperty().get(); }
 
-        parentReload.reloadList();
+    public StringProperty shortDescriptionProperty() {
+        return lblShortDescription.textProperty();
     }
+
+
 }
