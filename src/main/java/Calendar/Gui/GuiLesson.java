@@ -129,8 +129,10 @@ public class GuiLesson extends VBox {
         hBox.setStyle("-fx-padding: 5,5,5,5");
         hBox.setAlignment(Pos.TOP_RIGHT);
         ImageView edit = createImageView("/Icons/icons8-edit-48.png");
+        edit.setStyle("-fx-cursor: hand");
         generateEditLessonEvent(edit);
         ImageView delete = createImageView("/Icons/icons8-delete-48.png");
+        delete.setStyle("-fx-cursor: hand");
         generateDeleteLessonEvent(delete);
         hBox.getChildren().addAll(edit ,delete);
         return hBox;
