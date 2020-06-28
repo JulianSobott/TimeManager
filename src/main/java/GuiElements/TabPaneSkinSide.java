@@ -674,7 +674,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
             // Button
             Image imgOpen = new Image("/Icons/settings.png");
-            Image imgClose = new Image("/Icons/close_settings_2-48.png");
+            Image imgClose = new Image("/Icons/close-48.png");
             ImageView imageView = new ImageView();
             imageView.setFitWidth(36);
             imageView.setFitHeight(36);
