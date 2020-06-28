@@ -41,7 +41,7 @@ public class TabCustom extends Tab {
         // TODO: Connect Controller with controllerSettings
     }
 
-    private void updateIcon() {
+    public void updateIcon() {
         setIcon(getIconPath());
     }
 
@@ -56,23 +56,31 @@ public class TabCustom extends Tab {
         } catch (IllegalArgumentException e) {
             // Image not found
             double size = getTabWindow().getImageSize();
-            String textAlternative = getText().substring(0, 1).toUpperCase();
-            StackPane sp = new StackPane();
-            Text text = new Text(textAlternative);
-            text.setBoundsType(TextBoundsType.VISUAL);
-            sp.getChildren().add(text);
+            String textAlternative;
+            if (getText().length() == 0) {
+                Image img = new Image("/Icons/close-48.png");
+                ImageView imageView = new ImageView(img);
+                imageView.fitWidthProperty().bind(getTabWindow().imageSizeProperty());
+                imageView.fitHeightProperty().bind(getTabWindow().imageSizeProperty());
+                graphic = imageView;
+            } else {
+                textAlternative = getText().substring(0, 1).toUpperCase();
+                StackPane sp = new StackPane();
+                Text text = new Text(textAlternative);
+                text.setBoundsType(TextBoundsType.VISUAL);
+                sp.getChildren().add(text);
 
-            text.setStyle("-fx-font-size: " + size);
-            sp.setPrefSize(size, size);
+                text.setStyle("-fx-font-size: " + size);
+                sp.setPrefSize(size, size);
 
+                getTabWindow().imageSizeProperty().addListener(l -> {
+                    double newSize = getTabWindow().getImageSize();
+                    text.setStyle("-fx-font-size: " + newSize);
+                    sp.setPrefSize(newSize, newSize);
+                });
 
-            getTabWindow().imageSizeProperty().addListener(l -> {
-                double newSize = getTabWindow().getImageSize();
-                text.setStyle("-fx-font-size: " + newSize);
-                sp.setPrefSize(newSize, newSize);
-            });
-
-            graphic = sp;
+                graphic = sp;
+            }
         }
         setGraphic(graphic);
     }

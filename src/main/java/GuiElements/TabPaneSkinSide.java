@@ -423,6 +423,11 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
             double size = getSkinnable().getImageSize();
             label = new Label(tab.getText(), tab.getGraphic());
+            label.textProperty().bind(tab.textProperty());
+            tab.textProperty().addListener(l -> {
+                tab.updateIcon();
+                label.setGraphic(tab.getGraphic());
+            });
             label.getStyleClass().clear();
 
             label.setMaxWidth(Double.MAX_VALUE);

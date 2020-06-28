@@ -16,20 +16,6 @@
     <TabWindow tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
                closeMenuAfterSelect="true" contentResizing="OVERLAP" fx:id="tabWindow">
-        <TabCustom text="Stundenplan" iconPath="/Icons/icons8-zeitplan-64.png">
-            <fx:include source="/Calendar/Gui/Calender.fxml"/>
-            <settingsNode>
-                <fx:include source="/Calendar/Gui/Settings/CalendarSettings.fxml"/>
-            </settingsNode>
-        </TabCustom>
-        <TabCustom text="Hochschulnews">
-            <fx:include source="/WebView/Gui/WebView.fxml"/>
-            <settingsNode>
-                <TabSettings>
-                    <Label text="Some custom tab Settings Tab 2"/>
-                </TabSettings>
-            </settingsNode>
-        </TabCustom>
         <TabCustom text="+" closable="false">
             <fx:include source="/tabs/page_add_tab/add_tab.fxml"/>
         </TabCustom>
