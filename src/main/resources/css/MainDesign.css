@@ -51,6 +51,10 @@
     -fx-font-size: 1.3em;
 }
 
+.tab-label-text {
+    -fx-text-fill: -color-font-default;
+}
+
 .tab-label:hover {
     -fx-background-color: derive(-color-elevation-20, -10%);
 }
@@ -267,6 +271,7 @@
     -fx-text-fill: -color-font-default;
     -fx-border-color: -color-border-default;
     -fx-border-width: 1px;
+    -fx-background-insets: 0;
 }
 
 

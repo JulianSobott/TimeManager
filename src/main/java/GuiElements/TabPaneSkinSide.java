@@ -428,7 +428,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                 tab.updateIcon();
                 label.setGraphic(tab.getGraphic());
             });
-            label.getStyleClass().clear();
+            label.getStyleClass().setAll("tab-label-text");
 
             label.setMaxWidth(Double.MAX_VALUE);
             getChildren().add(label);
