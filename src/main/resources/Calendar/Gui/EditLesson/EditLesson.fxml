@@ -7,22 +7,17 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 
 <AnchorPane id="anchorPaneFrameless" fx:id="anchorPaneEditLesson" prefHeight="538.0" prefWidth="781.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Button fx:id="buttonSaveAndBack" layoutX="34.0" layoutY="480.0" mnemonicParsing="false" onAction="#loadEditLessonWindow" prefHeight="27.0" prefWidth="112.0" text="zurück" />
         <Label layoutX="490.0" layoutY="45.0" style="-fx-font-weight: bold;" text="neues Fach hinzufügen" />
-        <VBox layoutX="494.0" layoutY="114.0" spacing="10.0">
-            <children>
-                <Label text="Dozent / Lehrkraft" />
-                <TextField fx:id="textFieldProfessor" />
-                <Label layoutX="10.0" layoutY="10.0" text="Unterichtsfach" />
-                <TextField fx:id="textFieldSubject" layoutX="10.0" layoutY="47.0" />
-                <Label layoutX="10.0" layoutY="82.0" text="Hintergrundfarbe" />
-                <ColorPicker fx:id="colorPickerSubjectColor" />
-            </children>
-        </VBox>
+          <Label layoutX="494.0" layoutY="114.0" text="Dozent / Lehrkraft" />
+      <TextField fx:id="textFieldProfessor" layoutX="494.0" layoutY="141.0" />
+          <Label layoutX="494.0" layoutY="176.0" text="Unterichtsfach" />
+      <TextField fx:id="textFieldSubject" layoutX="494.0" layoutY="203.0" />
+          <Label layoutX="494.0" layoutY="238.0" text="Hintergrundfarbe" />
+          <ColorPicker fx:id="colorPickerSubjectColor" layoutX="494.0" layoutY="265.0" />
         <Button fx:id="buttonSave_Create" layoutX="490.0" layoutY="374.0" mnemonicParsing="false" onAction="#addNewSubject" prefHeight="27.0" prefWidth="112.0" text="erstellen" />
         <Button fx:id="buttonEdit" layoutX="34.0" layoutY="414.0" mnemonicParsing="false" onAction="#editSubject" prefHeight="27.0" prefWidth="112.0" text="bearbeiten" />
         <Button fx:id="buttonDelete" layoutX="166.0" layoutY="414.0" mnemonicParsing="false" onAction="#deleteSubject" prefHeight="27.0" prefWidth="112.0" text="löschen" />
