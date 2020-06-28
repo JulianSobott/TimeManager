@@ -32,7 +32,20 @@ run {
     jvmArgs = ['--add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED']
 }
 
-task makeInstaller(type:Exec) {
+task unzip(type: Copy, dependsOn: distZip) {
+
+    def zipPath = "${buildDir}/distributions/StudyTool.zip"
+    println zipPath
+    def zipFile = file(zipPath)
+    def outputDir = file("${buildDir}/distributions")
+
+    from zipTree(zipFile)
+    into outputDir
+
+}
+
+task makeInstaller(type:Exec, dependsOn: unzip) {
+    /*Java 14+ needed*/
     workingDir "build/distributions/StudyTool"
-    commandLine "cmd", "/c", "dir"
+    commandLine "cmd", "/c", "jpackage -i lib -n StudyTool --main-class Start --main-jar StudyTool.jar --win-dir-chooser --win-shortcut"
 }
