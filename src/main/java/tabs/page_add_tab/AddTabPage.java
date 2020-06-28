@@ -46,7 +46,8 @@ public class AddTabPage extends StackPane implements Initializable {
                 "Ein Fenster in das Webseiten geladen werden",
                 "Ein Fenster in das Webseiten geladen werden. Diese können beliebig angeordnet werden.");
         TabInfo tabInfoWebsite = new TabInfoBuiltin(tabDataWebsite, tabInfoPane,
-                "/WebView/Gui/WebView.fxml", "/WebView/Gui/settings.fxml");
+                "/WebView/Gui/WebView.fxml", "/WebView/Gui/settings.fxml",
+                "/Icons/icons8-web-64.png");
         containerStandardPlugins.add(tabInfoWebsite, 0, 0);
 
         TabData tabDataCalendar= new TabData("Vorlesungsplan", new String[]{},
@@ -54,7 +55,8 @@ public class AddTabPage extends StackPane implements Initializable {
                 "Dein komplett individualisierbarer Vorlesungsplan. Schnelles erstellen, bearbeiten und anzeigen" +
                         " des Vorlesungsplans mit allen nötigen Informationen");
         TabInfo tabInfoCalendar = new TabInfoBuiltin(tabDataCalendar, tabInfoPane,
-                "/Calendar/Gui/Calender.fxml", "/Calendar/Gui/Settings/CalendarSettings.fxml");
+                "/Calendar/Gui/Calender.fxml", "/Calendar/Gui/Settings/CalendarSettings.fxml",
+                "/Icons/icons8-zeitplan-64.png");
         containerStandardPlugins.add(tabInfoCalendar, 1, 0);
 
     }

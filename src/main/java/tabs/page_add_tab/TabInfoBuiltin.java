@@ -15,12 +15,15 @@ public class TabInfoBuiltin extends TabInfo{
 
     private String mainPageFile;
     private String settingsPageFile;
+    private String iconPath;
 
 
-    public TabInfoBuiltin(TabData tab, SingleChildLayout paneTabInfo, String mainPageFile, String settingsPageFile) {
+    public TabInfoBuiltin(TabData tab, SingleChildLayout paneTabInfo, String mainPageFile, String settingsPageFile,
+                          String iconPath) {
         super(tab, paneTabInfo);
         this.mainPageFile = mainPageFile;
         this.settingsPageFile = settingsPageFile;
+        this.iconPath = iconPath;
     }
 
     @Override
@@ -36,7 +39,7 @@ public class TabInfoBuiltin extends TabInfo{
         FxmlController mainPage = loadFxml(mainPageFile);
         FxmlController settingsPage = loadFxml(settingsPageFile);
         Tabs.TabWrapper tabWrapper = new Tabs.TabWrapper(mainPage.controller, mainPage.fxml,
-                settingsPage.controller, settingsPage.fxml, tab);
+                settingsPage.controller, settingsPage.fxml, tab, this.iconPath);
         InstalledTabs.get().addTab(tabWrapper);
     }
 

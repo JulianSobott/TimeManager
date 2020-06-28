@@ -123,7 +123,8 @@ public class Tabs {
             // Get controller
             Object controller = fxmlLoader.getController();
             Object settingsController = fxmlLoaderSettings.getController(); // TODO: change type. Catch null
-            return new TabWrapper(controller, fxml, settingsController, fxmlSettings, tabData);
+            return new TabWrapper(controller, fxml, settingsController, fxmlSettings, tabData, "");
+            // TODO: Add iconpath
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -160,14 +161,16 @@ public class Tabs {
         public final TabData tabData;
         public final Object settingsController;
         public final Pane fxmlSettings;
+        public final String iconPath;
 
         public TabWrapper(Object controllerMain, Pane fxmlMain, Object settingsController, Pane fxmlSettings,
-                          TabData tabData) {
+                          TabData tabData, String iconPath) {
             this.controllerMain = controllerMain;
             this.fxmlMain = fxmlMain;
             this.tabData = tabData;
             this.settingsController = settingsController;
             this.fxmlSettings = fxmlSettings;
+            this.iconPath = iconPath;
         }
     }
 

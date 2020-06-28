@@ -64,6 +64,7 @@ public class ControllerMainPage implements Initializable{
         TabCustom tabWidget = new TabCustom();
         tabWidget.setContent(tab.fxmlMain);
         tabWidget.setText(tab.tabData.name);
+        tabWidget.setIconPath(tab.iconPath);
         TabSettings settings = new TabSettings();
         settings.setContent(tab.fxmlSettings);
         tabWidget.setSettingsNode(settings);
