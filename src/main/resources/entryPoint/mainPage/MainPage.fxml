@@ -38,6 +38,4 @@
             <fx:include source="/entryPoint/general_settings/general_settings.fxml"/>
         </settings>
     </TabWindow>
-
-    <Button text="debug" fx:id="btnDebug"/>
 </AnchorPane>

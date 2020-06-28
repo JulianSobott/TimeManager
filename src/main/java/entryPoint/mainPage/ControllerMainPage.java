@@ -19,16 +19,8 @@ public class ControllerMainPage implements Initializable{
 
     @FXML TabWindow tabWindow;
 
-    @FXML Button btnDebug;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        btnDebug.setOnMousePressed(e -> {
-            TabCustom tabWidget = new TabCustom("Test", new Label("Hello in new Tab"), "", null);
-            tabWindow.getTabs().add(tabWidget);
-        });
-
-
         List<Tabs.TabWrapper> tabs = InstalledTabs.get().getTabs();
         addTabs(tabs);
         InstalledTabs.get().addListener(change -> {
