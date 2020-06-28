@@ -1,6 +1,7 @@
 package tabs.page_add_tab;
 
 
+import GuiElements.ButtonIcon;
 import GuiElements.CustomWidget;
 import entryPoint.Main;
 import javafx.concurrent.Task;
@@ -120,7 +121,8 @@ public class AddTabPage extends StackPane implements Initializable {
     private void showNoConnection() {
         showProgress(false);
         Label lblError = new Label("No connection to the server. Try again later.");
-        Button btnTryAgain = new Button("Try again");
+        ButtonIcon btnTryAgain = new ButtonIcon("/Icons/reload-48.png", 24);
+
 
         btnTryAgain.setOnMouseClicked(mouseEvent -> {
             loadAvailableTabs();

@@ -33,7 +33,7 @@
                 <StackPane>
                     <GridPane fx:id="containerUserPlugins" styleClass="gridpane-plugins"/>
                     <ProgressIndicator fx:id="progressIndicator"/>
-                    <VBox fx:id="containerError" styleClass="container-error"/>
+                    <VBox fx:id="containerError" styleClass="container-error" alignment="CENTER"/>
                 </StackPane>
             </VBox>
         </SplitPane>
