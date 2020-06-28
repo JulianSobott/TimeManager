@@ -512,7 +512,6 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
         public TabSettingsRegion(TabCustom tab) {
             super(tab);
-
             Node tabSettings = tab.getSettingsNode();
             if (tabSettings == null) {
                 tabSettings = new Label("No settings for this tab available.");
@@ -624,6 +623,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
             // Style classes
             paneControl.getStyleClass().setAll("control-pane");
+            settingsPane2.getStyleClass().setAll("settings-container");
             btnCustom.getStyleClass().setAll("btn-control");
             btnGeneral.getStyleClass().setAll("btn-control");
 

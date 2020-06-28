@@ -99,6 +99,10 @@
 
 }
 
+.settings-container {
+    -fx-padding: 10 0 0 0;
+}
+
 .btn-control {
     -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
     -fx-text-fill: -color-font-default;
