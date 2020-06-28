@@ -1,0 +1,24 @@
+.plugins-container {
+
+}
+
+.plugins-container-1 {
+    -fx-padding: 20;
+    -fx-background-color: -color-elevation-10;
+}
+
+.lbl-info {
+    -fx-text-fill: -color-font-weaken;
+    -fx-padding: 10;
+}
+
+.container-error {
+    -fx-border-color: red;
+    -fx-padding: 10;
+}
+
+.container-full-info{
+    -fx-background-color: -color-elevation-10;
+    -fx-border-color: -color-border-default;
+    -fx-border-width: 0 0 0 3;
+}

@@ -13,25 +13,31 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.ProgressIndicator?>
 <AnchorPane styleClass="background-default, debug"
+            stylesheets="/tabs/page_add_tab/add_tab_page.css"
             xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="tabs.page_add_tab.AddTabPage" fx:id="root">
-    <SplitPane AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+    <SplitPane AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
           styleClass="background-default">
-        <VBox>
-            <VBox>
-                <Label text="Standard Plugins"/>
+        <VBox spacing="30" styleClass="plugins-container">
+            <VBox styleClass="plugins-container-1">
+                <Label text="Standard Plugins" styleClass="header-1"/>
+                <Label styleClass="lbl-info"
+                       text="Plugins die standardmäßig installiert sind, aber manuell hinzugefügt werden müssen."/>
                 <GridPane fx:id="containerStandardPlugins"/>
             </VBox>
-            <VBox>
-                <Label text="Nutzer Plugins"/>
+            <VBox styleClass="plugins-container-1">
+                <Label text="Nutzer Plugins" styleClass="header-1"/>
+                <Label maxWidth="500" wrapText="true" styleClass="lbl-info"
+                       text="Plugins die von die von der Community entwickelt wurden. Die Entwickler dieser App haben keinen Enfluss auf das Aussehen und Verhalten dieser Plugins."/>
+
                 <StackPane>
                     <GridPane fx:id="containerUserPlugins"/>
                     <ProgressIndicator fx:id="progressIndicator"/>
-                    <VBox fx:id="containerError"/>
+                    <VBox fx:id="containerError" styleClass="container-error"/>
                 </StackPane>
             </VBox>
         </VBox>
-        <VBox fx:id="containerTabInfo"/>
+        <VBox fx:id="containerTabInfo" styleClass="container-full-info"/>
     </SplitPane>
 
 </AnchorPane>

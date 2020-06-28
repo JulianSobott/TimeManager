@@ -6,6 +6,7 @@ import entryPoint.Main;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -50,6 +51,8 @@ public class AddTabPage extends StackPane implements Initializable {
                 "Ein Fenster in das Webseiten geladen werden. Diese können beliebig angeordnet werden.");
         TabInfo tabInfoWebsite = new TabInfoBuiltin(tabDataWebsite, tabInfoPane);
         containerStandardPlugins.add(tabInfoWebsite, 0, 0);
+
+//        Sizing.setHeight();
     }
 
     private void loadAvailableTabs() {
@@ -61,7 +64,7 @@ public class AddTabPage extends StackPane implements Initializable {
             }
         };
         task.setOnRunning(v -> {
-            clearPane(containerError);
+            showError(false);
             showProgress(true);
         });
         task.setOnCancelled(value -> {
@@ -81,8 +84,7 @@ public class AddTabPage extends StackPane implements Initializable {
                     // TODO: Correct link
                     Main.application.getHostServices().showDocument("http://127.0.0.1:8080");
                 });
-                clearPane(containerError);
-                containerError.getChildren().addAll(lblNoTabs, link);
+                showError(true, lblNoTabs, link);
             } else {
                 // Show all tabs
                 clearPane(containerUserPlugins);
@@ -101,16 +103,23 @@ public class AddTabPage extends StackPane implements Initializable {
 
     }
 
+    private void showError(boolean show, Node... children) {
+        containerError.setVisible(show);
+        clearPane(containerError);
+        for (Node n : children) {
+            containerError.getChildren().add(n);
+        }
+    }
+
     private void showNoConnection() {
         showProgress(false);
-        clearPane(containerError);
         Label lblError = new Label("No connection to the server. Try again later.");
         Button btnTryAgain = new Button("Try again");
 
         btnTryAgain.setOnMouseClicked(mouseEvent -> {
             loadAvailableTabs();
         });
-        containerError.getChildren().addAll(lblError, btnTryAgain);
+        showError(true, lblError, btnTryAgain);
     }
 
     private void showProgress(boolean show) {

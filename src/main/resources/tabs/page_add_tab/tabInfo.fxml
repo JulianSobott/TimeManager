@@ -8,10 +8,10 @@
          stylesheets="@tabInfo.css"
          type="javafx.scene.layout.Pane" xmlns="http://javafx.com/javafx/10.0.2-internal"
          xmlns:fx="http://javafx.com/fxml/1">
-    <VBox fx:id="container" styleClass="tabInfoContainer">
+    <VBox fx:id="container" styleClass="tabInfoContainer" prefWidth="200">
         <!--    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>-->
-        <Label fx:id="lblName" minWidth="200" styleClass="lblName"/>
-        <Label fx:id="lblShortDescription" styleClass="lblShortDescription"/>
+        <Label fx:id="lblName" styleClass="lblName, header-2"/>
+        <Label wrapText="true" fx:id="lblShortDescription" styleClass="lblShortDescription"/>
         <Button text="Add" onMouseClicked="#installTab" styleClass="button-default"/>
     </VBox>
 </fx:root>
