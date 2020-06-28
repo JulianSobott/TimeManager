@@ -31,3 +31,8 @@ javafx {
 run {
     jvmArgs = ['--add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED']
 }
+
+task makeInstaller(type:Exec) {
+    workingDir "build/distributions/StudyTool"
+    commandLine "cmd", "/c", "dir"
+}

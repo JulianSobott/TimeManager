@@ -144,10 +144,10 @@ public class ControllerEditLesson implements Initializable {
     private void setDesignButtons() {
 
 
-        buttonDesign("/Icons/icons8-bearbeiten-48.png", buttonEdit);
-        buttonDesign("/Icons/icons8-löschen-48.png", buttonDelete);
+        buttonDesign("/Icons/icons8-edit-48.png", buttonEdit);
+        buttonDesign("/Icons/icons8-delete-48.png", buttonDelete);
         buttonDesign("/Icons/icons8-plus-48.png", buttonSave_Create);
-        buttonDesign("/Icons/icons8-zurück-48.png", buttonSaveAndBack);
+        buttonDesign("/Icons/icons8-back-48.png", buttonSaveAndBack);
     }
 
 
@@ -218,7 +218,7 @@ public class ControllerEditLesson implements Initializable {
 
       buttonSave_Create_inEditMode = true;
       buttonSave_Create.setText("Speichern");
-      buttonDesign("/Icons/icons8-speichern-48.png",buttonSave_Create);
+      buttonDesign("/Icons/icons8-save-48.png",buttonSave_Create);
 
     }
 

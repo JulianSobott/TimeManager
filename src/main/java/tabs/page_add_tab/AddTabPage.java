@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import tabs.*;
 
@@ -23,7 +24,7 @@ import java.util.ResourceBundle;
 /**
  * Page that shows all available Tabs
  */
-public class AddTabPage implements Initializable {
+public class AddTabPage extends StackPane implements Initializable {
 
     @FXML
     private Pane root;
