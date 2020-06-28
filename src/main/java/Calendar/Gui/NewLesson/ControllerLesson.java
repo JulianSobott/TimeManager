@@ -18,6 +18,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.effect.MotionBlur;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -117,6 +119,8 @@ public class ControllerLesson implements Initializable {
         MotionBlur motionBlur = new MotionBlur();
         nodeTabCalendar.setEffect(motionBlur);
         makeFadeInTransition(0, 1);
+
+        buttonDesign("/Icons/icons8-plus-48.png", buttonSave);
     }
 
 
@@ -155,7 +159,6 @@ public class ControllerLesson implements Initializable {
         }
 
         tableViewSubjects.getSelectionModel().select(index);
-        //editSubject();
     }
 
 
@@ -165,84 +168,19 @@ public class ControllerLesson implements Initializable {
     }
 
 
-    /**
-     * ################ methods of the individual buttons ##############################################################
-     */
 
+    private void buttonDesign(String path, Button button) {
 
-    private void clearFields() {
+        Image image = new Image(path);
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(18);
+        imageView.setFitHeight(18);
 
-        textFieldProfessor.clear();
-        textFieldSubject.clear();
+        button.setGraphic(imageView);
+        button.setId("buttonAddLesson");
+
     }
 
-
-    @FXML
-    private void addNewSubject() {
-
-        String lessonColor = colorToHexCode(colorPickerSubjectColor.getValue());
-
-        Subject subject = new Subject(lessonColor, textFieldProfessor.getText(), textFieldSubject.getText());
-        clearFields();
-
-        subjectObservableList.add(subject);
-        timetable.addSubject(subject);
-    }
-
-    private String colorToHexCode(Color color) {
-
-        return "#" + color.toString().substring(2, 8);
-    }
-
-
-    @FXML
-    private void deleteSubject() {
-
-        Subject subject = tableViewSubjects.getSelectionModel().getSelectedItem();
-        ArrayList<Position> positionArrayList;
-
-        if (subject != null) {
-            positionArrayList = subject.deleteAllObject();
-            subjectObservableList.remove(subject);
-            timetable.deleteSubject(subject);
-
-            for (Position p : positionArrayList) {
-
-                VBox vBox = controllerCalender.generateEmptyVBox(p.getCol(), p.getRow());
-                gridPaneTimetable.add(vBox, p.getCol(), p.getRow());
-            }
-        }
-    }
-
-
-    @FXML
-    private void editSubject() {
-
-        this.selectedSubject = tableViewSubjects.getSelectionModel().getSelectedItem();
-
-        if (selectedSubject != null) {
-            textFieldSubject.setText(this.selectedSubject.getSubjectName());
-            textFieldProfessor.setText(this.selectedSubject.getProfessor());
-            colorPickerSubjectColor.setValue(Color.web(this.selectedSubject.getColor()));
-        }
-    }
-
-
-    @FXML
-    private void saveSubjectChanges() {
-
-        if (this.selectedSubject != null) {
-            this.selectedSubject.setSubjectName(textFieldSubject.getText());
-            this.selectedSubject.setProfessor(textFieldProfessor.getText());
-            this.selectedSubject.setColor(colorToHexCode(colorPickerSubjectColor.getValue()));
-
-            selectedSubject.notifyAllObservers();
-            this.selectedSubject = null;
-        }
-
-        tableViewSubjects.getSelectionModel().select(null);
-        clearFields();
-    }
 
 
     /**
