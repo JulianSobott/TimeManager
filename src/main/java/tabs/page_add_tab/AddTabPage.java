@@ -7,10 +7,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import tabs.*;
 
@@ -42,17 +39,24 @@ public class AddTabPage extends StackPane implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tabInfoPane = new SingleChildLayout();
         containerTabInfo.getChildren().add(tabInfoPane);
-
         loadAvailableTabs();
 
         // Standard tabs
         TabData tabDataWebsite = new TabData("Webseite", new String[]{},
                 "Ein Fenster in das Webseiten geladen werden",
                 "Ein Fenster in das Webseiten geladen werden. Diese können beliebig angeordnet werden.");
-        TabInfo tabInfoWebsite = new TabInfoBuiltin(tabDataWebsite, tabInfoPane);
+        TabInfo tabInfoWebsite = new TabInfoBuiltin(tabDataWebsite, tabInfoPane,
+                "/WebView/Gui/WebView.fxml", "/tabs/no_settings.fxml");
         containerStandardPlugins.add(tabInfoWebsite, 0, 0);
 
-//        Sizing.setHeight();
+        TabData tabDataCalendar= new TabData("Vorlesungsplan", new String[]{},
+                "Dein komplett individualisierbarer Vorlesungsplan.",
+                "Dein komplett individualisierbarer Vorlesungsplan. Schnelles erstellen, bearbeiten und anzeigen" +
+                        " des Vorlesungsplans mit allen nötigen Informationen");
+        TabInfo tabInfoCalendar = new TabInfoBuiltin(tabDataCalendar, tabInfoPane,
+                "/WebView/Gui/WebView.fxml", "/tabs/no_settings.fxml");
+        containerStandardPlugins.add(tabInfoCalendar, 1, 0);
+
     }
 
     private void loadAvailableTabs() {

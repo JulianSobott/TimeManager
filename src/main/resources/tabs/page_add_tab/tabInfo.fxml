@@ -4,14 +4,20 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.AnchorPane?>
 <fx:root
          stylesheets="@tabInfo.css"
          type="javafx.scene.layout.Pane" xmlns="http://javafx.com/javafx/10.0.2-internal"
          xmlns:fx="http://javafx.com/fxml/1">
-    <VBox fx:id="container" styleClass="tabInfoContainer" prefWidth="200">
-        <!--    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>-->
-        <Label fx:id="lblName" styleClass="lblName, header-2"/>
-        <Label wrapText="true" fx:id="lblShortDescription" styleClass="lblShortDescription"/>
-        <Button text="Add" onMouseClicked="#installTab" styleClass="button-default"/>
-    </VBox>
+    <AnchorPane prefWidth="200" prefHeight="200" styleClass="tabInfoContainer">
+        <VBox AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Label fx:id="lblName" styleClass="lblName, header-2"/>
+            <Label wrapText="true" fx:id="lblShortDescription" styleClass="lblShortDescription"/>
+        </VBox>
+        <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Button text="Add" onMouseClicked="#installTab" styleClass="button-default" prefWidth="100"/>
+        </HBox>
+    </AnchorPane>
+
 </fx:root>

@@ -27,7 +27,6 @@ public class TabInfoUser extends TabInfo {
     public void installTab() {
         Tabs.TabWrapper tab = Tabs.installTab(this.tab);
         InstalledTabs.get().addTab(tab);
-        // TODO: Select tab
 
         parentReload.reloadList();
     }

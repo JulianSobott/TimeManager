@@ -22,3 +22,8 @@
     -fx-border-color: -color-border-default;
     -fx-border-width: 0 0 0 3;
 }
+
+.gridpane-plugins{
+    -fx-hgap: 20;
+    -fx-vgap: 20;
+}

@@ -32,6 +32,8 @@ public abstract class TabInfo extends CustomWidget {
 
         lblName.setText(tab.name);
         lblShortDescription.setText(tab.shortDescription);
+        lblShortDescription.prefWidthProperty().bind(this.widthProperty());
+
         this.setOnMouseClicked(e -> openDescription());
     }
 
