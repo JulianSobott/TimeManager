@@ -636,7 +636,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             toggleGroup.getToggles().add(btnSettingsGeneral);
 
             // Button Tab settings
-            Image imgOpenTab = new Image("/Icons/settings.png");
+            Image imgOpenTab = new Image("/Icons/settings-tab.png");
             ImageView imageViewTab = new ImageView(imgOpenTab);
             imageViewTab.setFitWidth(imgSize);
             imageViewTab.setFitHeight(imgSize);
