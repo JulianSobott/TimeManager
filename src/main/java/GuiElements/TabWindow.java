@@ -1,12 +1,7 @@
 package GuiElements;
 
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.geometry.Side;
-import javafx.scene.Node;
 import javafx.scene.control.Skin;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -44,15 +39,26 @@ public class TabWindow extends TabPane {
         return this.showingText;
     }
 
-    private BooleanProperty showingSettings;
-    public void setShowingSettings(boolean value) { showingSettingsProperty().set(value); }
-    public boolean isShowingSettings() { return showingSettingsProperty().get(); }
+    private BooleanProperty showingSettingsGeneral;
+    public void setShowingSettingsGeneral(boolean value) { showingSettingsGeneralProperty().set(value); }
+    public boolean getShowingSettingsGeneral() { return showingSettingsGeneralProperty().get(); }
 
-    public BooleanProperty showingSettingsProperty() {
-        if (showingSettings == null) {
-            showingSettings = new SimpleBooleanProperty(this, "showingSettings", false);
+    public BooleanProperty showingSettingsGeneralProperty() {
+        if (showingSettingsGeneral == null) {
+            showingSettingsGeneral = new SimpleBooleanProperty(this, "showingSettingsGeneral", false);
         }
-        return showingSettings;
+        return showingSettingsGeneral;
+    }
+
+    private BooleanProperty showingSettingsTab;
+    public void setShowingSettingsTab(boolean value) { showingSettingsTabProperty().set(value); }
+    public boolean getShowingSettingsTab() { return showingSettingsTabProperty().get(); }
+
+    public BooleanProperty showingSettingsTabProperty() {
+        if (showingSettingsTab == null) {
+            showingSettingsTab = new SimpleBooleanProperty(this, "showingSettingsTab", false);
+        }
+        return showingSettingsTab;
     }
 
     private DoubleProperty imageSize;

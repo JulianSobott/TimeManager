@@ -94,20 +94,19 @@
     -fx-rotate: 10;
 }
 
+.settings-pane-bar {
+    -fx-background-color: derive(-color-elevation-10, -20%);
+}
 
 .tab-settings-pane {
     -fx-background-color: -color-elevation-10;
     -fx-border-width: 0 0 0 3;
     -fx-border-color: -color-border-accent;
-    -fx-effect: dropshadow(two-pass-box , -fx-shadow-highlight-color, 1, 0.0 , 0, 1.4); /*Find way to display left dropshadow*/
-}
-
-.control-pane {
-
+    -fx-effect: dropshadow(gaussian , rgba(0, 0, 0, 0.4), 10, 0.2, -5, 0); /*Find way to display left dropshadow*/
+    -fx-padding: 10;
 }
 
 .settings-container {
-    -fx-padding: 10 0 0 0;
 }
 
 .btn-control {
@@ -115,21 +114,26 @@
     -fx-text-fill: -color-font-default;
     -fx-alignment: CENTER;
     -fx-content-display: LEFT;
-    -fx-border-width: 0 0 3 0;
-    -fx-border-color: -color-button-default;
-    -fx-background-color: -color-button-default;
-    -fx-font-size: 1.3em;
-}
-
-.btn-control:selected {
-    -fx-background-color: derive(-color-button-default, 30%);
-    -fx-border-color: -color-border-weaken, derive(-color-border-weaken, 80%);
+    -fx-border-width: 0 2 0 0;
+    -fx-background-color: transparent;
+    -fx-font-size: 1.0em;
+    -fx-border-color: -color-border-default;
 }
 
 .btn-control:hover {
-    -fx-background-color: derive(-color-button-default, 50%);
-    -fx-border-color: derive(-color-border-weaken, 0%);
+    -fx-cursor: hand;
+    -fx-text-fill: derive(-color-font-default, 10%);
+    -fx-border-color: -color-border-accent;
+    -fx-background-color: derive(-color-elevation-10, 0%);
 }
+
+.btn-control:selected {
+    -fx-background-color: derive(-color-elevation-10, 20%);
+    -fx-border-color: -color-border-accent;
+
+}
+
+
 
 
 

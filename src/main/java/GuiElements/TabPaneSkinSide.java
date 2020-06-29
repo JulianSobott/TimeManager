@@ -29,6 +29,7 @@ import javafx.animation.*;
 import javafx.beans.InvalidationListener;
 import javafx.beans.WeakInvalidationListener;
 import javafx.beans.property.*;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -153,7 +154,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         } else {
             menuNonOverlapWidth = tabMenu.iconBarWidth();
         }
-        double contentWidth = w - menuNonOverlapWidth;
+        double contentWidth = w - menuNonOverlapWidth - settingsPane.prefWidth(-1);
         double contentHeight = h;
         double contentStartX = menuNonOverlapWidth;
         double contentStartY = y;
@@ -516,7 +517,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             if (tabSettings == null) {
                 tabSettings = new Label("No settings for this tab available.");
             } else {
-                ((TabSettings)tabSettings).setCloseSettingsAction(n -> getSkinnable().setShowingSettings(false));
+                ((TabSettings)tabSettings).setCloseSettingsAction(n -> getSkinnable().setShowingSettingsGeneral(false));
                 ((TabSettings)tabSettings).setTabWindow(getSkinnable());
             }
             getChildren().add(tabSettings);
@@ -571,7 +572,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             if (generalSettings == null) {
                 generalSettings = new Label("No general settings available.");
             } else {
-                ((TabSettings)generalSettings).setCloseSettingsAction(n -> getSkinnable().setShowingSettings(false));
+                ((TabSettings)generalSettings).setCloseSettingsAction(n -> getSkinnable().setShowingSettingsGeneral(false));
                 ((TabSettings)generalSettings).setTabWindow(getSkinnable());
             }
             generalPane.getChildren().add(generalSettings);
@@ -593,45 +594,72 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
         CUSTOM, GENERAL
     }
 
-    class SettingsPane1 extends VBox {
-        // Control + settings
+    class SettingsPane0 extends AnimationArea {
+        // Settings button + content
 
-        private final SettingsPane2 settingsPane2;
+        private final ToggleButton btnSettingsGeneral;
+        private final ToggleButton btnSettingsTab;
+        private SettingsPane2 settingsPane2;
 
-        public SettingsPane1() {
-            // Control
-            Pane paneControl = new HBox();
-            getChildren().add(paneControl);
+        private Rectangle clip;
 
-            ToggleGroup toggleGroup = new ToggleGroup();
+        public SettingsPane0() {
 
-            ToggleButton btnCustom = new ToggleButton("Custom");
-            paneControl.getChildren().add(btnCustom);
-            btnCustom.setToggleGroup(toggleGroup);
-
-            ToggleButton btnGeneral = new ToggleButton("General");
-            paneControl.getChildren().add(btnGeneral);
-            btnGeneral.setToggleGroup(toggleGroup);
-
-            // SettingsPane2
+            // Content
             settingsPane2 = new SettingsPane2();
             getChildren().add(settingsPane2);
 
-            // bindings
-            btnCustom.prefWidthProperty().bind(settingsPane2.widthProperty().divide(2));
-            btnGeneral.prefWidthProperty().bind(settingsPane2.widthProperty().divide(2));
+            clip = new Rectangle();
+            settingsPane2.setClip(clip);
 
-            // Style classes
-            paneControl.getStyleClass().setAll("control-pane");
-            settingsPane2.getStyleClass().setAll("settings-container");
-            btnCustom.getStyleClass().setAll("btn-control");
-            btnGeneral.getStyleClass().setAll("btn-control");
+            ToggleGroup toggleGroup = new ToggleGroup();
+            double imgSize = 18;
+            // Button General settings
+            Image imgOpenGeneral = new Image("/Icons/settings.png");
+            Image imgClose = new Image("/Icons/close-48.png");
+            ImageView imageView = new ImageView(imgOpenGeneral);
+            imageView.setFitWidth(imgSize);
+            imageView.setFitHeight(imgSize);
+            btnSettingsGeneral = new ToggleButton("Allgemeine Einstellungen", imageView);
+            btnSettingsGeneral.getStyleClass().setAll("btn-settings");
+            getChildren().add(btnSettingsGeneral);
+            toggleGroup.getToggles().add(btnSettingsGeneral);
+
+            // Button Tab settings
+            Image imgOpenTab = new Image("/Icons/settings.png");
+            ImageView imageViewTab = new ImageView(imgOpenTab);
+            imageViewTab.setFitWidth(imgSize);
+            imageViewTab.setFitHeight(imgSize);
+            btnSettingsTab = new ToggleButton("Tab Einstellungen", imageViewTab);
+            btnSettingsTab.getStyleClass().setAll("btn-settings");
+            getChildren().add(btnSettingsTab);
+            toggleGroup.getToggles().add(btnSettingsTab);
+
+
+            // Listeners
+            // bind buttons which area is shown
+            getSkinnable().showingSettingsGeneralProperty().bindBidirectional(btnSettingsGeneral.selectedProperty());
+            getSkinnable().showingSettingsTabProperty().bindBidirectional(btnSettingsTab.selectedProperty());
+
+            // bind whether the settings pane is shown
+            toggleGroup.selectedToggleProperty().addListener(l ->
+                isSettingsOpenProperty().set(toggleGroup.getSelectedToggle() != null)
+            );
+
+            isSettingsOpenProperty().addListener(l ->
+                showArea(this, isSettingsOpenProperty().get(), true)
+            );
+
+            getSkinnable().getSelectionModel().selectedItemProperty().addListener(l -> requestLayout());
+
+            // Initial Value
+            showArea(this, false, false);
+
 
             // Actions
-            isGeneralSelectedProperty().bind(toggleGroup.selectedToggleProperty().isEqualTo(btnGeneral));
+            isGeneralSelectedProperty().bind(toggleGroup.selectedToggleProperty().isEqualTo(btnSettingsGeneral));
 
             isGeneralSelectedProperty().addListener(l -> {
-                // TODO: Always one selected
                 if (isGeneralSelectedProperty().get()) {
                     settingsPane2.showSettings(Settings.GENERAL);
                 } else {
@@ -639,10 +667,61 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
                 }
             });
 
-            // Default value
-            toggleGroup.selectToggle(btnCustom);
+            // Style classes
+            settingsPane2.getStyleClass().setAll("tab-settings-pane");
+            getStyleClass().setAll("settings-pane-bar");
+            btnSettingsTab.getStyleClass().setAll("btn-control");
+            btnSettingsGeneral.getStyleClass().setAll("btn-control");
         }
 
+        @Override
+        protected void layoutChildren() {
+            double x = snappedLeftInset();
+            double y = snappedTopInset();
+
+            double btnW = btnSettingsGeneral.prefWidth(-1);
+            double btnH = btnSettingsGeneral.prefHeight(-1);
+            btnSettingsGeneral.getTransforms().clear();
+            btnSettingsGeneral.getTransforms().add(new Translate(btnH, 0));
+            btnSettingsGeneral.getTransforms().add(new Rotate(90));
+
+            btnSettingsGeneral.resize(btnSettingsGeneral.prefWidth(-1), btnSettingsGeneral.prefHeight(-1));
+            btnSettingsGeneral.relocate(x, y);
+
+            btnSettingsTab.getTransforms().clear();
+            btnSettingsTab.getTransforms().add(new Translate(btnH, btnW));
+            btnSettingsTab.getTransforms().add(new Rotate(90));
+
+            btnSettingsTab.resize(btnSettingsTab.prefWidth(-1), btnSettingsTab.prefHeight(-1));
+            btnSettingsTab.relocate(x, y);
+
+
+
+            x =  - settingsPane2.prefWidth(-1);
+            double width = settingsPane2.prefWidth(-1);
+            double height = getHeight() - snappedBottomInset() - snappedTopInset();
+            settingsPane2.resize(width, height);
+            settingsPane2.relocate(x * animationTransition.get(), y);
+            double dropShadowWidth = 5;
+            clip.setX(-dropShadowWidth * animationTransition.get());
+            clip.setY(0);
+            clip.setWidth((settingsPane2.prefWidth(-1) + dropShadowWidth) * animationTransition.get());
+            clip.setHeight(height);
+
+        }
+
+        @Override
+        protected double computePrefWidth(double height) {
+            return btnSettingsGeneral.prefHeight(-1) + snappedLeftInset() + snappedRightInset();
+        }
+
+        public void addTab(TabCustom tab) {
+            settingsPane2.tabsPane.addTab(tab);
+        }
+
+        public void removeTab(TabCustom tab) {
+            settingsPane2.tabsPane.removeTab(tab);
+        }
 
         private BooleanProperty isGeneralSelected;
 
@@ -653,90 +732,13 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             return isGeneralSelected;
         }
 
-    }
+        private BooleanProperty isSettingsOpen;
 
-    class SettingsPane0 extends AnimationArea {
-        // Settings button + content
-
-        private final ToggleButton btnSettings;
-        private SettingsPane1 settingsPane1;
-
-        private Rectangle clip;
-
-        public SettingsPane0() {
-
-            // Content
-            settingsPane1 = new SettingsPane1();
-            getChildren().add(settingsPane1);
-
-            clip = new Rectangle();
-            settingsPane1.setClip(clip);
-
-            // Button
-            Image imgOpen = new Image("/Icons/settings.png");
-            Image imgClose = new Image("/Icons/close-48.png");
-            ImageView imageView = new ImageView();
-            imageView.setFitWidth(36);
-            imageView.setFitHeight(36);
-            btnSettings = new ToggleButton("", imageView);
-            btnSettings.getStyleClass().setAll("btn-settings");
-
-            getChildren().add(btnSettings);
-
-            // Listeners
-            getSkinnable().showingSettingsProperty().bindBidirectional(btnSettings.selectedProperty());
-
-            getSkinnable().getSelectionModel().selectedItemProperty().addListener(l -> requestLayout());
-            InvalidationListener showingSettingsListener = e -> {
-                boolean isShowing = getSkinnable().isShowingSettings();
-                showArea(this, isShowing, true);
-                if (isShowing) {
-                    imageView.setImage(imgClose);
-                } else {
-                    imageView.setImage(imgOpen);
-                }
-            };
-            getSkinnable().showingSettingsProperty().addListener(showingSettingsListener);
-            showingSettingsListener.invalidated(null);
-
-
-            // Style classes
-            settingsPane1.getStyleClass().setAll("tab-settings-pane");
-        }
-
-        @Override
-        protected void layoutChildren() {
-            double x = snappedLeftInset();
-            double y = snappedTopInset();
-
-            btnSettings.resize(btnSettings.prefWidth(-1), btnSettings.prefHeight(-1));
-            btnSettings.relocate(x, getHeight() / 2 - btnSettings.prefHeight(-1) / 2);
-
-            x = x + btnSettings.prefHeight(-1);
-            double width = settingsPane1.prefWidth(-1);
-            double height = getHeight() - snappedBottomInset() - snappedTopInset();
-            settingsPane1.resize(width, height);
-            settingsPane1.relocate(x, y);
-            clip.setX(0);
-            clip.setY(0);
-            clip.setWidth(width * animationTransition.get());
-            clip.setHeight(height);
-
-        }
-
-        @Override
-        protected double computePrefWidth(double height) {
-            double padding = snappedLeftInset() + snappedRightInset();
-            double settingsWidth = settingsPane1.prefWidth(height);
-            return btnSettings.prefHeight(-1) + padding + (settingsWidth * animationTransition.get());
-        }
-
-        public void addTab(TabCustom tab) {
-            settingsPane1.settingsPane2.tabsPane.addTab(tab);
-        }
-
-        public void removeTab(TabCustom tab) {
-            settingsPane1.settingsPane2.tabsPane.removeTab(tab);
+        private BooleanProperty isSettingsOpenProperty() {
+            if (isSettingsOpen == null) {
+                isSettingsOpen = new SimpleBooleanProperty(this, "isSettingsOpen", false);
+            }
+            return isSettingsOpen;
         }
     }
 
