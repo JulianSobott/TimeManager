@@ -678,7 +678,7 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             ImageView imageView = new ImageView();
             imageView.setFitWidth(36);
             imageView.setFitHeight(36);
-            btnSettings = new ToggleButton("", imageView); // TODO: replace with icon
+            btnSettings = new ToggleButton("", imageView);
             btnSettings.getStyleClass().setAll("btn-settings");
 
             getChildren().add(btnSettings);
