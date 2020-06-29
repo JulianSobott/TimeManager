@@ -517,7 +517,12 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             if (tabSettings == null) {
                 tabSettings = new Label("No settings for this tab available.");
             } else {
-                ((TabSettings)tabSettings).setCloseSettingsAction(n -> getSkinnable().setShowingSettingsGeneral(false));
+                // Close both settings tabs when close is fired.
+                // closeSettings() can be fired by an event of the user
+                ((TabSettings)tabSettings).setCloseSettingsAction(n -> {
+                    getSkinnable().setShowingSettingsTab(false);
+                    getSkinnable().setShowingSettingsGeneral(false);
+                });
                 ((TabSettings)tabSettings).setTabWindow(getSkinnable());
             }
             getChildren().add(tabSettings);
@@ -572,7 +577,12 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
             if (generalSettings == null) {
                 generalSettings = new Label("No general settings available.");
             } else {
-                ((TabSettings)generalSettings).setCloseSettingsAction(n -> getSkinnable().setShowingSettingsGeneral(false));
+                // Close both settings tabs when close is fired.
+                // closeSettings() can be fired by an event of the user
+                ((TabSettings)generalSettings).setCloseSettingsAction(n -> {
+                    getSkinnable().setShowingSettingsTab(false);
+                    getSkinnable().setShowingSettingsGeneral(false);
+                });
                 ((TabSettings)generalSettings).setTabWindow(getSkinnable());
             }
             generalPane.getChildren().add(generalSettings);
@@ -699,9 +709,9 @@ public class TabPaneSkinSide extends SkinBase<TabWindow> {
 
             x =  - settingsPane2.prefWidth(-1);
             double width = settingsPane2.prefWidth(-1);
-            double height = getHeight() - snappedBottomInset() - snappedTopInset();
+            double height = getHeight();
             settingsPane2.resize(width, height);
-            settingsPane2.relocate(x * animationTransition.get(), y);
+            settingsPane2.relocate(x * animationTransition.get(), 0);
             double dropShadowWidth = 5;
             clip.setX(-dropShadowWidth * animationTransition.get());
             clip.setY(0);

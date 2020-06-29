@@ -92,7 +92,9 @@ public class ControllerCalendarSettings implements Initializable, SettingsContro
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.tabSettings = (TabSettings) anchorPaneSettings.getParent();
+        anchorPaneSettings.parentProperty().addListener(l -> {
+            this.tabSettings = (TabSettings) anchorPaneSettings.getParent();
+        });
         this.controllerCalender = (ControllerCalender) ControllerMapper.get().getController("calendar");
 
 

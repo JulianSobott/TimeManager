@@ -96,6 +96,8 @@
 
 .settings-pane-bar {
     -fx-background-color: derive(-color-elevation-10, -20%);
+    -fx-border-width: 0;
+    -fx-border-color: red;
 }
 
 .tab-settings-pane {
@@ -103,7 +105,7 @@
     -fx-border-width: 0 0 0 3;
     -fx-border-color: -color-border-accent;
     -fx-effect: dropshadow(gaussian , rgba(0, 0, 0, 0.4), 10, 0.2, -5, 0); /*Find way to display left dropshadow*/
-    -fx-padding: 10;
+    -fx-padding: 20 10 20 10;
 }
 
 .settings-container {
@@ -429,9 +431,6 @@
 
 /* ########################################### General settings ##################################################### */
 
-#generalSettings {
-    -fx-padding: 20 0 0 0;
-}
 
 #generalSettings .label {
     -fx-font-size: 1.2em;
