@@ -10,6 +10,9 @@ import tabs.TabsDataStore;
 import themes.Theme;
 import themes.ThemeLoader;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class Main extends Application {
 
     public static Main application;
@@ -39,7 +42,10 @@ public class Main extends Application {
 
 
         setUserAgentStylesheet(getClass().getResource("debug_styles.css").toString());
-        Parent root = FXMLLoader.load(getClass().getResource("mainPage/MainPage.fxml"));
+
+        Locale locale = new Locale("en", "US");
+        ResourceBundle bundle = ResourceBundle.getBundle("strings", locale);
+        Parent root = FXMLLoader.load(getClass().getResource("mainPage/MainPage.fxml"), bundle);
 
         ThemeLoader.get().addRootNode(root);
 

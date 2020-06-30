@@ -18,7 +18,7 @@
             <Label wrapText="true" fx:id="lblShortDescription" styleClass="lblShortDescription"/>
         </VBox>
         <HBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-            <Button text="Add" onMouseClicked="#installTab" styleClass="button-default" prefWidth="100">
+            <Button text="%add" onMouseClicked="#installTab" styleClass="button-default" prefWidth="100">
                 <graphic>
                     <ImageView fitHeight="18" fitWidth="18">
                         <Image url="/Icons/icons8-plus-48.png"/>
