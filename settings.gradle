@@ -9,4 +9,5 @@
 
 rootProject.name = 'StudyTool'
 include 'Application'
+include 'Server'
 
