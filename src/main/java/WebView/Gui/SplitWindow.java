@@ -3,6 +3,8 @@ package WebView.Gui;
 import GuiElements.ButtonIcon;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.concurrent.Worker;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -11,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.effect.MotionBlur;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
+import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 
@@ -108,7 +111,7 @@ public class SplitWindow extends SplitPane {
             urlContainer.setPadding(new Insets(0, SPACE, 0, SPACE));
             double urlHeight = 50;
             tfUrl = new TextField();
-            tfUrl.setPromptText("https://google.de");
+            tfUrl.setPromptText(ControllerWebView.DEFAULT_WEBSITE);
             tfUrl.setPrefHeight(urlHeight);
             tfUrl.setMinWidth(100);
             tfUrl.setPrefWidth(700);
@@ -176,8 +179,34 @@ public class SplitWindow extends SplitPane {
 
         private void loadWebsite() {
             String url = tfUrl.getText();
+            // Error handling
+            if (url == null || url.length() == 0) {
+                url = ControllerWebView.DEFAULT_WEBSITE;
+            } else {
+                if (!url.startsWith("http")) {
+                    url = "https://" + url;
+                }
+            }
+            tfUrl.setText(url);
+
             WebView webView = new WebView();
-            webView.getEngine().load(url);
+            webView.getEngine().setOnError(event -> System.out.println(event.getMessage()));
+            webView.getEngine().setOnAlert(event -> System.out.println(event.getData()));
+            webView.getEngine().getLoadWorker().stateProperty().addListener(
+                    (ov, oldState, newState) -> {
+                        if (newState == Worker.State.FAILED) {
+                            // TODO: good error message
+                            HBox errorPane = new HBox();
+                            errorPane.setPrefHeight(500);
+                            errorPane.getChildren().add(new Label("Failed to load"));
+                            setContent(errorPane);
+                            parent.editingProperty().set(true);
+                        }
+                    });
+            WebEngine engine = webView.getEngine();
+            engine.load(url);
+            System.out.println(webView.getEngine().getLocation());
+
             setContent(webView);
         }
 

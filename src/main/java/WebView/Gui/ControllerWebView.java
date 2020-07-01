@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 
 public class ControllerWebView implements Initializable {
 
+    public static final String DEFAULT_WEBSITE = "https://duckduckgo.com/";
 
     @FXML
     private AnchorPane anchorPaneWebview;
