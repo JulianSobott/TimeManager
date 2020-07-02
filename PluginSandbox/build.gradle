@@ -2,3 +2,7 @@ plugins {
     id 'java'
     id 'com.github.juliansobott.studytoolplugin' version '0.1'
 }
+
+StudyTool {
+    infoPath = "haha"
+}
