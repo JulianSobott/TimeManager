@@ -1,9 +1,12 @@
 package com.github.juliansobott.studytoolplugin
 
+import groovy.lang.Closure
+import io.github.rybalkinsd.kohttp.dsl.upload
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
-import kotlinx.serialization.stringify
+import net.anshulverma.gradle.fileupload.FileUploadExtension
+import org.codehaus.groovy.ast.tools.GeneralUtils.params
 import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -34,7 +37,7 @@ class StudyToolPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         // Plugin dependencies
         project.plugins.apply("java")
-
+        project.plugins.apply("net.anshulverma.gradle.fileupload")
 
         // Extension
         val ext = project.extensions.create<StudyToolExtension>("StudyTool", StudyToolExtension::class.java)
@@ -52,7 +55,7 @@ class StudyToolPlugin : Plugin<Project> {
             if (it is Jar) {
                 // create meta file
                 val json = Json(JsonConfiguration.Stable)
-                val data = json.stringify(LoadDataExtension.serializer(), ext.loadData)
+                val data = json.stringify(LoadDataExtension.serializer(), ext.loadDataSettings)
                 println(data)
                 val path = "build/resources/$META_FILE"
                 File(path).writeText(data)
@@ -66,6 +69,7 @@ class StudyToolPlugin : Plugin<Project> {
         // Task dependencies
         project.tasks.getByPath(TASK_BUILD_PUBLISH).dependsOn("clean", "jar", TASK_CHECK)
         project.tasks.getByPath(TASK_PUBLISH).dependsOn(TASK_BUILD_PUBLISH)
+        project.tasks.getByPath(TASK_PUBLISH).finalizedBy(project.tasks.getByPath("fileupload"))
     }
 }
 
@@ -74,9 +78,13 @@ open class CheckTask : DefaultTask() {
     init {
         group = GROUP
     }
+
     @TaskAction
     fun checkPlugin() {
         println("Hello: Checking!")
+        // Get Meta file
+        // Check existence of fxml paths
+        // Check existence of info files
     }
 }
 
@@ -96,12 +104,21 @@ open class PublishTask : DefaultTask() {
 
     init {
         group = GROUP
-
     }
 
     @TaskAction
     fun publishStudyPlugin() {
         println("Hello: Publishing!")
+        val task = project.tasks.getByPath(TASK_BUILD_PUBLISH)
+        val ext = project.extensions.getByType(StudyToolExtension::class.java)
+
+        if (task is BuildPublishTask) {
+            val filePath = File("${task.destinationDirectory.get()}", task.archiveFileName.get())
+            val fileUploadExt = project.extensions.getByType(FileUploadExtension::class.java)
+            fileUploadExt.url = "http://127.0.0.1:8080/plugins/upload"
+            fileUploadExt.file = filePath.path
+            fileUploadExt.params["name"] = ext.id
+        }
     }
 }
 
@@ -114,14 +131,14 @@ open class BuildPublishTask : Zip() {
         archiveBaseName.set("publish")
         destinationDirectory.set(File("build/"))
 
-        // info files
-        doFirst {
-            val ext = project.extensions.getByType(StudyToolExtension::class.java)
-            val infoFiles = File(ext.infoPath)
-            if (!infoFiles.exists()) {
-                throw FileNotFoundException("Info folder not found: ${ext.infoPath}")
-            }
-            into("info").from(infoFiles)
+        // info files TODO: get extensions value
+        val ext = project.extensions.getByType(StudyToolExtension::class.java)
+        val infoFiles = File(ext.infoPath)
+        if (!infoFiles.exists()) {
+            throw FileNotFoundException("Info folder not found: ${ext.infoPath}")
+        }
+        into("info") { inner ->
+            inner.from(infoFiles)
         }
 
         // jar file
@@ -132,7 +149,14 @@ open class BuildPublishTask : Zip() {
 
 open class StudyToolExtension {
     var infoPath: String = "info"
-    var loadData: LoadDataExtension = LoadDataExtension()
+    var id: String = "TestID"
+    var loadDataSettings: LoadDataExtension = LoadDataExtension()
+
+    fun loadData(closure: Closure<Any>) {
+        loadDataSettings = LoadDataExtension()
+        closure.delegate = loadDataSettings
+        closure.call()
+    }
 }
 
 @Serializable

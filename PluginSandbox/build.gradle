@@ -4,4 +4,7 @@ plugins {
 
 StudyTool {
     infoPath = "haha"
+    loadData {
+        windowFxml = "test"
+    }
 }
