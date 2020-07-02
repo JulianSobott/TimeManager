@@ -1,12 +1,14 @@
 package com.github.juliansobott.studytoolplugin
 
-import org.gradle.api.Action
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
+import kotlinx.serialization.stringify
 import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.file.FileCollection
-import org.gradle.api.internal.file.copy.CopyAction
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.bundling.Zip
 import java.io.File
 import java.io.FileNotFoundException
@@ -26,10 +28,18 @@ const val TASK_BUILD_PUBLISH = "buildPublish"
 const val TASK_CHECK = "checkPlugin"
 const val TASK_TEST = "testPlugin"
 
+const val META_FILE = "plugin_load.json"
+
 class StudyToolPlugin : Plugin<Project> {
     override fun apply(project: Project) {
+        // Plugin dependencies
+        project.plugins.apply("java")
+
+
         // Extension
-        project.extensions.create<StudyToolExtension>("StudyTool", StudyToolExtension::class.java)
+        val ext = project.extensions.create<StudyToolExtension>("StudyTool", StudyToolExtension::class.java)
+
+        // Config
 
         // Register tasks
         project.tasks.register<BuildPublishTask>(TASK_BUILD_PUBLISH, BuildPublishTask::class.java)
@@ -37,7 +47,23 @@ class StudyToolPlugin : Plugin<Project> {
         project.tasks.register<CheckTask>(TASK_CHECK, CheckTask::class.java)
         project.tasks.register<TestPluginTask>(TASK_TEST, TestPluginTask::class.java)
 
-        // Dependencies
+        // Edit tasks
+        project.tasks.getByPath("jar").doFirst {
+            if (it is Jar) {
+                // create meta file
+                val json = Json(JsonConfiguration.Stable)
+                val data = json.stringify(LoadDataExtension.serializer(), ext.loadData)
+                println(data)
+                val path = "build/resources/$META_FILE"
+                File(path).writeText(data)
+                // add meta file
+                it.from(path)
+            } else {
+                // Empty: Project is wrong configured
+            }
+        }
+
+        // Task dependencies
         project.tasks.getByPath(TASK_BUILD_PUBLISH).dependsOn("clean", "jar", TASK_CHECK)
         project.tasks.getByPath(TASK_PUBLISH).dependsOn(TASK_BUILD_PUBLISH)
     }
@@ -82,37 +108,36 @@ open class PublishTask : DefaultTask() {
 
 open class BuildPublishTask : Zip() {
 
-    var infoPath: String = ""
-
     init {
         group = GROUP
 
         archiveBaseName.set("publish")
         destinationDirectory.set(File("build/"))
-        from(File("build/libs"))
 
+        // info files
         doFirst {
-            check()
+            val ext = project.extensions.getByType(StudyToolExtension::class.java)
+            val infoFiles = File(ext.infoPath)
+            if (!infoFiles.exists()) {
+                throw FileNotFoundException("Info folder not found: ${ext.infoPath}")
+            }
+            into("info").from(infoFiles)
         }
-    }
 
-    private fun check() {
-        val ext = project.extensions.getByType(StudyToolExtension::class.java)
-        println(ext.infoPath)
-        infoPath = ext.infoPath
-
-        println("Info Path: $infoPath")
-
+        // jar file
         from(File("build/libs"))
-        val infoFiles = File(infoPath)
-        into("info").from(infoFiles)
-        if (!infoFiles.exists()) {
-            throw FileNotFoundException("Info files not found: $infoPath")
-        }
     }
 }
 
 
 open class StudyToolExtension {
     var infoPath: String = "info"
+    var loadData: LoadDataExtension = LoadDataExtension()
+}
+
+@Serializable
+open class LoadDataExtension {
+    var windowFxml: String = "main.fxml"
+    var settingsFxml: String = "settings.fxml"
+    var icon: String = "icon.png"
 }

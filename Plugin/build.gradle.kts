@@ -3,9 +3,15 @@ plugins {
     `java-gradle-plugin`
     `maven-publish`
     id("com.gradle.plugin-publish") version "0.12.0"
+    kotlin("plugin.serialization") version "1.3.70"
 }
 
 version = "0.1"
+
+dependencies {
+    implementation(kotlin("stdlib", org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION))
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0")
+}
 
 gradlePlugin {
     plugins {
