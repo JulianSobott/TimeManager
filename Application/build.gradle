@@ -23,7 +23,6 @@ run {
 task unzip(type: Copy, dependsOn: distZip) {
 
     def zipPath = "${buildDir}/distributions/StudyTool.zip"
-    println zipPath
     def zipFile = file(zipPath)
     def outputDir = file("${buildDir}/distributions")
 
