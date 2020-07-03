@@ -43,6 +43,8 @@ class StudyToolPlugin : Plugin<Project> {
         val ext = project.extensions.create<StudyToolExtension>("StudyTool", StudyToolExtension::class.java)
 
         // Config
+        val extJar = project.tasks.getByName("jar")
+
 
         // Register tasks
         project.tasks.register<BuildPublishTask>(TASK_BUILD_PUBLISH, BuildPublishTask::class.java)
@@ -53,6 +55,7 @@ class StudyToolPlugin : Plugin<Project> {
         // Edit tasks
         project.tasks.getByPath("jar").doFirst {
             if (it is Jar) {
+                it.archiveFileName.set("${ext.id}.jar")
                 // create meta file
                 val json = Json(JsonConfiguration.Stable)
                 val data = json.stringify(LoadDataExtension.serializer(), ext.loadDataSettings)
@@ -67,7 +70,7 @@ class StudyToolPlugin : Plugin<Project> {
         }
 
         // Task dependencies
-        project.tasks.getByPath(TASK_BUILD_PUBLISH).dependsOn("clean", "jar", TASK_CHECK)
+        project.tasks.getByPath(TASK_BUILD_PUBLISH).dependsOn("jar", TASK_CHECK)
         project.tasks.getByPath(TASK_PUBLISH).dependsOn(TASK_BUILD_PUBLISH)
         project.tasks.getByPath(TASK_PUBLISH).finalizedBy(project.tasks.getByPath("fileupload"))
     }
@@ -133,9 +136,10 @@ open class BuildPublishTask : Zip() {
 
         // info files TODO: get extensions value
         val ext = project.extensions.getByType(StudyToolExtension::class.java)
-        val infoFiles = File(ext.infoPath)
+        val infoPath = project.projectDir.path.plus("\\${ext.infoPath}")
+        val infoFiles = File(infoPath)
         if (!infoFiles.exists()) {
-            throw FileNotFoundException("Info folder not found: ${ext.infoPath}")
+            throw FileNotFoundException("Info folder not found: $infoPath")
         }
         into("info") { inner ->
             inner.from(infoFiles)

@@ -61,12 +61,14 @@ public class Tabs {
         Config.get().save();
 
         // get jar from server
+        // TODO: handle jar not found
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://127.0.0.1:8080/plugins/download/" + tabData.name))
                 .build();
         Path jarPath = new File(tabsFolder.toURI().getPath() + tabData.name + ".jar").toPath();
         client.sendAsync(request, HttpResponse.BodyHandlers.ofFile(jarPath))
+                .thenAccept(res -> System.out.println(res.statusCode()))
                 .join();
 
         // load
@@ -105,8 +107,8 @@ public class Tabs {
             in.close();
             Gson gson = new Gson();
             LoadInfoData data = gson.fromJson(json, LoadInfoData.class);
-            String windowFilePath = data.window_fxml;
-            String settingsFilePath = data.settings_fxml;
+            String windowFilePath = data.windowFxml;
+            String settingsFilePath = data.settingsFxml;
 
             // Load window fxml file
             URL fxmlWindow = loader.getResource(windowFilePath);
@@ -176,8 +178,8 @@ public class Tabs {
 
     static class LoadInfoData {
 
-        String window_fxml;
-        String settings_fxml;
+        String windowFxml;
+        String settingsFxml;
 
         public LoadInfoData() {
         }

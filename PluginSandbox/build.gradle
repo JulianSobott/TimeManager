@@ -3,8 +3,9 @@ plugins {
 }
 
 StudyTool {
-    infoPath = "haha"
+    id = "Timetable"
     loadData {
-        windowFxml = "test"
+        windowFxml = "de/students/timetable/main.fxml"
+        settingsFxml = "de/students/timetable/settings.fxml"
     }
 }
