@@ -30,6 +30,7 @@ const val TASK_PUBLISH = "publishPlugin"
 const val TASK_BUILD_PUBLISH = "buildPublish"
 const val TASK_CHECK = "checkPlugin"
 const val TASK_TEST = "testPlugin"
+const val TASK_INIT = "initProject"
 
 const val META_FILE = "plugin_load.json"
 
@@ -51,6 +52,7 @@ class StudyToolPlugin : Plugin<Project> {
         project.tasks.register<PublishTask>(TASK_PUBLISH, PublishTask::class.java)
         project.tasks.register<CheckTask>(TASK_CHECK, CheckTask::class.java)
         project.tasks.register<TestPluginTask>(TASK_TEST, TestPluginTask::class.java)
+        project.tasks.register<InitProjectFilesTask>(TASK_INIT, InitProjectFilesTask::class.java)
 
         // Edit tasks
         project.tasks.getByPath("jar").doFirst {
@@ -147,6 +149,37 @@ open class BuildPublishTask : Zip() {
 
         // jar file
         from(File("build/libs"))
+    }
+}
+
+open class InitProjectFilesTask : DefaultTask() {
+
+    init {
+        group = GROUP
+    }
+
+    @TaskAction
+    fun initFiles() {
+        val mapping = mapOf(
+                "MainController.java" to "src/main/java/MainController.java",
+                "SettingsController.java" to "src/main/java/SettingsController.java",
+                "main.fxml" to "src/main/resources/main.fxml",
+                "settings.fxml" to "src/main/resources/settings.fxml",
+                "README.md" to "README.md",
+                "tab_info.yaml" to "info/tab_info.yaml",
+                "gitignore.txt" to ".gitignore" // .txt because otherwise can't find resource
+        )
+        for (e in mapping.entries) {
+            val sourceStream = javaClass.getResourceAsStream("/templates/${e.key}")
+            val dest = project.file(e.value)
+            if (!dest.exists()) {
+                dest.parentFile.mkdirs()
+                dest.writeBytes(sourceStream.readAllBytes())
+                println("Successfully created: ${e.value}")
+            } else {
+                println("Already exists: ${e.value}")
+            }
+        }
     }
 }
 
