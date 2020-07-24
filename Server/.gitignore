@@ -2,3 +2,4 @@ build
 
 # project specific
 src/public/plugins
+out

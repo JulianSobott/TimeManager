@@ -1,0 +1,5 @@
+plugin:
+  description: ""
+  synonyms: "tab?"
+tab:
+  see: "plugin"
