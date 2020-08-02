@@ -1,20 +1,25 @@
 package main
 
 import (
+	"github.com/julienschmidt/httprouter"
 	"log"
 	"net/http"
 	"server/homepage"
 	"server/server"
+	"server/utils"
 )
 
 func main() {
-	mux := http.NewServeMux()
-	homepage.Init(mux)
-	s := server.New(":8080", mux)
+	router := httprouter.New()
+	router.GET("/dist/*filepath", serveStatic)
+	homepage.Init(router)
+	s := server.New(":8080", router)
 	err := s.ListenAndServe()
 	if err != nil {
 		log.Fatalf("Server error: %v", err)
 	}
 }
 
-// log general -> metrics general -> log specific -> metrics -> func
+func serveStatic(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	http.ServeFile(w, r, utils.StaticFile(p.ByName("filepath")))
+}

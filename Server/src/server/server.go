@@ -1,12 +1,13 @@
 package server
 
 import (
+	"github.com/julienschmidt/httprouter"
 	"log"
 	"net/http"
 	"time"
 )
 
-func New(addr string, handler *http.ServeMux) *http.Server {
+func New(addr string, handler *httprouter.Router) *http.Server {
 	h := &generalHandler{handler}
 	server := &http.Server{
 		Addr:         addr,
@@ -20,7 +21,7 @@ func New(addr string, handler *http.ServeMux) *http.Server {
 }
 
 type generalHandler struct {
-	mux *http.ServeMux
+	mux *httprouter.Router
 }
 
 func (h *generalHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {

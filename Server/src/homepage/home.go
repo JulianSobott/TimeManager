@@ -1,13 +1,16 @@
 package homepage
 
 import (
+	"github.com/julienschmidt/httprouter"
 	"net/http"
+	"server/utils"
 )
 
-func Init(mux *http.ServeMux) {
-	mux.HandleFunc("/", home)
+func Init(router *httprouter.Router) {
+	router.GET("/", home)
+
 }
 
-func home(writer http.ResponseWriter, request *http.Request) {
-	http.ServeFile(writer, request, "public/website/index.html")
+func home(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
+	http.ServeFile(writer, request, utils.StaticFile("homepage/index.html"))
 }
