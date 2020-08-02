@@ -27,6 +27,7 @@ func Logging() Middleware {
 				duration := time.Since(start)
 				log.Printf("[%s] %s %s %d", request.Method, request.URL.Path, duration, writer.statusCode)
 			}()
+			writer.WriteHeader(10)
 			next(writer, request)
 		}
 	}
@@ -41,6 +42,11 @@ func NewWrapperResponseWriter(w http.ResponseWriter) ResponseWriter {
 	return ResponseWriter{
 		w, http.StatusOK,
 	}
+}
+
+func (w *ResponseWriter) WriteHeader(statusCode int) {
+	w.ResponseWriter.WriteHeader(statusCode)
+	w.statusCode = statusCode
 }
 
 type Param func(int) int
