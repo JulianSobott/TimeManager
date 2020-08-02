@@ -3,3 +3,5 @@ build
 # project specific
 src/public/plugins
 out
+dist
+node_modules
