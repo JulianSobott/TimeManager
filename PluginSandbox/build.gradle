@@ -1,11 +1,11 @@
 plugins {
-    id 'com.github.juliansobott.studytoolplugin' version '0.1'
+//    id 'com.github.juliansobott.studytoolplugin' version '0.1'
 }
 
-StudyTool {
-    id = "Timetable"
-    loadData {
-        windowFxml = "de/students/timetable/main.fxml"
-        settingsFxml = "de/students/timetable/settings.fxml"
-    }
-}
+//StudyTool {
+//    id = "Timetable"
+//    loadData {
+//        windowFxml = "de/students/timetable/main.fxml"
+//        settingsFxml = "de/students/timetable/settings.fxml"
+//    }
+//}

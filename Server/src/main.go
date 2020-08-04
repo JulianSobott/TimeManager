@@ -12,6 +12,7 @@ import (
 func main() {
 	router := httprouter.New()
 	router.GET("/dist/*filepath", serveStatic)
+
 	homepage.Init(router)
 	s := server.New(":8080", router)
 	err := s.ListenAndServe()

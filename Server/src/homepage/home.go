@@ -8,7 +8,6 @@ import (
 
 func Init(router *httprouter.Router) {
 	router.GET("/", home)
-
 }
 
 func home(writer http.ResponseWriter, request *http.Request, _ httprouter.Params) {
